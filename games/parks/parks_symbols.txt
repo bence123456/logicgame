@@ -1,0 +1,2 @@
+S1: etc/resources/pic/symbols/S_DOT.gif
+S2: etc/resources/pic/symbols/S_TREE.gif

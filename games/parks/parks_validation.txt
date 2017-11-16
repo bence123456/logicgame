@@ -1,0 +1,11 @@
+win:
+numberOfItemsInAllRow(S2, 1) == true
+numberOfItemsInAllColumn(S2, 1) == true
+numberOfItemsInAllArea(S2, 1, COLOR) == true
+twoNeighbouringSymbolsExists() == false
+
+loose: 
+numberOfItemsInAllRow(S2, 1) == false
+numberOfItemsInAllColumn(S2, 1) == false
+numberOfItemsInAllArea(S2, 1, COLOR) == false
+twoNeighbouringSymbolsExists() == true
