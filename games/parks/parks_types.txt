@@ -1,4 +1,4 @@
-Type
+Type0:
 
 Type1:
 items(1) == empty -> items(1) = S1

@@ -18,7 +18,6 @@ public class TilesGrammarTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         tilesParser parser = new tilesParser(tokens);
 
-        // Visitor example
         TilesVisitor visitor = new TilesVisitor();
         visitor.visit(parser.tiles());
     }

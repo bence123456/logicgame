@@ -1,8 +1,8 @@
 grammar types;
 
-types: typedef+ ;
+types: (typehead typedef)+ ;
 
-typedef: typehead (loop | typestatement+);
+typedef: loop | typestatement+ |  ;
 typehead: T NUMBER COL ;
 loop: ITEMS parens_nr COL LOOP LP params RP;
 params: (item COMMA)* item ;
