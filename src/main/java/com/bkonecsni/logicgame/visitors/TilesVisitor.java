@@ -16,7 +16,7 @@ public class TilesVisitor<Object> extends tilesBaseVisitor<Object> {
         return visitChildren(ctx);
     }
 
-    public Object visitChildren(tilesParser.SizeContext node) {
+    private Object visitChildren(tilesParser.SizeContext node) {
         Object result = this.defaultResult();
         int n = node.getChildCount();
 
@@ -25,7 +25,7 @@ public class TilesVisitor<Object> extends tilesBaseVisitor<Object> {
 
             String element = c.getText();
             if (StringUtils.isNumeric(element) && Integer.valueOf(element) < 1) {
-                throw new SizeNotValidException("Size must be at least 1! Actual size: " + element);
+                throw new SizeNotValidException("Size must be greater than 0! Actual size: " + element);
             }
 
             Object childResult = c.accept(this);
