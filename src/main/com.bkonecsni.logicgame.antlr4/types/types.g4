@@ -2,13 +2,14 @@ grammar types;
 
 types: (typehead typedef)+ ;
 
-typedef: loop | typestatement+ |  ;
+typedef: loop | typestatement+ ;
 typehead: T NUMBER COL ;
 loop: ITEMS parens_nr COL LOOP LP params RP;
 params: (item COMMA)* item ;
 
-typestatement: ITEMS parens_nr ISEQ item ARR ITEMS parens_nr EQ item ;
+typestatement: ITEMS parens_nr ISEQ item updatestatement (COMMA updatestatement)* ;
 
+updatestatement: ARR ITEMS parens_nr EQ item ;
 parens_nr: LP NUMBER RP ;
 item: NUMBER | CHAR | COLOR | SYMBOL | EMPTY_STRING ;
 EMPTY_STRING: EMPTY ;

@@ -68,6 +68,16 @@ public interface typesListener extends ParseTreeListener {
 	 */
 	void exitTypestatement(typesParser.TypestatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link typesParser#updatestatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpdatestatement(typesParser.UpdatestatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link typesParser#updatestatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpdatestatement(typesParser.UpdatestatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link typesParser#parens_nr}.
 	 * @param ctx the parse tree
 	 */

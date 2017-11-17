@@ -88,6 +88,18 @@ public class typesBaseListener implements typesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUpdatestatement(typesParser.UpdatestatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpdatestatement(typesParser.UpdatestatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParens_nr(typesParser.Parens_nrContext ctx) { }
 	/**
 	 * {@inheritDoc}
