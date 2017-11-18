@@ -272,21 +272,21 @@ public class mapParser extends Parser {
 				}
 				break;
 			}
-			setState(38); 
+			setState(40);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while (_la==LBR) {
 				{
 				{
 				setState(37);
 				item();
 				}
 				}
-				setState(40); 
+				setState(42);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==LBR );
-			setState(42);
+			}
+			setState(43);
 			match(RCBR);
 			}
 		}
@@ -329,9 +329,9 @@ public class mapParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
-			match(T);
 			setState(45);
+			match(T);
+			setState(46);
 			match(NUMBER);
 			}
 		}
@@ -379,15 +379,15 @@ public class mapParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47);
-			match(LP);
 			setState(48);
-			match(NUMBER);
+			match(LP);
 			setState(49);
-			match(COMMA);
-			setState(50);
 			match(NUMBER);
+			setState(50);
+			match(COMMA);
 			setState(51);
+			match(NUMBER);
+			setState(52);
 			match(RP);
 			}
 		}
@@ -438,17 +438,17 @@ public class mapParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
-			match(COMMA);
 			setState(54);
-			match(LBR);
-			setState(55);
-			match(NUMBER);
-			setState(56);
 			match(COMMA);
-			setState(57);
+			setState(55);
+			match(LBR);
+			setState(56);
 			match(NUMBER);
+			setState(57);
+			match(COMMA);
 			setState(58);
+			match(NUMBER);
+			setState(59);
 			match(RBR);
 			}
 		}
@@ -492,11 +492,11 @@ public class mapParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
-			match(LBR);
 			setState(61);
-			match(COLOR);
+			match(LBR);
 			setState(62);
+			match(COLOR);
+			setState(63);
 			match(RBR);
 			}
 		}
@@ -543,9 +543,9 @@ public class mapParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
-			match(LBR);
 			setState(65);
+			match(LBR);
+			setState(66);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NUMBER) | (1L << CHAR) | (1L << SYMBOL))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -555,7 +555,7 @@ public class mapParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(66);
+			setState(67);
 			match(RBR);
 			}
 		}
@@ -571,23 +571,24 @@ public class mapParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23G\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23H\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\7\2\24\n\2\f\2"+
 		"\16\2\27\13\2\3\3\3\3\3\3\3\3\3\3\5\3\36\n\3\3\3\3\3\3\3\3\4\3\4\3\4\5"+
-		"\4&\n\4\3\4\6\4)\n\4\r\4\16\4*\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\2"+
-		"\2\n\2\4\6\b\n\f\16\20\2\3\4\2\3\4\7\7\2B\2\25\3\2\2\2\4\30\3\2\2\2\6"+
-		"\"\3\2\2\2\b.\3\2\2\2\n\61\3\2\2\2\f\67\3\2\2\2\16>\3\2\2\2\20B\3\2\2"+
-		"\2\22\24\5\4\3\2\23\22\3\2\2\2\24\27\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2"+
-		"\2\26\3\3\2\2\2\27\25\3\2\2\2\30\31\7\b\2\2\31\32\5\b\5\2\32\33\7\16\2"+
-		"\2\33\35\5\n\6\2\34\36\5\f\7\2\35\34\3\2\2\2\35\36\3\2\2\2\36\37\3\2\2"+
-		"\2\37 \7\r\2\2 !\5\6\4\2!\5\3\2\2\2\"#\7\t\2\2#%\7\21\2\2$&\5\16\b\2%"+
-		"$\3\2\2\2%&\3\2\2\2&(\3\2\2\2\')\5\20\t\2(\'\3\2\2\2)*\3\2\2\2*(\3\2\2"+
-		"\2*+\3\2\2\2+,\3\2\2\2,-\7\22\2\2-\7\3\2\2\2./\7\n\2\2/\60\7\3\2\2\60"+
-		"\t\3\2\2\2\61\62\7\13\2\2\62\63\7\3\2\2\63\64\7\r\2\2\64\65\7\3\2\2\65"+
-		"\66\7\f\2\2\66\13\3\2\2\2\678\7\r\2\289\7\17\2\29:\7\3\2\2:;\7\r\2\2;"+
-		"<\7\3\2\2<=\7\20\2\2=\r\3\2\2\2>?\7\17\2\2?@\7\5\2\2@A\7\20\2\2A\17\3"+
-		"\2\2\2BC\7\17\2\2CD\t\2\2\2DE\7\20\2\2E\21\3\2\2\2\6\25\35%*";
+		"\4&\n\4\3\4\7\4)\n\4\f\4\16\4,\13\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3"+
+		"\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t"+
+		"\3\t\2\2\n\2\4\6\b\n\f\16\20\2\3\4\2\3\4\7\7\2C\2\25\3\2\2\2\4\30\3\2"+
+		"\2\2\6\"\3\2\2\2\b/\3\2\2\2\n\62\3\2\2\2\f8\3\2\2\2\16?\3\2\2\2\20C\3"+
+		"\2\2\2\22\24\5\4\3\2\23\22\3\2\2\2\24\27\3\2\2\2\25\23\3\2\2\2\25\26\3"+
+		"\2\2\2\26\3\3\2\2\2\27\25\3\2\2\2\30\31\7\b\2\2\31\32\5\b\5\2\32\33\7"+
+		"\16\2\2\33\35\5\n\6\2\34\36\5\f\7\2\35\34\3\2\2\2\35\36\3\2\2\2\36\37"+
+		"\3\2\2\2\37 \7\r\2\2 !\5\6\4\2!\5\3\2\2\2\"#\7\t\2\2#%\7\21\2\2$&\5\16"+
+		"\b\2%$\3\2\2\2%&\3\2\2\2&*\3\2\2\2\')\5\20\t\2(\'\3\2\2\2),\3\2\2\2*("+
+		"\3\2\2\2*+\3\2\2\2+-\3\2\2\2,*\3\2\2\2-.\7\22\2\2.\7\3\2\2\2/\60\7\n\2"+
+		"\2\60\61\7\3\2\2\61\t\3\2\2\2\62\63\7\13\2\2\63\64\7\3\2\2\64\65\7\r\2"+
+		"\2\65\66\7\3\2\2\66\67\7\f\2\2\67\13\3\2\2\289\7\r\2\29:\7\17\2\2:;\7"+
+		"\3\2\2;<\7\r\2\2<=\7\3\2\2=>\7\20\2\2>\r\3\2\2\2?@\7\17\2\2@A\7\5\2\2"+
+		"AB\7\20\2\2B\17\3\2\2\2CD\7\17\2\2DE\t\2\2\2EF\7\20\2\2F\21\3\2\2\2\6"+
+		"\25\35%*";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -4,7 +4,7 @@ map: tile* ;
 
 tile: TILE type AT position size? COMMA  itemList ;
 
-itemList: ITEMS LCBR color? item+ RCBR;
+itemList: ITEMS LCBR color? item* RCBR;
 
 type: T NUMBER ;
 position: LP NUMBER COMMA NUMBER RP ;
