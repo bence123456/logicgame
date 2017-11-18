@@ -12,6 +12,12 @@ public class TypeStatement {
 
     private List<Update> updateList;
 
+    public TypeStatement(int comparableItemIndex, Item itemToCompare, List<Update> updateList) {
+        this.comparableItemIndex = comparableItemIndex;
+        this.itemToCompare = itemToCompare;
+        this.updateList = updateList;
+    }
+
     public boolean isApplicable(List<Item> itemList) {
         if (itemList.size() - 1 < comparableItemIndex) {
             // handle ItemList(x) == empty case

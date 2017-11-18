@@ -10,6 +10,10 @@ public class Type {
 
     private List<TypeStatement> typeStatementList;
 
+    public Type(List<TypeStatement> typeStatementList) {
+        this.typeStatementList = typeStatementList;
+    }
+
     public void act(Tile tile){
         List<Item> itemList = tile.getItemList();
         List<Update> updateList = findUpdateList(itemList);

@@ -8,11 +8,17 @@ public class Item {
 
     private Integer intValue;
 
-    // TODO: maybe string is enough
     private Symbol symbol;
 
     // TODO: parse string as Integer with: Integer.parseInt("#45E213".substring(1), 16);
     private Integer color;
+
+    public Item(Character charValue, Integer intValue, Symbol symbol, Integer color) {
+        this.charValue = charValue;
+        this.intValue = intValue;
+        this.symbol = symbol;
+        this.color = color;
+    }
 
     public Item replaceFields(Item newItem) {
         Character newCharValue = newItem.getCharValue();

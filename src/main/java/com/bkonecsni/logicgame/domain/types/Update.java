@@ -8,6 +8,11 @@ public class Update {
 
     private Item newItem;
 
+    public Update(Item itemToUpdate, Item newItem) {
+        this.itemToUpdate = itemToUpdate;
+        this.newItem = newItem;
+    }
+
     public Item getItemToUpdate() {
         return itemToUpdate;
     }

@@ -4,7 +4,11 @@ import java.util.List;
 
 public class Types<T extends Type> {
 
-    List<T> typeList;
+    private List<T> typeList;
+
+    public Types(List<T> typeList) {
+        this.typeList = typeList;
+    }
 
     public List<T> getTypeList() {
         return typeList;

@@ -12,7 +12,7 @@ import java.io.IOException;
 public class TilesGrammarTest {
 
     public static void main(String[] args) throws IOException {
-        CharStream input = CharStreams.fromFileName("games/parks/parks_tiles.txt");
+        CharStream input = CharStreams.fromFileName("games/parks/parks_level1.txt");
         tilesLexer lexer = new tilesLexer(input);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
