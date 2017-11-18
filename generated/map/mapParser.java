@@ -1,5 +1,5 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/tiles\tiles.g4 by ANTLR 4.7
-package tiles;
+// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/map\map.g4 by ANTLR 4.7
+package map;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class tilesParser extends Parser {
+public class mapParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -20,10 +20,10 @@ public class tilesParser extends Parser {
 		NUMBER=1, CHAR=2, COLOR=3, HDN=4, SYMBOL=5, TILE=6, ITEMS=7, T=8, LP=9, 
 		RP=10, COMMA=11, AT=12, LBR=13, RBR=14, LCBR=15, RCBR=16, WS=17;
 	public static final int
-		RULE_tiles = 0, RULE_tile = 1, RULE_itemList = 2, RULE_type = 3, RULE_position = 4, 
+		RULE_map = 0, RULE_tile = 1, RULE_itemList = 2, RULE_type = 3, RULE_position = 4, 
 		RULE_size = 5, RULE_color = 6, RULE_item = 7;
 	public static final String[] ruleNames = {
-		"tiles", "tile", "itemList", "type", "position", "size", "color", "item"
+		"map", "tile", "itemList", "type", "position", "size", "color", "item"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -68,7 +68,7 @@ public class tilesParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "tiles.g4"; }
+	public String getGrammarFileName() { return "map.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -79,39 +79,39 @@ public class tilesParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public tilesParser(TokenStream input) {
+	public mapParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class TilesContext extends ParserRuleContext {
+	public static class MapContext extends ParserRuleContext {
 		public List<TileContext> tile() {
 			return getRuleContexts(TileContext.class);
 		}
 		public TileContext tile(int i) {
 			return getRuleContext(TileContext.class,i);
 		}
-		public TilesContext(ParserRuleContext parent, int invokingState) {
+		public MapContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_tiles; }
+		@Override public int getRuleIndex() { return RULE_map; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterTiles(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterMap(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitTiles(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitMap(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitTiles(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitMap(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TilesContext tiles() throws RecognitionException {
-		TilesContext _localctx = new TilesContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_tiles);
+	public final MapContext map() throws RecognitionException {
+		MapContext _localctx = new MapContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_map);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -144,15 +144,15 @@ public class tilesParser extends Parser {
 	}
 
 	public static class TileContext extends ParserRuleContext {
-		public TerminalNode TILE() { return getToken(tilesParser.TILE, 0); }
+		public TerminalNode TILE() { return getToken(mapParser.TILE, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public TerminalNode AT() { return getToken(tilesParser.AT, 0); }
+		public TerminalNode AT() { return getToken(mapParser.AT, 0); }
 		public PositionContext position() {
 			return getRuleContext(PositionContext.class,0);
 		}
-		public TerminalNode COMMA() { return getToken(tilesParser.COMMA, 0); }
+		public TerminalNode COMMA() { return getToken(mapParser.COMMA, 0); }
 		public ItemListContext itemList() {
 			return getRuleContext(ItemListContext.class,0);
 		}
@@ -165,15 +165,15 @@ public class tilesParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_tile; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterTile(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterTile(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitTile(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitTile(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitTile(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitTile(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -220,9 +220,9 @@ public class tilesParser extends Parser {
 	}
 
 	public static class ItemListContext extends ParserRuleContext {
-		public TerminalNode ITEMS() { return getToken(tilesParser.ITEMS, 0); }
-		public TerminalNode LCBR() { return getToken(tilesParser.LCBR, 0); }
-		public TerminalNode RCBR() { return getToken(tilesParser.RCBR, 0); }
+		public TerminalNode ITEMS() { return getToken(mapParser.ITEMS, 0); }
+		public TerminalNode LCBR() { return getToken(mapParser.LCBR, 0); }
+		public TerminalNode RCBR() { return getToken(mapParser.RCBR, 0); }
 		public ColorContext color() {
 			return getRuleContext(ColorContext.class,0);
 		}
@@ -238,15 +238,15 @@ public class tilesParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_itemList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterItemList(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterItemList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitItemList(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitItemList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitItemList(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitItemList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -302,23 +302,23 @@ public class tilesParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode T() { return getToken(tilesParser.T, 0); }
-		public TerminalNode NUMBER() { return getToken(tilesParser.NUMBER, 0); }
+		public TerminalNode T() { return getToken(mapParser.T, 0); }
+		public TerminalNode NUMBER() { return getToken(mapParser.NUMBER, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterType(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitType(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitType(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -347,28 +347,28 @@ public class tilesParser extends Parser {
 	}
 
 	public static class PositionContext extends ParserRuleContext {
-		public TerminalNode LP() { return getToken(tilesParser.LP, 0); }
-		public List<TerminalNode> NUMBER() { return getTokens(tilesParser.NUMBER); }
+		public TerminalNode LP() { return getToken(mapParser.LP, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(mapParser.NUMBER); }
 		public TerminalNode NUMBER(int i) {
-			return getToken(tilesParser.NUMBER, i);
+			return getToken(mapParser.NUMBER, i);
 		}
-		public TerminalNode COMMA() { return getToken(tilesParser.COMMA, 0); }
-		public TerminalNode RP() { return getToken(tilesParser.RP, 0); }
+		public TerminalNode COMMA() { return getToken(mapParser.COMMA, 0); }
+		public TerminalNode RP() { return getToken(mapParser.RP, 0); }
 		public PositionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_position; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterPosition(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterPosition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitPosition(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitPosition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitPosition(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitPosition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -403,31 +403,31 @@ public class tilesParser extends Parser {
 	}
 
 	public static class SizeContext extends ParserRuleContext {
-		public List<TerminalNode> COMMA() { return getTokens(tilesParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(mapParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(tilesParser.COMMA, i);
+			return getToken(mapParser.COMMA, i);
 		}
-		public TerminalNode LBR() { return getToken(tilesParser.LBR, 0); }
-		public List<TerminalNode> NUMBER() { return getTokens(tilesParser.NUMBER); }
+		public TerminalNode LBR() { return getToken(mapParser.LBR, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(mapParser.NUMBER); }
 		public TerminalNode NUMBER(int i) {
-			return getToken(tilesParser.NUMBER, i);
+			return getToken(mapParser.NUMBER, i);
 		}
-		public TerminalNode RBR() { return getToken(tilesParser.RBR, 0); }
+		public TerminalNode RBR() { return getToken(mapParser.RBR, 0); }
 		public SizeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_size; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterSize(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterSize(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitSize(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitSize(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitSize(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitSize(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -464,24 +464,24 @@ public class tilesParser extends Parser {
 	}
 
 	public static class ColorContext extends ParserRuleContext {
-		public TerminalNode LBR() { return getToken(tilesParser.LBR, 0); }
-		public TerminalNode COLOR() { return getToken(tilesParser.COLOR, 0); }
-		public TerminalNode RBR() { return getToken(tilesParser.RBR, 0); }
+		public TerminalNode LBR() { return getToken(mapParser.LBR, 0); }
+		public TerminalNode COLOR() { return getToken(mapParser.COLOR, 0); }
+		public TerminalNode RBR() { return getToken(mapParser.RBR, 0); }
 		public ColorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_color; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterColor(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterColor(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitColor(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitColor(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitColor(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitColor(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -512,26 +512,26 @@ public class tilesParser extends Parser {
 	}
 
 	public static class ItemContext extends ParserRuleContext {
-		public TerminalNode LBR() { return getToken(tilesParser.LBR, 0); }
-		public TerminalNode RBR() { return getToken(tilesParser.RBR, 0); }
-		public TerminalNode NUMBER() { return getToken(tilesParser.NUMBER, 0); }
-		public TerminalNode CHAR() { return getToken(tilesParser.CHAR, 0); }
-		public TerminalNode SYMBOL() { return getToken(tilesParser.SYMBOL, 0); }
+		public TerminalNode LBR() { return getToken(mapParser.LBR, 0); }
+		public TerminalNode RBR() { return getToken(mapParser.RBR, 0); }
+		public TerminalNode NUMBER() { return getToken(mapParser.NUMBER, 0); }
+		public TerminalNode CHAR() { return getToken(mapParser.CHAR, 0); }
+		public TerminalNode SYMBOL() { return getToken(mapParser.SYMBOL, 0); }
 		public ItemContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_item; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).enterItem(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).enterItem(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof tilesListener ) ((tilesListener)listener).exitItem(this);
+			if ( listener instanceof mapListener ) ((mapListener)listener).exitItem(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof tilesVisitor ) return ((tilesVisitor<? extends T>)visitor).visitItem(this);
+			if ( visitor instanceof mapVisitor ) return ((mapVisitor<? extends T>)visitor).visitItem(this);
 			else return visitor.visitChildren(this);
 		}
 	}

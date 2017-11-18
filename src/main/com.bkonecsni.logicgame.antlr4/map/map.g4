@@ -1,6 +1,6 @@
-grammar tiles;
+grammar map;
 
-tiles: tile* ;
+map: tile* ;
 
 tile: TILE type AT position size? COMMA  itemList ;
 

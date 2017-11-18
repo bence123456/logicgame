@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.domain.tiles;
+package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.common.Point;

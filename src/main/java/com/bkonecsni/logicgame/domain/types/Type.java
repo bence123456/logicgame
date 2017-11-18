@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.domain.types;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.tiles.Tile;
+import com.bkonecsni.logicgame.domain.map.Tile;
 
 import java.util.Collections;
 import java.util.List;

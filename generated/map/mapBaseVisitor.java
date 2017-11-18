@@ -1,70 +1,70 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/tiles\tiles.g4 by ANTLR 4.7
-package tiles;
+// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/map\map.g4 by ANTLR 4.7
+package map;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link tilesVisitor},
+ * This class provides an empty implementation of {@link mapVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-public class tilesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements tilesVisitor<T> {
+public class mapBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements mapVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTiles(tilesParser.TilesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMap(mapParser.MapContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTile(tilesParser.TileContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTile(mapParser.TileContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitItemList(tilesParser.ItemListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitItemList(mapParser.ItemListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitType(tilesParser.TypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitType(mapParser.TypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPosition(tilesParser.PositionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPosition(mapParser.PositionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSize(tilesParser.SizeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSize(mapParser.SizeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitColor(tilesParser.ColorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitColor(mapParser.ColorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitItem(tilesParser.ItemContext ctx) { return visitChildren(ctx); }
+	@Override public T visitItem(mapParser.ItemContext ctx) { return visitChildren(ctx); }
 }
