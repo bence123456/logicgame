@@ -4,21 +4,21 @@ import com.bkonecsni.logicgame.domain.common.Item;
 
 public class Update {
 
-    private Item itemToUpdate;
+    private Integer itemToUpdateIndex;
 
     private Item newItem;
 
-    public Update(Item itemToUpdate, Item newItem) {
-        this.itemToUpdate = itemToUpdate;
+    public Update(Integer itemToUpdateIndex, Item newItem) {
+        this.itemToUpdateIndex = itemToUpdateIndex;
         this.newItem = newItem;
     }
 
-    public Item getItemToUpdate() {
-        return itemToUpdate;
+    public Integer getItemToUpdateIndex() {
+        return itemToUpdateIndex;
     }
 
-    public void setItemToUpdate(Item itemToUpdate) {
-        this.itemToUpdate = itemToUpdate;
+    public void setItemToUpdateIndex(Integer itemToUpdateIndex) {
+        this.itemToUpdateIndex = itemToUpdateIndex;
     }
 
     public Item getNewItem() {

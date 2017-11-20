@@ -1,19 +1,16 @@
 package com.bkonecsni.logicgame.domain.common;
 
-import com.bkonecsni.logicgame.domain.symbols.Symbol;
-
 public class Item {
 
     private Character charValue;
 
     private Integer intValue;
 
-    private Symbol symbol;
+    private String symbol;
 
-    // TODO: parse string as Integer with: Integer.parseInt("#45E213".substring(1), 16);
     private Integer color;
 
-    public Item(Character charValue, Integer intValue, Symbol symbol, Integer color) {
+    public Item(Character charValue, Integer intValue, String symbol, Integer color) {
         this.charValue = charValue;
         this.intValue = intValue;
         this.symbol = symbol;
@@ -23,7 +20,7 @@ public class Item {
     public Item replaceFields(Item newItem) {
         Character newCharValue = newItem.getCharValue();
         Integer newIntValue = newItem.getIntValue();
-        Symbol newSymbol = newItem.getSymbol();
+        String newSymbol = newItem.getSymbol();
         Integer newColor = newItem.getColor();
 
         setFields(newCharValue, newIntValue, newSymbol, newColor);
@@ -31,7 +28,7 @@ public class Item {
         return this;
     }
 
-    private void setFields(Character charValue, Integer intValue, Symbol symbol, Integer color) {
+    private void setFields(Character charValue, Integer intValue, String symbol, Integer color) {
         this.charValue = charValue;
         this.intValue = intValue;
         this.symbol = symbol;
@@ -76,11 +73,11 @@ public class Item {
         this.intValue = intValue;
     }
 
-    public Symbol getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(Symbol symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 

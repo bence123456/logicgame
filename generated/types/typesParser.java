@@ -21,12 +21,12 @@ public class typesParser extends Parser {
 		EMPTY=9, LOOP=10, ISEQ=11, EQ=12, LP=13, RP=14, COMMA=15, ARR=16, COL=17, 
 		WS=18;
 	public static final int
-		RULE_types = 0, RULE_typedef = 1, RULE_typehead = 2, RULE_loop = 3, RULE_params = 4, 
-		RULE_typestatement = 5, RULE_updatestatement = 6, RULE_parens_nr = 7, 
-		RULE_item = 8;
+		RULE_types = 0, RULE_typedecl = 1, RULE_typedef = 2, RULE_typehead = 3, 
+		RULE_loop = 4, RULE_params = 5, RULE_typestatement = 6, RULE_updatestatement = 7, 
+		RULE_parens_nr = 8, RULE_item = 9;
 	public static final String[] ruleNames = {
-		"types", "typedef", "typehead", "loop", "params", "typestatement", "updatestatement", 
-		"parens_nr", "item"
+		"types", "typedecl", "typedef", "typehead", "loop", "params", "typestatement", 
+		"updatestatement", "parens_nr", "item"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -88,17 +88,11 @@ public class typesParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class TypesContext extends ParserRuleContext {
-		public List<TypeheadContext> typehead() {
-			return getRuleContexts(TypeheadContext.class);
+		public List<TypedeclContext> typedecl() {
+			return getRuleContexts(TypedeclContext.class);
 		}
-		public TypeheadContext typehead(int i) {
-			return getRuleContext(TypeheadContext.class,i);
-		}
-		public List<TypedefContext> typedef() {
-			return getRuleContexts(TypedefContext.class);
-		}
-		public TypedefContext typedef(int i) {
-			return getRuleContext(TypedefContext.class,i);
+		public TypedeclContext typedecl(int i) {
+			return getRuleContext(TypedeclContext.class,i);
 		}
 		public TypesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -132,16 +126,63 @@ public class typesParser extends Parser {
 			do {
 				{
 				{
-				setState(18);
-				typehead();
-				setState(19);
-				typedef();
+				setState(20);
+				typedecl();
 				}
 				}
 				setState(23); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class TypedeclContext extends ParserRuleContext {
+		public TypeheadContext typehead() {
+			return getRuleContext(TypeheadContext.class,0);
+		}
+		public TypedefContext typedef() {
+			return getRuleContext(TypedefContext.class,0);
+		}
+		public TypedeclContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_typedecl; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypedecl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypedecl(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypedecl(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final TypedeclContext typedecl() throws RecognitionException {
+		TypedeclContext _localctx = new TypedeclContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_typedecl);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(25);
+			typehead();
+			setState(26);
+			typedef();
 			}
 		}
 		catch (RecognitionException re) {
@@ -186,33 +227,33 @@ public class typesParser extends Parser {
 
 	public final TypedefContext typedef() throws RecognitionException {
 		TypedefContext _localctx = new TypedefContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_typedef);
+		enterRule(_localctx, 4, RULE_typedef);
 		int _la;
 		try {
-			setState(31);
+			setState(34);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(25);
+				setState(28);
 				loop();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(27); 
+				setState(30); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(26);
+					setState(29);
 					typestatement();
 					}
 					}
-					setState(29); 
+					setState(32); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==ITEMS );
@@ -256,15 +297,15 @@ public class typesParser extends Parser {
 
 	public final TypeheadContext typehead() throws RecognitionException {
 		TypeheadContext _localctx = new TypeheadContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_typehead);
+		enterRule(_localctx, 6, RULE_typehead);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(36);
 			match(T);
-			setState(34);
+			setState(37);
 			match(NUMBER);
-			setState(35);
+			setState(38);
 			match(COL);
 			}
 		}
@@ -312,23 +353,23 @@ public class typesParser extends Parser {
 
 	public final LoopContext loop() throws RecognitionException {
 		LoopContext _localctx = new LoopContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_loop);
+		enterRule(_localctx, 8, RULE_loop);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37);
-			match(ITEMS);
-			setState(38);
-			parens_nr();
-			setState(39);
-			match(COL);
 			setState(40);
-			match(LOOP);
+			match(ITEMS);
 			setState(41);
-			match(LP);
+			parens_nr();
 			setState(42);
-			params();
+			match(COL);
 			setState(43);
+			match(LOOP);
+			setState(44);
+			match(LP);
+			setState(45);
+			params();
+			setState(46);
 			match(RP);
 			}
 		}
@@ -375,30 +416,30 @@ public class typesParser extends Parser {
 
 	public final ParamsContext params() throws RecognitionException {
 		ParamsContext _localctx = new ParamsContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_params);
+		enterRule(_localctx, 10, RULE_params);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(53);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(45);
+					setState(48);
 					item();
-					setState(46);
+					setState(49);
 					match(COMMA);
 					}
 					} 
 				}
-				setState(52);
+				setState(55);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			}
-			setState(53);
+			setState(56);
 			item();
 			}
 		}
@@ -453,34 +494,34 @@ public class typesParser extends Parser {
 
 	public final TypestatementContext typestatement() throws RecognitionException {
 		TypestatementContext _localctx = new TypestatementContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_typestatement);
+		enterRule(_localctx, 12, RULE_typestatement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
-			match(ITEMS);
-			setState(56);
-			parens_nr();
-			setState(57);
-			match(ISEQ);
 			setState(58);
-			item();
+			match(ITEMS);
 			setState(59);
+			parens_nr();
+			setState(60);
+			match(ISEQ);
+			setState(61);
+			item();
+			setState(62);
 			updatestatement();
-			setState(64);
+			setState(67);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(60);
+				setState(63);
 				match(COMMA);
-				setState(61);
+				setState(64);
 				updatestatement();
 				}
 				}
-				setState(66);
+				setState(69);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -528,19 +569,19 @@ public class typesParser extends Parser {
 
 	public final UpdatestatementContext updatestatement() throws RecognitionException {
 		UpdatestatementContext _localctx = new UpdatestatementContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_updatestatement);
+		enterRule(_localctx, 14, RULE_updatestatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67);
-			match(ARR);
-			setState(68);
-			match(ITEMS);
-			setState(69);
-			parens_nr();
 			setState(70);
-			match(EQ);
+			match(ARR);
 			setState(71);
+			match(ITEMS);
+			setState(72);
+			parens_nr();
+			setState(73);
+			match(EQ);
+			setState(74);
 			item();
 			}
 		}
@@ -580,15 +621,15 @@ public class typesParser extends Parser {
 
 	public final Parens_nrContext parens_nr() throws RecognitionException {
 		Parens_nrContext _localctx = new Parens_nrContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_parens_nr);
+		enterRule(_localctx, 16, RULE_parens_nr);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
+			setState(76);
 			match(LP);
-			setState(74);
+			setState(77);
 			match(NUMBER);
-			setState(75);
+			setState(78);
 			match(RP);
 			}
 		}
@@ -630,12 +671,12 @@ public class typesParser extends Parser {
 
 	public final ItemContext item() throws RecognitionException {
 		ItemContext _localctx = new ItemContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_item);
+		enterRule(_localctx, 18, RULE_item);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
+			setState(80);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EMPTY_STRING) | (1L << NUMBER) | (1L << CHAR) | (1L << COLOR) | (1L << SYMBOL))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -659,26 +700,26 @@ public class typesParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24R\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\2"+
-		"\6\2\30\n\2\r\2\16\2\31\3\3\3\3\6\3\36\n\3\r\3\16\3\37\5\3\"\n\3\3\4\3"+
-		"\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\7\6\63\n\6\f\6"+
-		"\16\6\66\13\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7A\n\7\f\7\16\7D\13"+
-		"\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\n\3\n\3\n\2\2\13\2\4\6\b"+
-		"\n\f\16\20\22\2\3\4\2\3\6\b\b\2M\2\27\3\2\2\2\4!\3\2\2\2\6#\3\2\2\2\b"+
-		"\'\3\2\2\2\n\64\3\2\2\2\f9\3\2\2\2\16E\3\2\2\2\20K\3\2\2\2\22O\3\2\2\2"+
-		"\24\25\5\6\4\2\25\26\5\4\3\2\26\30\3\2\2\2\27\24\3\2\2\2\30\31\3\2\2\2"+
-		"\31\27\3\2\2\2\31\32\3\2\2\2\32\3\3\2\2\2\33\"\5\b\5\2\34\36\5\f\7\2\35"+
-		"\34\3\2\2\2\36\37\3\2\2\2\37\35\3\2\2\2\37 \3\2\2\2 \"\3\2\2\2!\33\3\2"+
-		"\2\2!\35\3\2\2\2\"\5\3\2\2\2#$\7\n\2\2$%\7\4\2\2%&\7\23\2\2&\7\3\2\2\2"+
-		"\'(\7\t\2\2()\5\20\t\2)*\7\23\2\2*+\7\f\2\2+,\7\17\2\2,-\5\n\6\2-.\7\20"+
-		"\2\2.\t\3\2\2\2/\60\5\22\n\2\60\61\7\21\2\2\61\63\3\2\2\2\62/\3\2\2\2"+
-		"\63\66\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65\67\3\2\2\2\66\64\3\2\2\2"+
-		"\678\5\22\n\28\13\3\2\2\29:\7\t\2\2:;\5\20\t\2;<\7\r\2\2<=\5\22\n\2=B"+
-		"\5\16\b\2>?\7\21\2\2?A\5\16\b\2@>\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2"+
-		"\2C\r\3\2\2\2DB\3\2\2\2EF\7\22\2\2FG\7\t\2\2GH\5\20\t\2HI\7\16\2\2IJ\5"+
-		"\22\n\2J\17\3\2\2\2KL\7\17\2\2LM\7\4\2\2MN\7\20\2\2N\21\3\2\2\2OP\t\2"+
-		"\2\2P\23\3\2\2\2\7\31\37!\64B";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24U\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
+		"\2\6\2\30\n\2\r\2\16\2\31\3\3\3\3\3\3\3\4\3\4\6\4!\n\4\r\4\16\4\"\5\4"+
+		"%\n\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\7\7"+
+		"\66\n\7\f\7\16\79\13\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bD\n\b\f"+
+		"\b\16\bG\13\b\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\2"+
+		"\2\f\2\4\6\b\n\f\16\20\22\24\2\3\4\2\3\6\b\b\2O\2\27\3\2\2\2\4\33\3\2"+
+		"\2\2\6$\3\2\2\2\b&\3\2\2\2\n*\3\2\2\2\f\67\3\2\2\2\16<\3\2\2\2\20H\3\2"+
+		"\2\2\22N\3\2\2\2\24R\3\2\2\2\26\30\5\4\3\2\27\26\3\2\2\2\30\31\3\2\2\2"+
+		"\31\27\3\2\2\2\31\32\3\2\2\2\32\3\3\2\2\2\33\34\5\b\5\2\34\35\5\6\4\2"+
+		"\35\5\3\2\2\2\36%\5\n\6\2\37!\5\16\b\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2"+
+		"\2\"#\3\2\2\2#%\3\2\2\2$\36\3\2\2\2$ \3\2\2\2%\7\3\2\2\2&\'\7\n\2\2\'"+
+		"(\7\4\2\2()\7\23\2\2)\t\3\2\2\2*+\7\t\2\2+,\5\22\n\2,-\7\23\2\2-.\7\f"+
+		"\2\2./\7\17\2\2/\60\5\f\7\2\60\61\7\20\2\2\61\13\3\2\2\2\62\63\5\24\13"+
+		"\2\63\64\7\21\2\2\64\66\3\2\2\2\65\62\3\2\2\2\669\3\2\2\2\67\65\3\2\2"+
+		"\2\678\3\2\2\28:\3\2\2\29\67\3\2\2\2:;\5\24\13\2;\r\3\2\2\2<=\7\t\2\2"+
+		"=>\5\22\n\2>?\7\r\2\2?@\5\24\13\2@E\5\20\t\2AB\7\21\2\2BD\5\20\t\2CA\3"+
+		"\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F\17\3\2\2\2GE\3\2\2\2HI\7\22\2\2"+
+		"IJ\7\t\2\2JK\5\22\n\2KL\7\16\2\2LM\5\24\13\2M\21\3\2\2\2NO\7\17\2\2OP"+
+		"\7\4\2\2PQ\7\20\2\2Q\23\3\2\2\2RS\t\2\2\2S\25\3\2\2\2\7\31\"$\67E";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -18,6 +18,8 @@ public class TypeStatement {
         this.updateList = updateList;
     }
 
+    public TypeStatement() { }
+
     public boolean isApplicable(List<Item> itemList) {
         if (itemList.size() - 1 < comparableItemIndex) {
             // handle ItemList(x) == empty case

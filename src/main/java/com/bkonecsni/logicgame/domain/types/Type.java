@@ -14,6 +14,8 @@ public class Type {
         this.typeStatementList = typeStatementList;
     }
 
+    public Type() { }
+
     public void act(Tile tile){
         List<Item> itemList = tile.getItemList();
         List<Update> updateList = findUpdateList(itemList);
@@ -37,7 +39,7 @@ public class Type {
     }
 
     private void executeUpdate(Update update, List<Item> itemList) {
-        Item oldItem = update.getItemToUpdate();
+        Item oldItem = itemList.get(update.getItemToUpdateIndex());
         Item newItem = update.getNewItem();
 
         // ItemList(x) = empty

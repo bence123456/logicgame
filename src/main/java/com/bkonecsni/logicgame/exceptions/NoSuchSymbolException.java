@@ -2,9 +2,9 @@ package com.bkonecsni.logicgame.exceptions;
 
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
-public class SymbolNotExistsException extends ParseCancellationException {
+public class NoSuchSymbolException extends ParseCancellationException {
 
-    public SymbolNotExistsException(String message) {
+    public NoSuchSymbolException(String message) {
         super(message);
     }
 }

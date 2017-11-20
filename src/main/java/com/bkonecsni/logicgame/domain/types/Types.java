@@ -10,6 +10,10 @@ public class Types<T extends Type> {
         this.typeList = typeList;
     }
 
+    public void addType(T type) {
+        typeList.add(type);
+    }
+
     public List<T> getTypeList() {
         return typeList;
     }

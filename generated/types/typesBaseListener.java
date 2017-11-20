@@ -28,6 +28,18 @@ public class typesBaseListener implements typesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTypedecl(typesParser.TypedeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypedecl(typesParser.TypedeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTypedef(typesParser.TypedefContext ctx) { }
 	/**
 	 * {@inheritDoc}
