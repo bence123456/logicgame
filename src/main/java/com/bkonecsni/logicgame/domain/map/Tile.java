@@ -16,6 +16,8 @@ public class Tile<T extends Type> {
 
     private List<Item> itemList;
 
+    public Tile() { }
+
     public Tile(T type, Point position, Point size, List<Item> itemList) {
         this.type = type;
         this.position = position;
