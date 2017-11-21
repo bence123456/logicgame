@@ -1,6 +1,8 @@
-package com.bkonecsni.logicgame.domain.types;
+package com.bkonecsni.logicgame.domain.types.equation;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+
+import java.util.List;
 
 public class Update {
 
@@ -11,6 +13,17 @@ public class Update {
     public Update(Integer itemToUpdateIndex, Item newItem) {
         this.itemToUpdateIndex = itemToUpdateIndex;
         this.newItem = newItem;
+    }
+
+    public void execute(List<Item> itemList) {
+        Item oldItem = itemList.get(itemToUpdateIndex);
+
+        // ItemList(x) = empty
+        if (newItem == null) {
+            itemList.remove(oldItem);
+        } else {
+            oldItem.replaceFields(newItem);
+        }
     }
 
     public Integer getItemToUpdateIndex() {

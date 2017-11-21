@@ -1,14 +1,14 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.common.Point;
 import com.bkonecsni.logicgame.domain.types.Type;
 
+import java.awt.Point;
 import java.util.List;
 
-public class Tile<T extends Type> {
+public class Tile {
 
-    private T type;
+    private Type type;
 
     private Point position;
 
@@ -18,18 +18,18 @@ public class Tile<T extends Type> {
 
     public Tile() { }
 
-    public Tile(T type, Point position, Point size, List<Item> itemList) {
+    public Tile(Type type, Point position, Point size, List<Item> itemList) {
         this.type = type;
         this.position = position;
         this.size = size;
         this.itemList = itemList;
     }
 
-    public T getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(T type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

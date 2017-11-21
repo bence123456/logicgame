@@ -53,6 +53,12 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypestatement(typesParser.TypestatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link typesParser#condition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCondition(typesParser.ConditionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link typesParser#updatestatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
