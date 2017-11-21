@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import types.typesLexer;
+import types.typesParser.*;
 import types.typesParser;
 
 
@@ -25,7 +26,7 @@ public class TypesParser extends CommonParser implements Parser {
     }
 
     private void parseTypes(CharStream typesInput, GameDefinition gameDefinition) {
-        typesParser.TypesContext typesContext = getTypesContext(typesInput);
+        TypesContext typesContext = getTypesContext(typesInput);
 
         Map<String, Type> typesMap = gameDefinition.getTypesMap();
         typesMap.put("Type0", new Type());
@@ -38,7 +39,7 @@ public class TypesParser extends CommonParser implements Parser {
         }
     }
 
-    private typesParser.TypesContext getTypesContext(CharStream typesInput) {
+    private TypesContext getTypesContext(CharStream typesInput) {
         typesLexer typesLexer = new typesLexer(typesInput);
         CommonTokenStream typesTokens = new CommonTokenStream(typesLexer);
         typesParser typesParser = new typesParser(typesTokens);
@@ -46,20 +47,20 @@ public class TypesParser extends CommonParser implements Parser {
     }
 
     private List<TypeStatement> createTypeStatementList(ParseTree typeChild, GameDefinition gameDefinition) {
-        typesParser.TypedefContext typedefContext = (typesParser.TypedefContext) typeChild;
+        TypedefContext typedefContext = (TypedefContext) typeChild;
 
         List<TypeStatement> typeStatementList = new ArrayList<>();
 
         for (ParseTree typedef : typedefContext.children) {
-            typesParser.TypestatementContext typestatementContext = (typesParser.TypestatementContext) typedef;
+            TypestatementContext typestatementContext = (TypestatementContext) typedef;
             TypeStatement typeStatement = new TypeStatement();
 
             for (ParseTree statement : typestatementContext.children) {
-                if (statement instanceof typesParser.ConditionContext) {
-                    parseCondition(gameDefinition, typeStatement, (typesParser.ConditionContext) statement);
+                if (statement instanceof ConditionContext) {
+                    parseCondition(gameDefinition, typeStatement, (ConditionContext) statement);
                 }
-                if (statement instanceof typesParser.UpdatestatementContext) {
-                    parseUpdate(gameDefinition, typeStatement, (typesParser.UpdatestatementContext) statement);
+                if (statement instanceof UpdatestatementContext) {
+                    parseUpdate(gameDefinition, typeStatement, (UpdatestatementContext) statement);
                 }
             }
             typeStatementList.add(typeStatement);
@@ -68,7 +69,7 @@ public class TypesParser extends CommonParser implements Parser {
         return typeStatementList;
     }
 
-    private void parseUpdate(GameDefinition gameDefinition, TypeStatement typeStatement, typesParser.UpdatestatementContext updatestatementContext) {
+    private void parseUpdate(GameDefinition gameDefinition, TypeStatement typeStatement, UpdatestatementContext updatestatementContext) {
         List<Update> updateList = new ArrayList<>();
 
         Integer itemToUpdateIndex = Integer.valueOf(updatestatementContext.parens_nr().children.get(1).getText());
@@ -79,7 +80,7 @@ public class TypesParser extends CommonParser implements Parser {
         typeStatement.setUpdateList(updateList);
     }
 
-    private void parseCondition(GameDefinition gameDefinition, TypeStatement typeStatement, typesParser.ConditionContext conditionContext) {
+    private void parseCondition(GameDefinition gameDefinition, TypeStatement typeStatement, ConditionContext conditionContext) {
         List<Condition> conditionList = new ArrayList<>();
 
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().getChild(1).getText());

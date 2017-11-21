@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import symbols.symbolsLexer;
 import symbols.symbolsParser;
-
+import symbols.symbolsParser.*;
 
 public class SymbolsParser extends CommonParser implements Parser {
 
@@ -19,7 +19,7 @@ public class SymbolsParser extends CommonParser implements Parser {
         symbolsLexer symbolsLexer = new symbolsLexer(symbolsInput);
         CommonTokenStream symbolsTokens = new CommonTokenStream(symbolsLexer);
         symbolsParser symbolsParser = new symbolsParser(symbolsTokens);
-        symbols.symbolsParser.SymbolsContext symbolsContext = symbolsParser.symbols();
+        SymbolsContext symbolsContext = symbolsParser.symbols();
 
         for (ParseTree symbolChild : symbolsContext.children) {
             String symbolName = symbolChild.getChild(0).getText();

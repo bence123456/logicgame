@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import validation.validationLexer;
 import validation.validationParser;
-
+import validation.validationParser.*;
 
 public class ValidationParser extends CommonParser implements Parser {
 
@@ -15,10 +15,10 @@ public class ValidationParser extends CommonParser implements Parser {
     }
 
     private void parseValidation(CharStream validationInput, GameDefinition gameDefinition) {
-        validationParser.ValidationContext validationContext = getValidationContext(validationInput);
+        ValidationContext validationContext = getValidationContext(validationInput);
     }
 
-    private validationParser.ValidationContext getValidationContext(CharStream validationInput) {
+    private ValidationContext getValidationContext(CharStream validationInput) {
         validationLexer validationLexer = new validationLexer(validationInput);
         CommonTokenStream validationTokens = new CommonTokenStream(validationLexer);
         validationParser validationParser = new validationParser(validationTokens);

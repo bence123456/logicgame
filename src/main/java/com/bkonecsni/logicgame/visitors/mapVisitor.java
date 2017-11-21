@@ -2,7 +2,7 @@ package com.bkonecsni.logicgame.visitors;
 
 import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
 import map.mapBaseVisitor;
-import map.mapParser;
+import map.mapParser.*;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.lang3.StringUtils;
@@ -12,11 +12,11 @@ import java.lang.Integer;
 public class mapVisitor<Object> extends mapBaseVisitor<Object> {
 
     @Override
-    public Object visitSize(mapParser.SizeContext ctx) throws ParseCancellationException {
+    public Object visitSize(SizeContext ctx) throws ParseCancellationException {
         return visitChildren(ctx);
     }
 
-    private Object visitChildren(mapParser.SizeContext node) {
+    private Object visitChildren(SizeContext node) {
         Object result = this.defaultResult();
         int n = node.getChildCount();
 
