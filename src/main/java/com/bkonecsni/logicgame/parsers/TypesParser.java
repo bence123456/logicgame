@@ -54,40 +54,38 @@ public class TypesParser extends CommonParser implements Parser {
         for (ParseTree typedef : typedefContext.children) {
             TypestatementContext typestatementContext = (TypestatementContext) typedef;
             TypeStatement typeStatement = new TypeStatement();
+            List<Condition> conditionList = new ArrayList<>();
+            List<Update> updateList = new ArrayList<>();
 
             for (ParseTree statement : typestatementContext.children) {
                 if (statement instanceof ConditionContext) {
-                    parseCondition(gameDefinition, typeStatement, (ConditionContext) statement);
+                    parseCondition(gameDefinition, typeStatement, conditionList, (ConditionContext) statement);
                 }
                 if (statement instanceof UpdatestatementContext) {
-                    parseUpdate(gameDefinition, typeStatement, (UpdatestatementContext) statement);
+                    parseUpdate(gameDefinition, typeStatement, updateList, (UpdatestatementContext) statement);
                 }
             }
+            typeStatement.setUpdateList(updateList);
+            typeStatement.setConditionList(conditionList);
             typeStatementList.add(typeStatement);
         }
 
         return typeStatementList;
     }
 
-    private void parseUpdate(GameDefinition gameDefinition, TypeStatement typeStatement, UpdatestatementContext updatestatementContext) {
-        List<Update> updateList = new ArrayList<>();
-
+    private void parseUpdate(GameDefinition gameDefinition, TypeStatement typeStatement, List<Update> updateList, UpdatestatementContext updatestatementContext) {
         Integer itemToUpdateIndex = Integer.valueOf(updatestatementContext.parens_nr().children.get(1).getText());
         Item newItem = createItem(updatestatementContext.item().getText(), gameDefinition);
         Update update = new Update(itemToUpdateIndex, newItem);
 
         updateList.add(update);
-        typeStatement.setUpdateList(updateList);
     }
 
-    private void parseCondition(GameDefinition gameDefinition, TypeStatement typeStatement, ConditionContext conditionContext) {
-        List<Condition> conditionList = new ArrayList<>();
-
+    private void parseCondition(GameDefinition gameDefinition, TypeStatement typeStatement, List<Condition> conditionList, ConditionContext conditionContext) {
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().getChild(1).getText());
         Item itemToCompare = createItem(conditionContext.item().getText(), gameDefinition);
         Condition condition = new Condition(comparableItemIndex, itemToCompare);
 
         conditionList.add(condition);
-        typeStatement.setConditionList(conditionList);
     }
 }
