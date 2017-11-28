@@ -4,18 +4,18 @@ import com.bkonecsni.logicgame.domain.common.Item;
 
 import java.util.List;
 
-public abstract class ValidationStatement {
+public class ValidationStatement {
 
     private String methodName;
 
-    // TODO: introduce "area def" somehow
     private List<Item> methodParams;
 
-    protected abstract boolean getExpectedValue();
+    private boolean expectedValue;
 
-    public ValidationStatement(String methodName, List<Item> methodParams) {
+    public ValidationStatement(String methodName, List<Item> methodParams, boolean expectedValue) {
         this.methodName = methodName;
         this.methodParams = methodParams;
+        this.expectedValue = expectedValue;
     }
 
     public String getMethodName() {
@@ -32,5 +32,13 @@ public abstract class ValidationStatement {
 
     public void setMethodParams(List<Item> methodParams) {
         this.methodParams = methodParams;
+    }
+
+    public boolean getExpectedValue() {
+        return expectedValue;
+    }
+
+    public void setExpectedValue(boolean expectedValue) {
+        this.expectedValue = expectedValue;
     }
 }

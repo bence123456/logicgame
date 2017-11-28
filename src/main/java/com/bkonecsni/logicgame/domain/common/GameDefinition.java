@@ -2,8 +2,7 @@ package com.bkonecsni.logicgame.domain.common;
 
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.domain.types.Type;
-import com.bkonecsni.logicgame.domain.validation.LooseStatement;
-import com.bkonecsni.logicgame.domain.validation.WinStatement;
+import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +17,8 @@ public class GameDefinition {
 
     private List<Tile> map = new ArrayList<>();
 
-    private List<WinStatement> winStatementList = new ArrayList<>();
-    private List<LooseStatement> looseStatementList = new ArrayList<>();
+    private List<ValidationStatement> winStatementList = new ArrayList<>();
+    private List<ValidationStatement> looseStatementList = new ArrayList<>();
 
     public GameDefinition() { }
 
@@ -47,19 +46,19 @@ public class GameDefinition {
         this.map = map;
     }
 
-    public List<WinStatement> getWinStatementList() {
+    public List<ValidationStatement> getWinStatementList() {
         return winStatementList;
     }
 
-    public void setWinStatementList(List<WinStatement> winStatementList) {
+    public void setWinStatementList(List<ValidationStatement> winStatementList) {
         this.winStatementList = winStatementList;
     }
 
-    public List<LooseStatement> getLooseStatementList() {
+    public List<ValidationStatement> getLooseStatementList() {
         return looseStatementList;
     }
 
-    public void setLooseStatementList(List<LooseStatement> looseStatementList) {
+    public void setLooseStatementList(List<ValidationStatement> looseStatementList) {
         this.looseStatementList = looseStatementList;
     }
 }
