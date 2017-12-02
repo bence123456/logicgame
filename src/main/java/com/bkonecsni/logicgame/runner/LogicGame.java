@@ -15,14 +15,13 @@ import java.util.*;
 
 public class LogicGame {
 
-    private List<GameDefinition> gameDefinitions = new ArrayList<>();
-
     private SymbolsParser symbolsParser = new SymbolsParser();
     private TypesParser typesParser = new TypesParser();
     private MapParserImpl mapParserImpl = new MapParserImpl();
     private ValidationParser validationParser = new ValidationParser();
 
-    public void run() throws IOException {
+    public List<GameDefinition> parse() throws IOException {
+        List<GameDefinition> gameDefinitions = new ArrayList<>();
         Map<String, Integer> gameLevelNumberMap = createGameLevelNumberMapFromProperty();
 
         for (String gameName : gameLevelNumberMap.keySet()) {
@@ -42,6 +41,8 @@ public class LogicGame {
 
             gameDefinitions.add(gameDefinition);
         }
+
+        return gameDefinitions;
     }
 
     private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition) throws IOException {

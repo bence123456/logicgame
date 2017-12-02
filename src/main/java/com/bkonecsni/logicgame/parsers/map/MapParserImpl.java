@@ -2,6 +2,7 @@ package com.bkonecsni.logicgame.parsers.map;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.domain.types.Type;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
@@ -32,13 +33,14 @@ public class MapParserImpl extends CommonParser implements MapParser {
         mapVisitor visitor = new mapVisitor();
         visitor.visit(mapContext);
 
-        List<Tile> actualMap = new ArrayList<>();
+        List<Tile> tiles = new ArrayList<>();
         for (ParseTree tileChild : mapContext.children) {
             Tile tile = parseTile(gameDefinition, (TileContext) tileChild);
-            actualMap.add(tile);
+            tiles.add(tile);
         }
 
-        gameDefinition.getMaps().put(levelKey, actualMap);
+        GameMap gameMap = new GameMap(tiles);
+        gameDefinition.getMaps().put(levelKey, gameMap);
     }
 
     private MapContext getMapContext(CharStream mapInput) {

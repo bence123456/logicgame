@@ -1,6 +1,5 @@
 win:
 numberOfItemsInAllRow(S2, 1) == true
 numberOfItemsInAllColumn(S2, 1) == true
-numberOfItemsInAllArea(S2, 1, COLOR) == true
+numberOfItemsInAllAreaWithSameColor(S2, 1) == true
 twoNeighbouringSymbolsExists() == false
-

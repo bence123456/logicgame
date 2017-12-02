@@ -11,9 +11,9 @@ import java.util.List;
 
 public class StateHandler {
 
-    public void act(Tile tile){
-        List<Item> itemList = tile.getItemList();
-        List<TypeStatement> typeStatementList = tile.getType().getTypeStatementList();
+    public void act(Tile actualTile) {
+        List<Item> itemList = actualTile.getItemList();
+        List<TypeStatement> typeStatementList = actualTile.getType().getTypeStatementList();
 
         List<Update> updateList = findUpdateList(itemList, typeStatementList);
         for (Update update : updateList) {

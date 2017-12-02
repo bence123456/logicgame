@@ -4,6 +4,7 @@ import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.types.Type;
 
 import java.awt.Point;
+import java.util.Comparator;
 import java.util.List;
 
 public class Tile {
@@ -16,14 +17,24 @@ public class Tile {
 
     private List<Item> itemList;
 
-    public Tile() { }
+    public static Comparator<Tile> getColumnNrComparator() {
+        return (tile1, tile2) -> {
+            int tile1Column = tile1.getPosition().y;
+            int tile2Column = tile2.getPosition().y;
 
-    public Tile(Type type, Point position, Point size, List<Item> itemList) {
-        this.type = type;
-        this.position = position;
-        this.size = size;
-        this.itemList = itemList;
+            return tile2Column - tile1Column;
+        };
     }
+
+    public static Comparator<Tile> getRowNrComparator() {
+        return (tile1, tile2) -> {
+            int tile1Row = tile1.getPosition().x;
+            int tile2Row = tile2.getPosition().x;
+
+            return tile2Row - tile1Row;
+        };
+    }
+
 
     public Type getType() {
         return type;

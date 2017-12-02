@@ -5,6 +5,8 @@ import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.exceptions.NoSuchSymbolException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.awt.*;
+
 public class CommonParser {
 
     protected Item createItem(String itemAsString, GameDefinition gameDefinition) {
@@ -20,9 +22,30 @@ public class CommonParser {
             }
             item = new Item(null, null, itemAsString, null);
         } else if(itemAsString.startsWith("#")) {
-            item = new Item(null, null, null, Integer.parseInt(itemAsString.substring(1), 16));
+            Color color = getColor(itemAsString);
+            item = new Item(null, null, null, color);
         }
 
         return item;
+    }
+
+    private Color getColor(String itemAsString) {
+        String stringColor;
+
+        if (itemAsString.length() == 4) {
+            char digit1 = itemAsString.charAt(1);
+            char digit2 = itemAsString.charAt(2);
+            char digit3 = itemAsString.charAt(3);
+
+            stringColor = "#" + digit1 + digit1 + digit2 + digit2 + digit3 + digit3;
+        } else {
+            stringColor = itemAsString;
+        }
+
+        Integer r = Integer.valueOf(stringColor.substring(1, 3), 16);
+        Integer g = Integer.valueOf(stringColor.substring(3, 5), 16);
+        Integer b = Integer.valueOf(stringColor.substring(5, 7), 16);
+
+        return new Color(r, g, b);
     }
 }

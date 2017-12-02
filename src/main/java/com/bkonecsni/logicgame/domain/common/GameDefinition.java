@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.domain.common;
 
-import com.bkonecsni.logicgame.domain.map.Tile;
+import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.types.Type;
 import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
 
@@ -15,7 +15,7 @@ public class GameDefinition {
 
     private Map<String, Type> typesMap = new HashMap<>();
 
-    private Map<String, List<Tile>> maps = new HashMap<>();
+    private Map<String, GameMap> maps = new HashMap<>();
 
     private List<ValidationStatement> winStatementList = new ArrayList<>();
     private List<ValidationStatement> looseStatementList = new ArrayList<>();
@@ -38,11 +38,11 @@ public class GameDefinition {
         this.typesMap = typesMap;
     }
 
-    public Map<String, List<Tile>> getMaps() {
+    public Map<String, GameMap> getMaps() {
         return maps;
     }
 
-    public void setMaps(Map<String, List<Tile>> maps) {
+    public void setMaps(Map<String, GameMap> maps) {
         this.maps = maps;
     }
 
