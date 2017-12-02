@@ -87,7 +87,6 @@ public class validationParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class ValidationContext extends ParserRuleContext {
-		public TerminalNode LOOSE() { return getToken(validationParser.LOOSE, 0); }
 		public TerminalNode WIN() { return getToken(validationParser.WIN, 0); }
 		public List<WinContext> win() {
 			return getRuleContexts(WinContext.class);
@@ -95,6 +94,7 @@ public class validationParser extends Parser {
 		public WinContext win(int i) {
 			return getRuleContext(WinContext.class,i);
 		}
+		public TerminalNode LOOSE() { return getToken(validationParser.LOOSE, 0); }
 		public List<LooseContext> loose() {
 			return getRuleContexts(LooseContext.class);
 		}
@@ -125,48 +125,55 @@ public class validationParser extends Parser {
 		enterRule(_localctx, 0, RULE_validation);
 		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
+			setState(16);
+			match(WIN);
+			setState(18); 
+			_errHandler.sync(this);
+			_alt = 1;
+			do {
+				switch (_alt) {
+				case 1:
+					{
+					{
+					setState(17);
+					win();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(20); 
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			setState(23);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==WIN) {
+			if (_la==LOOSE) {
 				{
-				setState(16);
-				match(WIN);
+				setState(22);
+				match(LOOSE);
 				}
 			}
 
-			setState(22);
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ID) {
 				{
 				{
-				setState(19);
-				win();
-				}
-				}
-				setState(24);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(25);
-			match(LOOSE);
-			setState(27); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(26);
+				setState(25);
 				loose();
 				}
 				}
-				setState(29); 
+				setState(30);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==ID );
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -561,22 +568,22 @@ public class validationParser extends Parser {
 
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25C\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\5\2\24\n\2\3\2"+
-		"\7\2\27\n\2\f\2\16\2\32\13\2\3\2\3\2\6\2\36\n\2\r\2\16\2\37\3\3\3\3\3"+
-		"\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\5\5-\n\5\3\5\3\5\3\6\3\6\3\7\3\7\3"+
-		"\7\7\7\66\n\7\f\7\16\79\13\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\2\2\n"+
-		"\2\4\6\b\n\f\16\20\2\3\5\2\4\4\6\b\n\n\2?\2\23\3\2\2\2\4!\3\2\2\2\6%\3"+
-		"\2\2\2\b)\3\2\2\2\n\60\3\2\2\2\f\67\3\2\2\2\16<\3\2\2\2\20@\3\2\2\2\22"+
-		"\24\7\13\2\2\23\22\3\2\2\2\23\24\3\2\2\2\24\30\3\2\2\2\25\27\5\4\3\2\26"+
-		"\25\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\33\3\2\2\2\32"+
-		"\30\3\2\2\2\33\35\7\f\2\2\34\36\5\6\4\2\35\34\3\2\2\2\36\37\3\2\2\2\37"+
-		"\35\3\2\2\2\37 \3\2\2\2 \3\3\2\2\2!\"\5\b\5\2\"#\7\r\2\2#$\7\3\2\2$\5"+
-		"\3\2\2\2%&\5\b\5\2&\'\7\r\2\2\'(\7\3\2\2(\7\3\2\2\2)*\5\n\6\2*,\7\21\2"+
-		"\2+-\5\f\7\2,+\3\2\2\2,-\3\2\2\2-.\3\2\2\2./\7\22\2\2/\t\3\2\2\2\60\61"+
-		"\7\5\2\2\61\13\3\2\2\2\62\63\5\20\t\2\63\64\7\23\2\2\64\66\3\2\2\2\65"+
-		"\62\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28:\3\2\2\29\67\3\2\2"+
-		"\2:;\5\20\t\2;\r\3\2\2\2<=\7\21\2\2=>\7\6\2\2>?\7\22\2\2?\17\3\2\2\2@"+
-		"A\t\2\2\2A\21\3\2\2\2\7\23\30\37,\67";
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\6\2\25\n\2"+
+		"\r\2\16\2\26\3\2\5\2\32\n\2\3\2\7\2\35\n\2\f\2\16\2 \13\2\3\3\3\3\3\3"+
+		"\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\5\5-\n\5\3\5\3\5\3\6\3\6\3\7\3\7\3\7"+
+		"\7\7\66\n\7\f\7\16\79\13\7\3\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\2\2\n\2"+
+		"\4\6\b\n\f\16\20\2\3\5\2\4\4\6\b\n\n\2?\2\22\3\2\2\2\4!\3\2\2\2\6%\3\2"+
+		"\2\2\b)\3\2\2\2\n\60\3\2\2\2\f\67\3\2\2\2\16<\3\2\2\2\20@\3\2\2\2\22\24"+
+		"\7\13\2\2\23\25\5\4\3\2\24\23\3\2\2\2\25\26\3\2\2\2\26\24\3\2\2\2\26\27"+
+		"\3\2\2\2\27\31\3\2\2\2\30\32\7\f\2\2\31\30\3\2\2\2\31\32\3\2\2\2\32\36"+
+		"\3\2\2\2\33\35\5\6\4\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3"+
+		"\2\2\2\37\3\3\2\2\2 \36\3\2\2\2!\"\5\b\5\2\"#\7\r\2\2#$\7\3\2\2$\5\3\2"+
+		"\2\2%&\5\b\5\2&\'\7\r\2\2\'(\7\3\2\2(\7\3\2\2\2)*\5\n\6\2*,\7\21\2\2+"+
+		"-\5\f\7\2,+\3\2\2\2,-\3\2\2\2-.\3\2\2\2./\7\22\2\2/\t\3\2\2\2\60\61\7"+
+		"\5\2\2\61\13\3\2\2\2\62\63\5\20\t\2\63\64\7\23\2\2\64\66\3\2\2\2\65\62"+
+		"\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28:\3\2\2\29\67\3\2\2\2:"+
+		";\5\20\t\2;\r\3\2\2\2<=\7\21\2\2=>\7\6\2\2>?\7\22\2\2?\17\3\2\2\2@A\t"+
+		"\2\2\2A\21\3\2\2\2\7\26\31\36,\67";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -1,6 +1,6 @@
 grammar validation;
 
-validation: WIN? win* LOOSE loose+ ;
+validation: WIN win+ LOOSE? loose* ;
 
 win: func ISEQ BOOL ;
 loose: func ISEQ BOOL ;

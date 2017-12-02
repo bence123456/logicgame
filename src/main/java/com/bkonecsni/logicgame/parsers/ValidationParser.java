@@ -24,24 +24,41 @@ public class ValidationParser extends CommonParser implements Parser {
     private void parseValidation(CharStream validationInput, GameDefinition gameDefinition) {
         ValidationContext validationContext = getValidationContext(validationInput);
 
+        boolean looseDefined = false;
         for (ParseTree validationChild : validationContext.children) {
             if (validationChild instanceof WinContext) {
-                ValidationStatement winStatement = parseValidationContext((ParserRuleContext) validationChild, gameDefinition, true);
+                ValidationStatement winStatement = parseValidationContext((ParserRuleContext) validationChild, gameDefinition);
                 gameDefinition.getWinStatementList().add(winStatement);
             }
             if (validationChild instanceof LooseContext) {
-                ValidationStatement looseStatement = parseValidationContext((ParserRuleContext) validationChild, gameDefinition, false);
+                ValidationStatement looseStatement = parseValidationContext((ParserRuleContext) validationChild, gameDefinition);
                 gameDefinition.getLooseStatementList().add(looseStatement);
+                looseDefined = true;
+            }
+        }
+
+        defineLooseStatementsIfNecessary(gameDefinition, looseDefined);
+    }
+
+    private void defineLooseStatementsIfNecessary(GameDefinition gameDefinition, boolean looseDefined) {
+        if (!looseDefined) {
+            List<ValidationStatement> looseStatementList = gameDefinition.getLooseStatementList();
+            for (ValidationStatement winStatement : gameDefinition.getWinStatementList()) {
+                boolean looseExpectedValue = !winStatement.getExpectedValue();
+                ValidationStatement looseStatement = new ValidationStatement(winStatement.getMethodName(), winStatement.getMethodParams(), looseExpectedValue);
+                looseStatementList.add(looseStatement);
             }
         }
     }
 
-    private ValidationStatement parseValidationContext(ParserRuleContext validationContext, GameDefinition gameDefinition, boolean expectedvalue) {
+    private ValidationStatement parseValidationContext(ParserRuleContext validationContext, GameDefinition gameDefinition) {
         FuncContext funcContext = (FuncContext) validationContext.children.get(0);
+
         String methodName = getMethodName(funcContext);
         List<Item> methodParams = getMethodParams(funcContext.children.get(2), gameDefinition);
+        boolean expectedValue = Boolean.parseBoolean(validationContext.children.get(2).getText());
 
-        return new ValidationStatement(methodName, methodParams, expectedvalue);
+        return new ValidationStatement(methodName, methodParams, expectedValue);
     }
 
     private String getMethodName(FuncContext funcContext) {
