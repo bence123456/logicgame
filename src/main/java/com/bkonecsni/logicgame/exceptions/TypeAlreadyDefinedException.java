@@ -2,9 +2,9 @@ package com.bkonecsni.logicgame.exceptions;
 
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
-public class NoSuchTypeException extends ParseCancellationException {
+public class TypeAlreadyDefinedException extends ParseCancellationException {
 
-    public NoSuchTypeException(String type) {
+    public TypeAlreadyDefinedException(String type) {
         super(type);
     }
 }

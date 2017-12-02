@@ -25,7 +25,7 @@ public class mapVisitor<Object> extends mapBaseVisitor<Object> {
 
             String element = c.getText();
             if (StringUtils.isNumeric(element) && Integer.valueOf(element) < 1) {
-                throw new SizeNotValidException("Size must be greater than 0! Actual size: " + element);
+                throw new SizeNotValidException(element);
             }
 
             Object childResult = c.accept(this);

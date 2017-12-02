@@ -13,6 +13,11 @@ public class TypeStatement {
 
     public TypeStatement() { }
 
+    public TypeStatement(List<Condition> conditionList, List<Update> updateList) {
+        this.conditionList = conditionList;
+        this.updateList = updateList;
+    }
+
     public List<Condition> getConditionList() {
         return conditionList;
     }

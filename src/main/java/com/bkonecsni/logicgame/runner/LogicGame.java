@@ -23,7 +23,7 @@ public class LogicGame {
         CharStream symbolsInput = CharStreams.fromFileName("games/parks/parks_symbols.txt");
         symbolsParser.parse(symbolsInput, gameDefinition);
 
-        CharStream typesInput = CharStreams.fromFileName("games/parks/parks_types.txt");
+        CharStream typesInput = CharStreams.fromFileName("games/parks/parks_types_loop.txt");
         typesParser.parse(typesInput, gameDefinition);
 
         CharStream mapInput = CharStreams.fromFileName("games/parks/maps/parks_level1.txt");
