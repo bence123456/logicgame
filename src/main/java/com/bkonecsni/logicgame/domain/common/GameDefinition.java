@@ -15,7 +15,7 @@ public class GameDefinition {
 
     private Map<String, Type> typesMap = new HashMap<>();
 
-    private List<Tile> map = new ArrayList<>();
+    private Map<String, List<Tile>> maps = new HashMap<>();
 
     private List<ValidationStatement> winStatementList = new ArrayList<>();
     private List<ValidationStatement> looseStatementList = new ArrayList<>();
@@ -38,12 +38,12 @@ public class GameDefinition {
         this.typesMap = typesMap;
     }
 
-    public List<Tile> getMap() {
-        return map;
+    public Map<String, List<Tile>> getMaps() {
+        return maps;
     }
 
-    public void setMap(List<Tile> map) {
-        this.map = map;
+    public void setMaps(Map<String, List<Tile>> maps) {
+        this.maps = maps;
     }
 
     public List<ValidationStatement> getWinStatementList() {

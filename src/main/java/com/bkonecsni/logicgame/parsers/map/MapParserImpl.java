@@ -1,10 +1,11 @@
-package com.bkonecsni.logicgame.parsers;
+package com.bkonecsni.logicgame.parsers.map;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.domain.types.Type;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
+import com.bkonecsni.logicgame.parsers.CommonParser;
 import com.bkonecsni.logicgame.visitors.mapVisitor;
 
 import map.mapLexer;
@@ -19,21 +20,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapParser extends CommonParser implements Parser {
+public class MapParserImpl extends CommonParser implements MapParser {
 
     @Override
-    public void parse(CharStream input, GameDefinition gameDefinition) {
-        parseMap(input, gameDefinition);
+    public void parse(CharStream input, GameDefinition gameDefinition, String levelKey) {
+        parseMap(input, gameDefinition, levelKey);
     }
 
-    private void parseMap(CharStream mapInput, GameDefinition gameDefinition) {
+    private void parseMap(CharStream mapInput, GameDefinition gameDefinition, String levelKey) {
         MapContext mapContext = getMapContext(mapInput);
         mapVisitor visitor = new mapVisitor();
         visitor.visit(mapContext);
 
+        List<Tile> actualMap = new ArrayList<>();
         for (ParseTree tileChild : mapContext.children) {
-            parseTile(gameDefinition, (TileContext) tileChild);
+            Tile tile = parseTile(gameDefinition, (TileContext) tileChild);
+            actualMap.add(tile);
         }
+
+        gameDefinition.getMaps().put(levelKey, actualMap);
     }
 
     private MapContext getMapContext(CharStream mapInput) {
@@ -43,12 +48,11 @@ public class MapParser extends CommonParser implements Parser {
         return mapParser.map();
     }
 
-    private void parseTile(GameDefinition gameDefinition, TileContext tileChild) {
-        TileContext tileContext = tileChild;
+    private Tile parseTile(GameDefinition gameDefinition, TileContext tileChild) {
         Tile tile = new Tile();
         boolean sizeDefined = false;
 
-        for (ParseTree tileElement : tileContext.children){
+        for (ParseTree tileElement : tileChild.children){
             if (tileElement instanceof TypeContext) {
                 handleType((TypeContext) tileElement, tile, gameDefinition);
             }
@@ -66,7 +70,7 @@ public class MapParser extends CommonParser implements Parser {
 
         setDefaultSizeIfNecessary(tile, sizeDefined);
 
-        gameDefinition.getMap().add(tile);
+        return tile;
     }
 
     private void setDefaultSizeIfNecessary(Tile tile, boolean sizeDefined) {
