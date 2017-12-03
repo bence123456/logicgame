@@ -4,6 +4,7 @@ import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.types.Type;
 import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class GameDefinition {
 
-    private Map<String, String> symbolsMap = new HashMap<>();
+    private Map<String, ImageIcon> symbolsMap = new HashMap<>();
 
     private Map<String, Type> typesMap = new HashMap<>();
 
@@ -22,11 +23,11 @@ public class GameDefinition {
 
     public GameDefinition() { }
 
-    public Map<String, String> getSymbolsMap() {
+    public Map<String, ImageIcon> getSymbolsMap() {
         return symbolsMap;
     }
 
-    public void setSymbolsMap(Map<String, String> symbolsMap) {
+    public void setSymbolsMap(Map<String, ImageIcon> symbolsMap) {
         this.symbolsMap = symbolsMap;
     }
 
