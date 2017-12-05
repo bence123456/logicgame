@@ -2,11 +2,15 @@ package com.bkonecsni.logicgame.gui;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.statehandler.StateHandler;
 import com.bkonecsni.logicgame.validation.ValidationHandler;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +21,12 @@ public class ButtonClickAction extends AbstractAction {
     private ValidationHandler validationHandler;
     private GameDefinition gameDefinition;
     private Map<JButton, Tile> buttonTileMap;
+    private GameMap map;
 
-    public ButtonClickAction(Map<JButton, Tile> buttonTileMap, GameDefinition gameDefinition) {
+    public ButtonClickAction(Map<JButton, Tile> buttonTileMap, GameDefinition gameDefinition, GameMap map) {
         this.buttonTileMap = buttonTileMap;
         this.gameDefinition = gameDefinition;
+        this.map = map;
         this.stateHandler = new StateHandler();
         this.validationHandler = new ValidationHandler();
     }
@@ -41,5 +47,39 @@ public class ButtonClickAction extends AbstractAction {
             buttonSource.setIcon(null);
         }
 
+        boolean valid = false;
+        try {
+            valid = validationHandler.isValid(map, gameDefinition.getWinStatementList());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        if (valid) {
+            JEditorPane editorPane = createEditorPane();
+            JOptionPane.showMessageDialog(null, editorPane);
+        }
+
+    }
+
+    private JEditorPane createEditorPane() {
+        JEditorPane editorPane = new JEditorPane("text/html", "<html><body> You're winner!" +
+                " <a href=\"https://en.wikipedia.org/wiki/Big_Rigs:_Over_the_Road_Racing#Reception_and_legacy\"> " +
+                "(c) Big Rigs: Over the Road Racing </a> </body></html>");
+
+        editorPane.addHyperlinkListener(new HyperlinkListener() {
+            @Override
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                    try {
+                        Desktop.getDesktop().browse(e.getURL().toURI());
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        editorPane.setEditable(false);
+        return editorPane;
     }
 }

@@ -2,4 +2,4 @@ win:
 numberOfItemsInAllRow(S2, 1) == true
 numberOfItemsInAllColumn(S2, 1) == true
 numberOfItemsInAllAreaWithSameColor(S2, 1) == true
-twoNeighbouringSymbolsExists() == false
+twoNeighbouringSymbolsExists(S2) == false

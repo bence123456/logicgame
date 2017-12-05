@@ -17,8 +17,9 @@ public class ValidationHandler {
             List<Item> methodParams = winStatement.getMethodParams();
             boolean expectedValue = winStatement.getExpectedValue();
 
-            Method method = ValidationMethods.class.getMethod(methodName);
-            boolean isValid = (boolean) method.invoke(map, methodParams) == expectedValue;
+            ValidationMethods validationMethods = new ValidationMethods();
+            Method method = validationMethods.getClass().getMethod(methodName, GameMap.class, List.class);
+            boolean isValid = (boolean) method.invoke(validationMethods, map, methodParams) == expectedValue;
 
             if (!isValid) {
                 return false;

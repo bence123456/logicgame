@@ -40,7 +40,7 @@ public class LogicGameGui extends JFrame {
             }
         }
 
-        buttonClickAction = new ButtonClickAction(buttonTileMap, gameDefinition);
+        buttonClickAction = new ButtonClickAction(buttonTileMap, gameDefinition, map);
         for (JButton button : buttonTileMap.keySet()) {
             button.addActionListener(buttonClickAction);
         }
