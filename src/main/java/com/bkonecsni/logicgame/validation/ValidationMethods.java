@@ -14,18 +14,10 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-
         int numberOfRows = map.getRowNumber();
 
         for (int i=0; i<numberOfRows; i++) {
-            int numberOfItemsInRow = 0;
-            for (Tile tileInRow : map.getTilesFromRow(i)) {
-                if (tileInRow.getItemList().contains(item)) {
-                    numberOfItemsInRow++;
-                }
-            }
-
-            if (numberOfItemsInRow != expectedNumber) {
+            if (!isAreaValid(map.getTilesFromRow(i), item, expectedNumber)) {
                 return false;
             }
         }
@@ -36,18 +28,10 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllColumn(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-
         int numberOfColumns = map.getColumnNumber();
 
         for (int i=0; i<numberOfColumns; i++) {
-            int numberOfItemsInColumn = 0;
-            for (Tile tileInColumn : map.getTilesFromColumn(i)) {
-                if (tileInColumn.getItemList().contains(item)) {
-                    numberOfItemsInColumn++;
-                }
-            }
-
-            if (numberOfItemsInColumn != expectedNumber) {
+            if (!isAreaValid(map.getTilesFromColumn(i), item, expectedNumber)) {
                 return false;
             }
         }
@@ -58,19 +42,10 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllAreaWithSameColor(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-
         Map<Color, List<Tile>> colorAreaTilesMap = createColorAreaTilesMap(map);
 
         for (Color color : colorAreaTilesMap.keySet()) {
-            int numberOfItemsInColorArea = 0;
-
-            for (Tile tile : colorAreaTilesMap.get(color)) {
-                if (tile.getItemList().contains(item)) {
-                    numberOfItemsInColorArea++;
-                }
-            }
-
-            if (numberOfItemsInColorArea != expectedNumber) {
+            if (!isAreaValid(colorAreaTilesMap.get(color), item, expectedNumber)) {
                 return false;
             }
         }
@@ -94,6 +69,18 @@ public class ValidationMethods {
         return true;
     }
 
+    private boolean isAreaValid(List<Tile> tiles, Item item, int expectedNumber) {
+        int numberOfItems = 0;
+
+        for (Tile tile : tiles) {
+            if (tile.getItemList().contains(item)) {
+                numberOfItems++;
+            }
+        }
+
+        return numberOfItems == expectedNumber;
+    }
+
     private Map<Color, List<Tile>> createColorAreaTilesMap(GameMap map) {
         Map<Color, List<Tile>> colorAreaTilesMap = new HashMap<>();
         List<Color> colorList = map.getColorList();
@@ -105,6 +92,5 @@ public class ValidationMethods {
 
         return colorAreaTilesMap;
     }
-
 
 }

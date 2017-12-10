@@ -36,6 +36,12 @@ public class ButtonClickAction extends AbstractAction {
         JButton buttonSource = (JButton) e.getSource();
         Tile actualTile = buttonTileMap.get(buttonSource);
 
+        handleActionEvent(buttonSource, actualTile);
+
+        validate();
+    }
+
+    private void handleActionEvent(JButton buttonSource, Tile actualTile) {
         stateHandler.act(actualTile);
 
         List<Item> itemList = actualTile.getItemList();
@@ -46,8 +52,11 @@ public class ButtonClickAction extends AbstractAction {
         } else if (itemList.size() == 1) {
             buttonSource.setIcon(null);
         }
+    }
 
+    private void validate() {
         boolean valid = false;
+
         try {
             valid = validationHandler.isValid(map, gameDefinition.getWinStatementList());
         } catch (Exception e1) {
@@ -58,7 +67,6 @@ public class ButtonClickAction extends AbstractAction {
             JEditorPane editorPane = createEditorPane();
             JOptionPane.showMessageDialog(null, editorPane);
         }
-
     }
 
     private JEditorPane createEditorPane() {
