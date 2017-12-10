@@ -3,6 +3,8 @@ package com.bkonecsni.logicgame.parsers;
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
+import com.bkonecsni.logicgame.exceptions.NoSuchValidationMethodException;
+import com.bkonecsni.logicgame.validation.ValidationMethods;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -11,6 +13,7 @@ import validation.validationLexer;
 import validation.validationParser;
 import validation.validationParser.*;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +65,15 @@ public class ValidationParser extends CommonParser implements Parser {
     }
 
     private String getMethodName(FuncContext funcContext) {
-        return funcContext.children.get(0).getText();
+        String methodName = funcContext.children.get(0).getText();
+
+        List<String> validationMethodNames = getValidationMethodNames();
+
+        if (!validationMethodNames.contains(methodName)) {
+            throw new NoSuchValidationMethodException(methodName);
+        }
+
+        return methodName;
     }
 
     private List<Item> getMethodParams(ParseTree parseTree, GameDefinition gameDefinition) {
@@ -79,6 +90,15 @@ public class ValidationParser extends CommonParser implements Parser {
         }
 
         return itemList;
+    }
+
+    private List<String> getValidationMethodNames() {
+        Method[] validationMethods = ValidationMethods.class.getMethods();
+        List<String> validationMethodNames = new ArrayList<>();
+        for (Method validationMethod : validationMethods) {
+            validationMethodNames.add(validationMethod.getName());
+        }
+        return validationMethodNames;
     }
 
     private ValidationContext getValidationContext(CharStream validationInput) {
