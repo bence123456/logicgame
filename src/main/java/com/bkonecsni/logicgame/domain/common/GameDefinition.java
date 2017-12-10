@@ -21,7 +21,19 @@ public class GameDefinition {
     private List<ValidationStatement> winStatementList = new ArrayList<>();
     private List<ValidationStatement> looseStatementList = new ArrayList<>();
 
+    private Map<Integer, ImageIcon> numberIconMap = new HashMap<>();
+
     public GameDefinition() { }
+
+    public ImageIcon getIcon(Item item) {
+        Integer intValue = item.getIntValue();
+
+        if (intValue != null) {
+            return this.getNumberIconMap().get(intValue);
+        } else {
+            return this.getSymbolsMap().get(item.getSymbol());
+        }
+    }
 
     public Map<String, ImageIcon> getSymbolsMap() {
         return symbolsMap;
@@ -61,5 +73,13 @@ public class GameDefinition {
 
     public void setLooseStatementList(List<ValidationStatement> looseStatementList) {
         this.looseStatementList = looseStatementList;
+    }
+
+    public Map<Integer, ImageIcon> getNumberIconMap() {
+        return numberIconMap;
+    }
+
+    public void setNumberIconMap(Map<Integer, ImageIcon> numberIconMap) {
+        this.numberIconMap = numberIconMap;
     }
 }

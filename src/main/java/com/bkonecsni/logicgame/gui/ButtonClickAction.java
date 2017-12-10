@@ -47,7 +47,7 @@ public class ButtonClickAction extends AbstractAction {
         List<Item> itemList = actualTile.getItemList();
         if (itemList.size() == 2) {
             Item item = itemList.get(1);
-            ImageIcon icon = gameDefinition.getSymbolsMap().get(item.getSymbol());
+            ImageIcon icon = gameDefinition.getIcon(item);
             buttonSource.setIcon(icon);
         } else if (itemList.size() == 1) {
             buttonSource.setIcon(null);
@@ -74,15 +74,12 @@ public class ButtonClickAction extends AbstractAction {
                 " <a href=\"https://en.wikipedia.org/wiki/Big_Rigs:_Over_the_Road_Racing#Reception_and_legacy\"> " +
                 "(c) Big Rigs: Over the Road Racing </a> </body></html>");
 
-        editorPane.addHyperlinkListener(new HyperlinkListener() {
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
-                    try {
-                        Desktop.getDesktop().browse(e.getURL().toURI());
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
+        editorPane.addHyperlinkListener(e -> {
+            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                try {
+                    Desktop.getDesktop().browse(e.getURL().toURI());
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
             }
         });

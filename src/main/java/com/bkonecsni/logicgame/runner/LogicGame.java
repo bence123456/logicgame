@@ -1,6 +1,7 @@
 package com.bkonecsni.logicgame.runner;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.exceptions.NoSuchImageException;
 import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.SymbolsParser;
 import com.bkonecsni.logicgame.parsers.TypesParser;
@@ -8,10 +9,15 @@ import com.bkonecsni.logicgame.parsers.ValidationParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
 
 public class LogicGame {
 
@@ -38,6 +44,11 @@ public class LogicGame {
 
             CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
             validationParser.parse(validationInput, gameDefinition);
+
+            for (int i=1; i<7; i++) {
+                ImageIcon imageIcon = getImageScaledIcon(i);
+                gameDefinition.getNumberIconMap().put(i, imageIcon);
+            }
 
             gameDefinitions.add(gameDefinition);
         }
@@ -76,5 +87,19 @@ public class LogicGame {
         InputStream input = new FileInputStream("src/main/resources/games.properties");
         properties.load(input);
         return properties;
+    }
+
+    private ImageIcon getImageScaledIcon(int number) {
+        Image image;
+        String path = "src/main/resources/images/numbers/"+ number + ".png";
+
+        try {
+            image = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            throw new NoSuchImageException(path);
+        }
+
+        Image scaledImage = image.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
+        return new ImageIcon(scaledImage);
     }
 }

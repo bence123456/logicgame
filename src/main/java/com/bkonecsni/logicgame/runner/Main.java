@@ -14,7 +14,7 @@ public class Main {
         List<GameDefinition> gameDefinitions = logicGame.parse();
 
         EventQueue.invokeLater(() -> {
-            LogicGameGui logicGameGui = new LogicGameGui(gameDefinitions.get(0));
+            LogicGameGui logicGameGui = new LogicGameGui(gameDefinitions.get(1));
             logicGameGui.setVisible(true);
         });
     }

@@ -112,20 +112,20 @@ public class symbolsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(5); 
+			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while (_la==SYMBOL) {
 				{
 				{
 				setState(4);
 				symbol();
 				}
 				}
-				setState(7); 
+				setState(9);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==SYMBOL );
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -168,11 +168,11 @@ public class symbolsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(9);
-			match(SYMBOL);
 			setState(10);
-			match(COL);
+			match(SYMBOL);
 			setState(11);
+			match(COL);
+			setState(12);
 			match(PATH);
 			}
 		}
@@ -188,11 +188,11 @@ public class symbolsParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\20\4\2\t\2\4\3"+
-		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\2\16\2"+
-		"\7\3\2\2\2\4\13\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2\t\7\3\2\2"+
-		"\2\t\n\3\2\2\2\n\3\3\2\2\2\13\f\7\5\2\2\f\r\7\6\2\2\r\16\7\3\2\2\16\5"+
-		"\3\2\2\2\3\t";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\21\4\2\t\2\4\3"+
+		"\t\3\3\2\7\2\b\n\2\f\2\16\2\13\13\2\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2"+
+		"\2\17\2\t\3\2\2\2\4\f\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\13\3\2\2\2\t\7"+
+		"\3\2\2\2\t\n\3\2\2\2\n\3\3\2\2\2\13\t\3\2\2\2\f\r\7\5\2\2\r\16\7\6\2\2"+
+		"\16\17\7\3\2\2\17\5\3\2\2\2\3\t";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

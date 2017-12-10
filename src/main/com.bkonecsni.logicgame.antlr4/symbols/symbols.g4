@@ -1,6 +1,6 @@
 grammar symbols;
 
-symbols: symbol+ ;
+symbols: symbol* ;
 
 symbol: SYMBOL COL PATH ;
 PATH: [A-Za-z // \\ //_ /.]+ ;

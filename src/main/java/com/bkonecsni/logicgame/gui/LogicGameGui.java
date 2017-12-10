@@ -1,17 +1,17 @@
 package com.bkonecsni.logicgame.gui;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LogicGameGui extends JFrame {
-
-    private static final int BUTTON_SIZE_MULTIPLIER = 40;
 
     private JPanel panel;
 
@@ -26,7 +26,7 @@ public class LogicGameGui extends JFrame {
 
         createUIPanel(rows, columns);
 
-        addTiles(map, rows, columns);
+        addTiles(map, rows, columns, gameDefinition);
 
         addButtonListener(gameDefinition, map);
 
@@ -42,15 +42,22 @@ public class LogicGameGui extends JFrame {
         add(panel, BorderLayout.CENTER);
     }
 
-    private void addTiles(GameMap map, int rows, int columns) {
+    private void addTiles(GameMap map, int rows, int columns, GameDefinition gameDefinition) {
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
                 JButton button = new JButton();
                 Tile tile = map.getTile(i,j);
-                Color color = tile.getItemList().get(0).getColor();
+                List<Item> itemList = tile.getItemList();
+                Color color = itemList.get(0).getColor();
                 button.setBackground(color);
                 Point size = tile.getSize();
                 button.setPreferredSize(new Dimension(size.x, size.y));
+
+                if (itemList.size() == 2) {
+                    Item item = itemList.get(1);
+                    ImageIcon icon = gameDefinition.getIcon(item);
+                    button.setIcon(icon);
+                }
 
                 if (!tile.getType().isBorderType()) {
                     buttonTileMap.put(button, tile);

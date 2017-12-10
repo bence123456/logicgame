@@ -23,18 +23,20 @@ public class SymbolsParser extends CommonParser implements Parser {
     }
 
     private void parseSymbols(CharStream symbolsInput, GameDefinition gameDefinition) {
-        symbolsLexer symbolsLexer = new symbolsLexer(symbolsInput);
-        CommonTokenStream symbolsTokens = new CommonTokenStream(symbolsLexer);
-        symbolsParser symbolsParser = new symbolsParser(symbolsTokens);
-        SymbolsContext symbolsContext = symbolsParser.symbols();
+        if (symbolsInput.size() > 10) {
+            symbolsLexer symbolsLexer = new symbolsLexer(symbolsInput);
+            CommonTokenStream symbolsTokens = new CommonTokenStream(symbolsLexer);
+            symbolsParser symbolsParser = new symbolsParser(symbolsTokens);
+            SymbolsContext symbolsContext = symbolsParser.symbols();
 
-        for (ParseTree symbolChild : symbolsContext.children) {
-            String symbolName = symbolChild.getChild(0).getText();
-            String symbolPath = symbolChild.getChild(2).getText();
+            for (ParseTree symbolChild : symbolsContext.children) {
+                String symbolName = symbolChild.getChild(0).getText();
+                String symbolPath = symbolChild.getChild(2).getText();
 
-            ImageIcon imageIcon = getImageScaledIcon(symbolPath);
+                ImageIcon imageIcon = getImageScaledIcon(symbolPath);
 
-            gameDefinition.getSymbolsMap().put(symbolName, imageIcon);
+                gameDefinition.getSymbolsMap().put(symbolName, imageIcon);
+            }
         }
     }
 

@@ -71,6 +71,10 @@ public class ValidationMethods {
         return true;
     }
 
+    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+        return false;
+    }
+
     private boolean isAreaValid(List<Tile> tiles, Item item, int expectedNumber) {
         int numberOfItems = 0;
 
