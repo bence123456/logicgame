@@ -15,6 +15,10 @@ public class Type {
         typeStatementList = new ArrayList<>();
     }
 
+    public boolean isBorderType() {
+        return typeStatementList.isEmpty();
+    }
+
     public List<TypeStatement> getTypeStatementList() {
         return typeStatementList;
     }

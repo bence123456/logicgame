@@ -35,7 +35,6 @@ public class Tile {
         };
     }
 
-
     public Type getType() {
         return type;
     }

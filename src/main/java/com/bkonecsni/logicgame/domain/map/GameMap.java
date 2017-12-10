@@ -4,6 +4,7 @@ import com.bkonecsni.logicgame.domain.common.Item;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GameMap {
@@ -15,13 +16,46 @@ public class GameMap {
     }
 
     public int getRowNumber() {
-        tileList.sort(Tile.getRowNrComparator());
-        return tileList.get(0).getPosition().x + 1;
+        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        return tmpTiles.get(0).getPosition().x + 1;
     }
 
     public int getColumnNumber() {
-        tileList.sort(Tile.getColumnNrComparator());
-        return tileList.get(0).getPosition().y + 1;
+        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        return tmpTiles.get(0).getPosition().y + 1;
+    }
+
+    public int getPlayableRowNumber() {
+        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        removeTilesWithBorderType(tmpTiles);
+
+        return tmpTiles.get(0).getPosition().x + 1;
+    }
+
+    public int getPlayableColumnNumber() {
+        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        removeTilesWithBorderType(tmpTiles);
+
+        return tmpTiles.get(0).getPosition().y + 1;
+    }
+
+
+    public int getFirstPlayableColumnIndex() {
+        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        removeTilesWithBorderType(tmpTiles);
+
+        Tile lastTile = tmpTiles.get(tmpTiles.size()-1);
+
+        return lastTile.getPosition().y;
+    }
+
+    public int getFirstPlayableRowIndex() {
+        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        removeTilesWithBorderType(tmpTiles);
+
+        Tile lastTile = tmpTiles.get(tmpTiles.size()-1);
+
+        return lastTile.getPosition().x;
     }
 
     public Tile getTile(int row, int column) {
@@ -38,7 +72,7 @@ public class GameMap {
         List<Tile> tilesInRow = new ArrayList<>();
 
         for (Tile tile : tileList) {
-            if (getRowNumber(tile) == rowNumber) {
+            if (getRowNumber(tile) == rowNumber && !isBorderTile(tile)) {
                 tilesInRow.add(tile);
             }
         }
@@ -50,7 +84,7 @@ public class GameMap {
         List<Tile> tilesInColumn = new ArrayList<>();
 
         for (Tile tile : tileList) {
-            if (getColumnNumber(tile) == columnNumber) {
+            if (getColumnNumber(tile) == columnNumber && !isBorderTile(tile)) {
                 tilesInColumn.add(tile);
             }
         }
@@ -63,7 +97,7 @@ public class GameMap {
 
         for (Tile tile : tileList) {
             Color tileColor = tile.getItemList().get(0).getColor();
-            if (!colors.contains(tileColor)) {
+            if (!colors.contains(tileColor) && !isBorderTile(tile)) {
                 colors.add(tileColor);
             }
         }
@@ -76,7 +110,7 @@ public class GameMap {
 
         for (Tile tile : tileList) {
             Color tileColor = tile.getItemList().get(0).getColor();
-            if (tileColor.equals(color)) {
+            if (tileColor.equals(color) && !isBorderTile(tile)) {
                 tiles.add(tile);
             }
         }
@@ -96,12 +130,20 @@ public class GameMap {
         List<Tile> tilesWithGivenItem = new ArrayList<>();
 
         for (Tile tile : tileList) {
-            if (tile.getItemList().contains(item)) {
+            if (tile.getItemList().contains(item) && !isBorderTile(tile)) {
                 tilesWithGivenItem.add(tile);
             }
         }
 
         return tilesWithGivenItem;
+    }
+
+    private void removeTilesWithBorderType(List<Tile> tmpTiles) {
+        tmpTiles.removeIf(actualTile -> actualTile.getType().isBorderType());
+    }
+
+    private boolean isBorderTile(Tile tile) {
+        return tile.getType().isBorderType();
     }
 
     private void addNeighboursToListIfExists(Tile tile, List<Tile> tiles) {
@@ -124,9 +166,25 @@ public class GameMap {
     private void addNeighbourToListIfExists(int row, int column, List<Tile> tiles) {
         Tile tile = getTile(row, column);
 
-        if (tile != null) {
+        if (tile != null && !isBorderTile(tile)) {
             tiles.add(tile);
         }
+    }
+
+    private List<Tile> getSortedTilesBasedOnRow() {
+        List<Tile> tmpTiles = new ArrayList<>();
+        tmpTiles.addAll(tileList);
+        tmpTiles.sort(Tile.getRowNrComparator());
+
+        return tmpTiles;
+    }
+
+    private List<Tile> getSortedTilesBasedOnColumn() {
+        List<Tile> tmpTiles = new ArrayList<>();
+        tmpTiles.addAll(tileList);
+        tmpTiles.sort(Tile.getColumnNrComparator());
+
+        return tmpTiles;
     }
 
     private int getRowNumber(Tile tile) {

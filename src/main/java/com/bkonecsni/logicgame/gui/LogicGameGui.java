@@ -52,9 +52,12 @@ public class LogicGameGui extends JFrame {
                 Point size = tile.getSize();
                 button.setPreferredSize(new Dimension(size.x, size.y));
 
-                if (!tile.getType().getTypeStatementList().isEmpty()) {
+                if (!tile.getType().isBorderType()) {
                     buttonTileMap.put(button, tile);
+                } else {
+                    button.setBorder(null);
                 }
+
                 panel.add(button);
             }
         }

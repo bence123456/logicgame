@@ -14,9 +14,10 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-        int numberOfRows = map.getRowNumber();
+        int numberOfPlayableRows = map.getPlayableRowNumber();
+        int firstPlayableRowIndex = map.getFirstPlayableColumnIndex();
 
-        for (int i=0; i<numberOfRows; i++) {
+        for (int i=firstPlayableRowIndex; i<numberOfPlayableRows; i++) {
             if (!isAreaValid(map.getTilesFromRow(i), item, expectedNumber)) {
                 return false;
             }
@@ -28,9 +29,10 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllColumn(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-        int numberOfColumns = map.getColumnNumber();
+        int numberOfColumns = map.getPlayableColumnNumber();
+        int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
 
-        for (int i=0; i<numberOfColumns; i++) {
+        for (int i=firstPlayableColumnIndex; i<numberOfColumns; i++) {
             if (!isAreaValid(map.getTilesFromColumn(i), item, expectedNumber)) {
                 return false;
             }
