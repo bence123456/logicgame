@@ -1,2 +1,2 @@
-Type1:
+Type2:
 items(1): Loop(empty, 1, 2, 3, 4)

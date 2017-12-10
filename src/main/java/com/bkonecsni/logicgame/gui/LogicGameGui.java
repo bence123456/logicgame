@@ -60,7 +60,9 @@ public class LogicGameGui extends JFrame {
                 }
 
                 if (!tile.getType().isBorderType()) {
-                    buttonTileMap.put(button, tile);
+                    if (!tile.getType().isUnmutableType()) {
+                        buttonTileMap.put(button, tile);
+                    }
                 } else {
                     button.setBorder(null);
                 }

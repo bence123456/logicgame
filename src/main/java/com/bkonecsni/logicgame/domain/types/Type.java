@@ -11,12 +11,12 @@ public class Type {
         this.typeStatementList = typeStatementList;
     }
 
-    public Type() {
-        typeStatementList = new ArrayList<>();
+    public boolean isBorderType() {
+        return typeStatementList == null;
     }
 
-    public boolean isBorderType() {
-        return typeStatementList.isEmpty();
+    public boolean isUnmutableType() {
+        return typeStatementList != null && typeStatementList.isEmpty();
     }
 
     public List<TypeStatement> getTypeStatementList() {

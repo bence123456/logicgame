@@ -30,7 +30,8 @@ public class TypesParser extends CommonParser implements Parser {
         TypesContext typesContext = getTypesContext(typesInput);
 
         Map<String, Type> typesMap = gameDefinition.getTypesMap();
-        typesMap.put("Type0", new Type());
+        typesMap.put("Type0", new Type(null));    // border type
+        typesMap.put("Type1", new Type(new ArrayList<>()));     // unmutable type
 
         for (ParseTree typeChild : typesContext.children) {
             String typeName = "Type" + typeChild.getChild(0).getChild(1).getText();
