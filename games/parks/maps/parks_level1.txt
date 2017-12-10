@@ -1,7 +1,7 @@
 tile: Type1@(0,0), items: { [#008] }
 tile: Type1@(0,1), items: { [#008] }
 tile: Type1@(0,2), items: { [#080] }
-tile: Type1@(0,3), items: { [#e6ebd7] }
+tile: Type1@(0,3), items: { [#808080] }
 tile: Type1@(0,4), items: { [#C08] }
 
 tile: Type1@(1,0), items: { [#008] }

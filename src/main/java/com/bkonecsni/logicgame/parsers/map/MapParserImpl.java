@@ -77,7 +77,7 @@ public class MapParserImpl extends CommonParser implements MapParser {
 
     private void setDefaultSizeIfNecessary(Tile tile, boolean sizeDefined) {
         if (!sizeDefined) {
-            Point defaultSize = new Point(1,1);
+            Point defaultSize = new Point(40,40);
             tile.setSize(defaultSize);
         }
     }

@@ -50,9 +50,11 @@ public class LogicGameGui extends JFrame {
                 Color color = tile.getItemList().get(0).getColor();
                 button.setBackground(color);
                 Point size = tile.getSize();
-                button.setPreferredSize(new Dimension(size.x* BUTTON_SIZE_MULTIPLIER, size.y * BUTTON_SIZE_MULTIPLIER));
+                button.setPreferredSize(new Dimension(size.x, size.y));
 
-                buttonTileMap.put(button, tile);
+                if (!tile.getType().getTypeStatementList().isEmpty()) {
+                    buttonTileMap.put(button, tile);
+                }
                 panel.add(button);
             }
         }
