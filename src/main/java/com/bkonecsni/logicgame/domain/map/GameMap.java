@@ -4,7 +4,6 @@ import com.bkonecsni.logicgame.domain.common.Item;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class GameMap {
@@ -29,14 +28,14 @@ public class GameMap {
         List<Tile> tmpTiles = getSortedTilesBasedOnRow();
         removeTilesWithBorderType(tmpTiles);
 
-        return tmpTiles.get(0).getPosition().x + 1;
+        return tmpTiles.get(0).getPosition().x;
     }
 
     public int getPlayableColumnNumber() {
         List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
         removeTilesWithBorderType(tmpTiles);
 
-        return tmpTiles.get(0).getPosition().y + 1;
+        return tmpTiles.get(0).getPosition().y;
     }
 
 

@@ -3,6 +3,7 @@ package com.bkonecsni.logicgame.validation;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
+import com.bkonecsni.logicgame.validation.skyscrapers.SkyscrapersValidationHelper;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -11,15 +12,21 @@ import java.util.Map;
 
 public class ValidationMethods {
 
-    public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
-        Item item = methodParams.get(0);
-        int expectedNumber = methodParams.get(1).getIntValue();
-        int numberOfPlayableRows = map.getPlayableRowNumber();
-        int firstPlayableRowIndex = map.getFirstPlayableColumnIndex();
+    private SkyscrapersValidationHelper skyscrapersValidationHelper = new SkyscrapersValidationHelper();
 
-        for (int i=firstPlayableRowIndex; i<numberOfPlayableRows; i++) {
-            if (!isAreaValid(map.getTilesFromRow(i), item, expectedNumber)) {
-                return false;
+    public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
+        int paramsSize = methodParams.size();
+        int expectedNumber = methodParams.get(paramsSize-1).getIntValue();
+
+        for (int i=0; i<paramsSize-1; i++) {
+            Item item = methodParams.get(i);
+            int numberOfPlayableRows = map.getPlayableRowNumber();
+            int firstPlayableRowIndex = map.getFirstPlayableColumnIndex();
+
+            for (int j=firstPlayableRowIndex; j<=numberOfPlayableRows; j++) {
+                if (!isAreaValid(map.getTilesFromRow(j), item, expectedNumber)) {
+                    return false;
+                }
             }
         }
 
@@ -27,14 +34,18 @@ public class ValidationMethods {
 }
 
     public boolean numberOfItemsInAllColumn(GameMap map, List<Item> methodParams) {
-        Item item = methodParams.get(0);
-        int expectedNumber = methodParams.get(1).getIntValue();
-        int numberOfColumns = map.getPlayableColumnNumber();
-        int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
+        int paramsSize = methodParams.size();
+        int expectedNumber = methodParams.get(paramsSize-1).getIntValue();
 
-        for (int i=firstPlayableColumnIndex; i<numberOfColumns; i++) {
-            if (!isAreaValid(map.getTilesFromColumn(i), item, expectedNumber)) {
-                return false;
+        for (int i=0; i<paramsSize-1; i++) {
+            Item item = methodParams.get(i);
+            int numberOfColumns = map.getPlayableColumnNumber();
+            int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
+
+            for (int j=firstPlayableColumnIndex; j<=numberOfColumns; j++) {
+                if (!isAreaValid(map.getTilesFromColumn(j), item, expectedNumber)) {
+                    return false;
+                }
             }
         }
 
@@ -72,7 +83,7 @@ public class ValidationMethods {
     }
 
     public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
-        return false;
+        return skyscrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
     }
 
     private boolean isAreaValid(List<Tile> tiles, Item item, int expectedNumber) {
