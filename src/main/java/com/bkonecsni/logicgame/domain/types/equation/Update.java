@@ -18,12 +18,12 @@ public class Update extends Equation{
             itemList.add(newItem);
         } else {
             Item oldItem = itemList.get(itemToUpdateIndex);
+            itemList.remove(oldItem);
 
-            // ItemList(x) = empty
-            if (newItem == null) {
-                itemList.remove(oldItem);
+            if (newItem != null) {
+                itemList.add(newItem);
             } else {
-                oldItem.replaceFields(newItem);
+                // Do nothing. ItemList(x) = empty
             }
         }
     }

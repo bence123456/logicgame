@@ -19,17 +19,6 @@ public class Item {
         this.color = color;
     }
 
-    public Item replaceFields(Item newItem) {
-        Character newCharValue = newItem.getCharValue();
-        Integer newIntValue = newItem.getIntValue();
-        String newSymbol = newItem.getSymbol();
-        Color newColor = newItem.getColor();
-
-        setFields(newCharValue, newIntValue, newSymbol, newColor);
-
-        return this;
-    }
-
     private void setFields(Character charValue, Integer intValue, String symbol, Color color) {
         this.charValue = charValue;
         this.intValue = intValue;
