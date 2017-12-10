@@ -1,2 +1,2 @@
-S1:src/main/resources/images/symbols/dot.png
+S1:src/main/resources/images/symbols/dot.svg
 S2:src/main/resources/images/symbols/tree.png

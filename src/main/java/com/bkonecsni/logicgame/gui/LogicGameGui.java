@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class LogicGameGui extends JFrame {
 
-    private static final int BUTTON_SIZE_MULTIPLIER = 50;
+    private static final int BUTTON_SIZE_MULTIPLIER = 40;
 
     private JPanel panel;
 
