@@ -90,6 +90,10 @@ public class ValidationMethods {
         return scrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
     }
 
+    public boolean isSumSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+        return scrapersValidationHelper.isSumSkylineCorrectForEveryRowAndColumn(map, methodParams);
+    }
+
     public boolean neighboursHaveCorrectNumberOfItems(GameMap map, List<Item> methodParams) {
         Item item = methodParams.get(0);
 

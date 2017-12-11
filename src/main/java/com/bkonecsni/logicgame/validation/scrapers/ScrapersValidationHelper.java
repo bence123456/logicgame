@@ -12,13 +12,21 @@ import java.util.Map;
 public class ScrapersValidationHelper {
 
     public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+        return isSkylineCorrectForEveryRowAndColumn(map, true);
+    }
+
+    public boolean isSumSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+        return isSkylineCorrectForEveryRowAndColumn(map, false);
+    }
+
+    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, boolean shouldIncrementWithOne) {
         Map<Tile, List<Tile>> skylineTilesMap = createSkylineTilesMap(map);
 
         for (Tile skylineTile : skylineTilesMap.keySet()) {
             int skylineNumber = skylineTile.getItemList().get(1).getIntValue();
-            int numberOfVisibleSkyscrapers = getNumberOfVisibleSkyscrapers(skylineTilesMap.get(skylineTile));
+            int visibleSkyscrapersNumber = getVisibleSkyscrapersNumber(skylineTilesMap.get(skylineTile), shouldIncrementWithOne);
 
-            if (skylineNumber != numberOfVisibleSkyscrapers) {
+            if (skylineNumber != visibleSkyscrapersNumber) {
                 return false;
             }
         }
@@ -26,20 +34,22 @@ public class ScrapersValidationHelper {
         return true;
     }
 
-    private int getNumberOfVisibleSkyscrapers(List<Tile> tilesForSkyline) {
-        int numberOfVisibleSkyscrapers = 1;
+    private int getVisibleSkyscrapersNumber(List<Tile> tilesForSkyline, boolean shouldIncrementWithOne) {
         Tile actualTile = tilesForSkyline.get(0);
+        int visibleSkyscrapersNumber = shouldIncrementWithOne ? 1 : actualTile.getItemList().get(1).getIntValue();
 
         for (int i=1; i<tilesForSkyline.size(); i++) {
             Tile nextTile = tilesForSkyline.get(i);
+            Integer nextTileIntValue = nextTile.getItemList().get(1).getIntValue();
 
-            if (actualTile.getItemList().get(1).getIntValue() <  nextTile.getItemList().get(1).getIntValue()) {
-                numberOfVisibleSkyscrapers++;
+            if (actualTile.getItemList().get(1).getIntValue() < nextTileIntValue) {
+                int increment = shouldIncrementWithOne ? 1 : nextTileIntValue;
+                visibleSkyscrapersNumber += increment;
                 actualTile = nextTile;
             }
         }
 
-        return numberOfVisibleSkyscrapers;
+        return visibleSkyscrapersNumber;
     }
 
     private Map<Tile, List<Tile>> createSkylineTilesMap(GameMap map) {
