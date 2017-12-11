@@ -3,7 +3,7 @@ package com.bkonecsni.logicgame.validation;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
-import com.bkonecsni.logicgame.validation.skyscrapers.SkyscrapersValidationHelper;
+import com.bkonecsni.logicgame.validation.scrapers.ScrapersValidationHelper;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ValidationMethods {
 
-    private SkyscrapersValidationHelper skyscrapersValidationHelper = new SkyscrapersValidationHelper();
+    private ScrapersValidationHelper scrapersValidationHelper = new ScrapersValidationHelper();
 
     public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
         int paramsSize = methodParams.size();
@@ -87,7 +87,7 @@ public class ValidationMethods {
     }
 
     public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
-        return skyscrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
+        return scrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
     }
 
     public boolean neighboursHaveCorrectNumberOfItems(GameMap map, List<Item> methodParams) {
