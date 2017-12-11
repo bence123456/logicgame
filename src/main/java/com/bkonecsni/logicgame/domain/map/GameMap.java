@@ -28,14 +28,14 @@ public class GameMap {
         List<Tile> tmpTiles = getSortedTilesBasedOnRow();
         removeTilesWithBorderType(tmpTiles);
 
-        return tmpTiles.get(0).getPosition().x;
+        return tmpTiles.get(0).getPosition().x + 1;
     }
 
     public int getPlayableColumnNumber() {
         List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
         removeTilesWithBorderType(tmpTiles);
 
-        return tmpTiles.get(0).getPosition().y;
+        return tmpTiles.get(0).getPosition().y + 1;
     }
 
 
@@ -145,6 +145,10 @@ public class GameMap {
         return tile.getType().isBorderType();
     }
 
+    private boolean isUnMutableTile(Tile tile) {
+        return tile.getType().isUnmutableType();
+    }
+
     private void addNeighboursToListIfExists(Tile tile, List<Tile> tiles) {
         int rowNr = getRowNumber(tile);
         int columnNr = getColumnNumber(tile);
@@ -152,20 +156,20 @@ public class GameMap {
         addNeighbourToListIfExists(rowNr, columnNr-1, tiles);
         addNeighbourToListIfExists(rowNr, columnNr+1, tiles);
 
-        addNeighbourToListIfExists(columnNr, rowNr+1, tiles);
-        addNeighbourToListIfExists(columnNr, rowNr+1, tiles);
+        addNeighbourToListIfExists(rowNr-1, columnNr, tiles);
+        addNeighbourToListIfExists(rowNr+1, columnNr, tiles);
 
-        addNeighbourToListIfExists(columnNr-1, rowNr-1, tiles);
-        addNeighbourToListIfExists(columnNr-1, rowNr+1, tiles);
+        addNeighbourToListIfExists(rowNr-1, columnNr-1, tiles);
+        addNeighbourToListIfExists(rowNr-1, columnNr+1, tiles);
 
-        addNeighbourToListIfExists(columnNr+1, rowNr-1, tiles);
-        addNeighbourToListIfExists(columnNr+1, rowNr+1, tiles);
+        addNeighbourToListIfExists(rowNr+1, columnNr-1, tiles);
+        addNeighbourToListIfExists(rowNr+1, columnNr+1, tiles);
     }
 
     private void addNeighbourToListIfExists(int row, int column, List<Tile> tiles) {
         Tile tile = getTile(row, column);
 
-        if (tile != null && !isBorderTile(tile)) {
+        if (tile != null && !isBorderTile(tile) && !isUnMutableTile(tile)) {
             tiles.add(tile);
         }
     }

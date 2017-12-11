@@ -45,7 +45,7 @@ public class LogicGame {
             CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
             validationParser.parse(validationInput, gameDefinition);
 
-            for (int i=1; i<7; i++) {
+            for (int i=0; i<10; i++) {
                 ImageIcon imageIcon = getImageScaledIcon(i);
                 gameDefinition.getNumberIconMap().put(i, imageIcon);
             }

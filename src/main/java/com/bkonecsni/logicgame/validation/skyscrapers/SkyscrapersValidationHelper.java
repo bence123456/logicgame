@@ -60,11 +60,11 @@ public class SkyscrapersValidationHelper {
     private void addTopSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                        int firstPlayableRowIndex, List<SkylineWrapper> skylineWrappers) {
 
-        for (int i=firstPlayableColumnIndex; i<=nrOfPlayableColums; i++) {
+        for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
             int topSkyline = map.getTile(0, i).getItemList().get(1).getIntValue();
             List<Tile> tilesForSkyline = new ArrayList<>();
 
-            for (int j=firstPlayableRowIndex; j<=nrOfPlayableRows; j++) {
+            for (int j=firstPlayableRowIndex; j<nrOfPlayableRows; j++) {
                 Tile tile = map.getTile(j, i);
                 tilesForSkyline.add(tile);
             }
@@ -77,11 +77,11 @@ public class SkyscrapersValidationHelper {
     private void addBottomSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                           int firstPlayableRowIndex, List<SkylineWrapper> skylineWrappers) {
 
-        for (int i=firstPlayableColumnIndex; i<=nrOfPlayableColums; i++) {
-            int bottomSkyline = map.getTile(nrOfPlayableRows+1, i).getItemList().get(1).getIntValue();
+        for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
+            int bottomSkyline = map.getTile(nrOfPlayableRows, i).getItemList().get(1).getIntValue();
             List<Tile> tilesForSkyline = new ArrayList<>();
 
-            for (int j=nrOfPlayableRows; j>=firstPlayableRowIndex; j--) {
+            for (int j=nrOfPlayableRows-1; j>=firstPlayableRowIndex; j--) {
                 Tile tile = map.getTile(j, i);
                 tilesForSkyline.add(tile);
             }
@@ -94,11 +94,11 @@ public class SkyscrapersValidationHelper {
     private void addLeftSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                         int firstPlayableRowIndex, List<SkylineWrapper> skylineWrappers) {
 
-        for (int i=firstPlayableRowIndex; i<=nrOfPlayableRows; i++) {
+        for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {
             int leftSkyline = map.getTile(i, 0).getItemList().get(1).getIntValue();
             List<Tile> tilesForSkyline = new ArrayList<>();
 
-            for (int j=firstPlayableColumnIndex; j<=nrOfPlayableColums; j++) {
+            for (int j=firstPlayableColumnIndex; j<nrOfPlayableColums; j++) {
                 Tile tile = map.getTile(i, j);
                 tilesForSkyline.add(tile);
             }
@@ -111,11 +111,11 @@ public class SkyscrapersValidationHelper {
     private void addRightSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                          int firstPlayableRowIndex, List<SkylineWrapper> skylineWrappers) {
 
-        for (int i=firstPlayableRowIndex; i<=nrOfPlayableRows; i++) {
-            int rightSkyline = map.getTile(i, nrOfPlayableColums+1).getItemList().get(1).getIntValue();
+        for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {
+            int rightSkyline = map.getTile(i, nrOfPlayableColums).getItemList().get(1).getIntValue();
             List<Tile> tilesForSkyline = new ArrayList<>();
 
-            for (int j=nrOfPlayableColums; j>=firstPlayableColumnIndex; j--) {
+            for (int j=nrOfPlayableColums-1; j>=firstPlayableColumnIndex; j--) {
                 Tile tile = map.getTile(i, j);
                 tilesForSkyline.add(tile);
             }

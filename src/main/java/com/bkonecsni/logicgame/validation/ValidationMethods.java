@@ -20,10 +20,12 @@ public class ValidationMethods {
 
         for (int i=0; i<paramsSize-1; i++) {
             Item item = methodParams.get(i);
+            int numberOfRows = map.getRowNumber();
             int numberOfPlayableRows = map.getPlayableRowNumber();
             int firstPlayableRowIndex = map.getFirstPlayableColumnIndex();
+            int lastIndex = numberOfRows == numberOfPlayableRows ? numberOfRows : numberOfPlayableRows;
 
-            for (int j=firstPlayableRowIndex; j<=numberOfPlayableRows; j++) {
+            for (int j=firstPlayableRowIndex; j<lastIndex; j++) {
                 if (!isAreaValid(map.getTilesFromRow(j), item, expectedNumber)) {
                     return false;
                 }
@@ -39,10 +41,12 @@ public class ValidationMethods {
 
         for (int i=0; i<paramsSize-1; i++) {
             Item item = methodParams.get(i);
-            int numberOfColumns = map.getPlayableColumnNumber();
+            int numberOfColumns = map.getColumnNumber();
+            int numberOfPlayableColumns = map.getPlayableColumnNumber();
             int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
+            int lastIndex = numberOfColumns == numberOfPlayableColumns ? numberOfColumns : numberOfPlayableColumns;
 
-            for (int j=firstPlayableColumnIndex; j<=numberOfColumns; j++) {
+            for (int j=firstPlayableColumnIndex; j<lastIndex; j++) {
                 if (!isAreaValid(map.getTilesFromColumn(j), item, expectedNumber)) {
                     return false;
                 }
@@ -74,6 +78,33 @@ public class ValidationMethods {
             List<Tile> neighbourTiles = map.getNeighboursForTile(tile);
             for (Tile neighbourTile : neighbourTiles) {
                 if (neighbourTile.getItemList().contains(symbolItem)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+        return skyscrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
+    }
+
+    public boolean neighboursHaveCorrectNumberOfItems(GameMap map, List<Item> methodParams) {
+        Item item = methodParams.get(0);
+
+        for (Tile tile : map.getTileList()) {
+            if (tile.getType().isUnmutableType()) {
+                int expectedNrOfItems = tile.getItemList().get(1).getIntValue();
+                int actualNrOfItems = 0;
+
+                for (Tile unMutableTileNeighbour : map.getNeighboursForTile(tile)) {
+                    if (unMutableTileNeighbour.getItemList().contains(item)) {
+                        actualNrOfItems++;
+                    }
+                }
+
+                if (expectedNrOfItems != actualNrOfItems) {
                     return false;
                 }
             }
@@ -82,8 +113,8 @@ public class ValidationMethods {
         return true;
     }
 
-    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
-        return skyscrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
+    private Map<Tile, List<Tile>> getUnMutableTileNeighbourTilesMap(GameMap map) {
+        return null;
     }
 
     private boolean isAreaValid(List<Tile> tiles, Item item, int expectedNumber) {

@@ -1,0 +1,2 @@
+win:
+neighboursHaveCorrectNumberOfItems(S2) == true
