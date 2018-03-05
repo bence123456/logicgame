@@ -19,24 +19,27 @@ public class SymbolsParser extends CommonParser implements Parser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {
-        parseSymbols(input, gameDefinition);
+        if (input.size() > 10) {
+            SymbolsContext symbolsContext = getSymbolsContext(input);
+            parseSymbols(gameDefinition, symbolsContext);
+        }
     }
 
-    private void parseSymbols(CharStream symbolsInput, GameDefinition gameDefinition) {
-        if (symbolsInput.size() > 10) {
-            symbolsLexer symbolsLexer = new symbolsLexer(symbolsInput);
-            CommonTokenStream symbolsTokens = new CommonTokenStream(symbolsLexer);
-            symbolsParser symbolsParser = new symbolsParser(symbolsTokens);
-            SymbolsContext symbolsContext = symbolsParser.symbols();
+    private SymbolsContext getSymbolsContext(CharStream symbolsInput) {
+        symbolsLexer symbolsLexer = new symbolsLexer(symbolsInput);
+        CommonTokenStream symbolsTokens = new CommonTokenStream(symbolsLexer);
+        symbolsParser symbolsParser = new symbolsParser(symbolsTokens);
+        return symbolsParser.symbols();
+    }
 
-            for (ParseTree symbolChild : symbolsContext.children) {
-                String symbolName = symbolChild.getChild(0).getText();
-                String symbolPath = symbolChild.getChild(2).getText();
+    private void parseSymbols(GameDefinition gameDefinition, SymbolsContext symbolsContext) {
+        for (SymbolContext symbolContext : symbolsContext.symbol()) {
+            String symbolName = symbolContext.SYMBOL().getText();
+            String symbolPath = symbolContext.PATH().getText();
 
-                ImageIcon imageIcon = getImageScaledIcon(symbolPath);
+            ImageIcon imageIcon = getImageScaledIcon(symbolPath);
 
-                gameDefinition.getSymbolsMap().put(symbolName, imageIcon);
-            }
+            gameDefinition.getSymbolsMap().put(symbolName, imageIcon);
         }
     }
 
