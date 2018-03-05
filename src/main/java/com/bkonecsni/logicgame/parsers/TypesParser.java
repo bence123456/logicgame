@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TypesParser extends CommonParser implements Parser {
+public class TypesParser implements Parser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {

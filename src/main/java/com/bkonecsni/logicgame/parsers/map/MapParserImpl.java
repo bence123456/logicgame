@@ -3,7 +3,6 @@ package com.bkonecsni.logicgame.parsers.map;
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
-import com.bkonecsni.logicgame.parsers.CommonParser;
 import com.bkonecsni.logicgame.visitors.MapVisitor;
 import map.mapLexer;
 import map.mapParser;
@@ -13,7 +12,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.util.List;
 
-public class MapParserImpl extends CommonParser implements MapParser {
+public class MapParserImpl implements MapParser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition, String levelKey) {

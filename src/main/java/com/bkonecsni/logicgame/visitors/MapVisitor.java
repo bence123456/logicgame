@@ -104,7 +104,7 @@ public class MapVisitor extends mapBaseVisitor<List<Tile>> {
     }
 
     private void visitItem(mapParser.ItemContext itemContext, List<Item> itemList) {
-        Item colorItem = ParserUtil.createItem(itemContext.children.get(1).getText(), gameDefinition);
+        Item colorItem = ParserUtil.createItem(itemContext.getChild(1).getText(), gameDefinition);
         itemList.add(colorItem);
     }
 }

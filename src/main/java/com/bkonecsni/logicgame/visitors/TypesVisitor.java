@@ -45,7 +45,7 @@ public class TypesVisitor extends typesBaseVisitor<List<TypeStatement>> {
         List<Item> itemList = new ArrayList<>();
 
         for (typesParser.ItemContext itemContext : loopContext.params().item()) {
-            Item item = ParserUtil.createItem(itemContext.getChild(0).getText(), gameDefinition);
+            Item item = ParserUtil.createItem(itemContext.getText(), gameDefinition);
             itemList.add(item);
         }
 

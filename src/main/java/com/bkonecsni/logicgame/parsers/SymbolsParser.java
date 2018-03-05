@@ -15,7 +15,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class SymbolsParser extends CommonParser implements Parser {
+public class SymbolsParser implements Parser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {
