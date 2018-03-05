@@ -24,6 +24,7 @@ public class MapVisitor extends mapBaseVisitor<List<Tile>> {
         this.gameDefinition = gameDefinition;
     }
 
+    @Override
     public List<Tile> visitMap(mapParser.MapContext ctx) {
         List<Tile> tiles = new ArrayList<>();
 
