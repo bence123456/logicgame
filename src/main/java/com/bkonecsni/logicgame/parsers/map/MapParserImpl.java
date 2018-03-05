@@ -4,7 +4,7 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.map.GameMap;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.parsers.CommonParser;
-import com.bkonecsni.logicgame.visitors.mapVisitor;
+import com.bkonecsni.logicgame.visitors.MapVisitor;
 import map.mapLexer;
 import map.mapParser;
 import map.mapParser.MapContext;
@@ -18,7 +18,7 @@ public class MapParserImpl extends CommonParser implements MapParser {
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition, String levelKey) {
         MapContext mapContext = getMapContext(input);
-        mapVisitor visitor = new mapVisitor(gameDefinition);
+        MapVisitor visitor = new MapVisitor(gameDefinition);
 
         List<Tile> tiles = visitor.visitMap(mapContext);
 
