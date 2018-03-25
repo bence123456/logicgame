@@ -5,5 +5,5 @@ import org.antlr.v4.runtime.CharStream;
 
 public interface MapParser {
 
-    void parse(CharStream input, GameDefinition gameDefinition, String levelKey);
+    void parse(CharStream input, GameDefinition gameDefinition, String levelKey, String gameName);
 }

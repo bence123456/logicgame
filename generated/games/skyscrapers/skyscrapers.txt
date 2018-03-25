@@ -1,0 +1,57 @@
+package generated.games.parks;
+
+public class Tile_Type0 implements ITile {
+
+    private Point position; 
+
+    private Point size; 
+
+    private List<Item> itemList; 
+
+    public void onClick() {
+
+    }
+
+    public Point getPosition() { return position; }
+
+    public void setPosition(Point position) { this.position = position; }
+
+    public Point getSize() {return size; }
+
+    public void setSize(Point size) { this.size = size; }
+
+    public List<Item> getItemList() {return itemList; }
+
+    public void setItemList(List<Item> itemList) { this.itemList = itemList; }
+
+}
+
+
+public class Tile_Type2 implements ITile {
+
+    private Point position; 
+
+    private Point size; 
+
+    private List<Item> itemList; 
+
+    public void onClick() {
+
+    }
+
+    public Point getPosition() { return position; }
+
+    public void setPosition(Point position) { this.position = position; }
+
+    public Point getSize() {return size; }
+
+    public void setSize(Point size) { this.size = size; }
+
+    public List<Item> getItemList() {return itemList; }
+
+    public void setItemList(List<Item> itemList) { this.itemList = itemList; }
+
+}
+
+
+

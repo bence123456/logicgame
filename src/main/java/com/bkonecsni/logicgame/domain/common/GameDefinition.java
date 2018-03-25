@@ -14,7 +14,7 @@ public class GameDefinition {
 
     private Map<String, ImageIcon> symbolsMap = new HashMap<>();
 
-    private Map<String, Type> typesMap = new HashMap<>();
+    private Map<String, String> typesMap = new HashMap<>();
 
     private Map<String, GameMap> maps = new HashMap<>();
 
@@ -43,11 +43,11 @@ public class GameDefinition {
         this.symbolsMap = symbolsMap;
     }
 
-    public Map<String, Type> getTypesMap() {
+    public Map<String, String> getTypesMap() {
         return typesMap;
     }
 
-    public void setTypesMap(Map<String, Type> typesMap) {
+    public void setTypesMap(Map<String, String> typesMap) {
         this.typesMap = typesMap;
     }
 

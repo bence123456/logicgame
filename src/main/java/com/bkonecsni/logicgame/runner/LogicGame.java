@@ -61,7 +61,7 @@ public class LogicGame {
         for (int i=1; i <= mumberOfMaps; i++) {
             String actualLevel = "level" + i;
             CharStream mapInput = CharStreams.fromFileName("games/" + gameName + "/maps/" + gameName + "_" + actualLevel + ".txt");
-            mapParserImpl.parse(mapInput, gameDefinition, actualLevel);
+            mapParserImpl.parse(mapInput, gameDefinition, actualLevel, gameName);
         }
     }
 

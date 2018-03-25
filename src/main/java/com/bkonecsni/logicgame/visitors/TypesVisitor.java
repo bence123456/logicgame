@@ -13,32 +13,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TypesVisitor extends typesBaseVisitor<List<TypeStatement>> {
+public class TypesVisitor extends typesBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
+
+    public static final String TAB = "    ";
+    public static final String D_TAB = TAB + TAB;
+    public static final String T_TAB = TAB + D_TAB;
+    public static final String SPACE = " ";
 
     public TypesVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
     }
 
     @Override
-    public List<TypeStatement> visitLoop(typesParser.LoopContext loopContext) {
-        Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
-        List<Item> itemList = createItemListFromLoop(loopContext, gameDefinition);
-
-        return createTypeStatementListFromLoop(itemIndex, itemList);
+    public String visitLoop(typesParser.LoopContext loopContext) {
+//        Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
+//        List<Item> itemList = createItemListFromLoop(loopContext, gameDefinition);
+//
+//        return createTypeStatementListFromLoop(itemIndex, itemList);
+        return null;
     }
 
     @Override
-    public List<TypeStatement> visitTypedef(typesParser.TypedefContext typedefContext) {
-        List<TypeStatement> typeStatementList = new ArrayList<>();
+    public String visitTypedef(typesParser.TypedefContext typedefContext) {
+        StringBuilder sb = new StringBuilder();
+        boolean firstStatement = true;
 
         for (typesParser.TypestatementContext typestatementContext : typedefContext.typestatement()) {
-            TypeStatement typeStatement = createTypeStatement(gameDefinition, typestatementContext);
-            typeStatementList.add(typeStatement);
+            if (firstStatement) {
+                sb.append(D_TAB + createTypeStatement(gameDefinition, typestatementContext));
+                firstStatement = false;
+            } else {
+                sb.append(SPACE + "else " + createTypeStatement(gameDefinition, typestatementContext));
+            }
         }
 
-        return typeStatementList;
+        return sb.toString();
     }
 
     private List<Item> createItemListFromLoop(typesParser.LoopContext loopContext, GameDefinition gameDefinition) {
@@ -76,32 +87,39 @@ public class TypesVisitor extends typesBaseVisitor<List<TypeStatement>> {
         return new TypeStatement(conditionList, updateList);
     }
 
-    private TypeStatement createTypeStatement(GameDefinition gameDefinition, typesParser.TypestatementContext typestatementContext) {
-        List<Condition> conditionList = new ArrayList<>();
-        List<Update> updateList = new ArrayList<>();
-
-        for (typesParser.UpdatestatementContext updatestatementContext : typestatementContext.updatestatement()) {
-            Update update = parseUpdate(gameDefinition, updatestatementContext);
-            updateList.add(update);
-        }
+    private String createTypeStatement(GameDefinition gameDefinition, typesParser.TypestatementContext typestatementContext) {
+        StringBuilder sb = new StringBuilder();
 
         for (typesParser.ConditionContext conditionContext : typestatementContext.condition()) {
-            Condition condition = parseCondition(gameDefinition, conditionContext);
-            conditionList.add(condition);
+            parseCondition(gameDefinition, conditionContext, sb);
         }
 
-        return new TypeStatement(conditionList, updateList);
+        for (typesParser.UpdatestatementContext updatestatementContext : typestatementContext.updatestatement()) {
+            parseUpdate(gameDefinition, updatestatementContext, sb);
+        }
+
+        return sb.toString();
     }
 
-    private Update parseUpdate(GameDefinition gameDefinition, typesParser.UpdatestatementContext updatestatementContext) {
+    private void parseUpdate(GameDefinition gameDefinition, typesParser.UpdatestatementContext updatestatementContext, StringBuilder sb) {
         Integer itemToUpdateIndex = Integer.valueOf(updatestatementContext.parens_nr().NUMBER().getText());
-        Item newItem = ParserUtil.createItem(updatestatementContext.item().getText(), gameDefinition);
-        return new Update(itemToUpdateIndex, newItem);
+        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.item().getText(), gameDefinition);
+
+        sb.append(T_TAB + "Item oldItem = itemList.get("+ itemToUpdateIndex + ");\n" + T_TAB + "itemList.remove(oldItem);\n");
+        if (itemCreationString != null) {
+            sb.append(T_TAB + "itemList.add("+ itemCreationString +");\n");
+        }
+        sb.append(D_TAB + "}");
     }
 
-    private Condition parseCondition(GameDefinition gameDefinition, typesParser.ConditionContext conditionContext) {
+    private void parseCondition(GameDefinition gameDefinition, typesParser.ConditionContext conditionContext, StringBuilder sb) {
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().NUMBER().getText());
-        Item itemToCompare = ParserUtil.createItem(conditionContext.item().getText(), gameDefinition);
-        return new Condition(comparableItemIndex, itemToCompare);
+        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.item().getText(), gameDefinition);
+
+        if (itemCreationString == null) {
+            sb.append("if (itemList.get("+ comparableItemIndex + ") == null) {\n");
+        } else {
+            sb.append("if (itemList.get("+ comparableItemIndex + ").equals("+ itemCreationString +") {\n");
+        }
     }
 }

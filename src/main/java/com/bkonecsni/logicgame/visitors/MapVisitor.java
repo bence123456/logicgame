@@ -1,82 +1,92 @@
 package com.bkonecsni.logicgame.visitors;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.Tile;
-import com.bkonecsni.logicgame.domain.types.Type;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
 import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
-import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import map.mapBaseVisitor;
 import map.mapParser;
 import map.mapParser.TileContext;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-public class MapVisitor extends mapBaseVisitor<List<Tile>> {
+import static com.bkonecsni.logicgame.visitors.TypesVisitor.TAB;
+
+public class MapVisitor extends mapBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
+
+    private Set<String> definedTileTypes = new HashSet<>();
 
     public MapVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
     }
 
     @Override
-    public List<Tile> visitMap(mapParser.MapContext ctx) {
-        List<Tile> tiles = new ArrayList<>();
+    public String visitMap(mapParser.MapContext ctx) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("package generated.games.parks;\n\n");
 
         for (TileContext tileContext : ctx.tile()) {
-            visitTile(tileContext, tiles);
+            visitTile(tileContext, sb);
         }
 
-        return tiles;
+        return sb.toString();
     }
 
-    private void visitTile(mapParser.TileContext tileContext, List<Tile> tiles) {
-        Tile tile = new Tile();
+    private void visitTile(mapParser.TileContext tileContext, StringBuilder sb) {
+        String typeString = visitType(tileContext.type());
 
-        visitType(tileContext.type(), tile);
-        visitPosition(tileContext.position(), tile);
-        visitSize(tileContext.size(), tile);
-        visitItemList(tileContext.itemList(), tile);
+        if (!definedTileTypes.contains(typeString)) {
+            sb.append("public class Tile_"+ typeString +" implements ITile {\n\n");
+            sb.append(TAB + "private Point position; \n\n" + TAB + "private Point size; \n\n" +
+                    TAB + "private List<Item> itemList; \n\n");
 
-        tiles.add(tile);
+            sb.append(TAB + "public void onClick() {\n" + gameDefinition.getTypesMap().get(typeString) + "\n" + TAB + "}\n\n");
+            appendGettersSetters(sb);
+            definedTileTypes.add(typeString);
+        }
     }
 
-    private void visitType(mapParser.TypeContext typeContext, Tile tile) {
+    public String visitType(mapParser.TypeContext typeContext) {
         String typeString = typeContext.T().getText() + typeContext.NUMBER().getText();
-        Map<String, Type> typesMap = gameDefinition.getTypesMap();
+        Map<String, String> typesMap = gameDefinition.getTypesMap();
 
         if (!typesMap.containsKey(typeString)) {
             throw new NoSuchTypeException(typeString);
         }
 
-        Type type = typesMap.get(typeString);
-        tile.setType(type);
+        return typeString;
     }
 
-    private void visitPosition(mapParser.PositionContext positionContext, Tile tile) {
+    public String visitPosition(mapParser.PositionContext positionContext) {
         int positionX = Integer.parseInt(positionContext.NUMBER(0).getText());
         int positionY = Integer.parseInt(positionContext.NUMBER(1).getText());
 
-        Point position = new Point(positionX, positionY);
-        tile.setPosition(position);
+        return positionX + "," + positionY;
     }
 
-    private void visitSize(mapParser.SizeContext sizeContext, Tile tile) {
+    public String visitSize(mapParser.SizeContext sizeContext) {
         if (sizeContext != null) {
-            Point size = getSize(sizeContext, tile);
-            tile.setSize(size);
+            return getSize(sizeContext);
         } else {
-            Point defaultSize = new Point(40,40);
-            tile.setSize(defaultSize);
+            return "40,40";
         }
     }
 
-    private Point getSize(mapParser.SizeContext sizeContext, Tile tile) {
+    public String visitItemList(mapParser.ItemListContext itemListContext) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(itemListContext.color().COLOR().getText());
+        for (mapParser.ItemContext itemContext : itemListContext.item()) {
+            sb.append("," + itemContext.getChild(1).getText());
+        }
+
+        return sb.toString();
+    }
+
+    private String getSize(mapParser.SizeContext sizeContext) {
         int positionX = Integer.parseInt(sizeContext.NUMBER(0).getText());
         int positionY = Integer.parseInt(sizeContext.NUMBER(1).getText());
 
@@ -84,27 +94,16 @@ public class MapVisitor extends mapBaseVisitor<List<Tile>> {
             throw new SizeNotValidException(positionX + ", " + positionY);
         }
 
-        return new Point(positionX, positionY);
+        return positionX + "," + positionY;
     }
 
-    private void visitItemList(mapParser.ItemListContext itemListContext, Tile tile) {
-        List<Item> itemList = new ArrayList<>();
-
-        visitColor(itemListContext.color(), itemList);
-        for (mapParser.ItemContext itemContext : itemListContext.item()) {
-            visitItem(itemContext, itemList);
-        }
-
-        tile.setItemList(itemList);
+    private void appendGettersSetters(StringBuilder sb) {
+        sb.append(TAB + "public Point getPosition() { return position; }\n\n" +
+                TAB + "public void setPosition(Point position) { this.position = position; }\n\n" +
+                TAB + "public Point getSize() {return size; }\n\n" +
+                TAB + "public void setSize(Point size) { this.size = size; }\n\n" +
+                TAB + "public List<Item> getItemList() {return itemList; }\n\n" +
+                TAB + "public void setItemList(List<Item> itemList) { this.itemList = itemList; }\n\n" + "}\n\n\n");
     }
 
-    private void visitColor(mapParser.ColorContext colorContext, List<Item> itemList) {
-        Item colorItem = ParserUtil.createItem(colorContext.COLOR().getText(), gameDefinition);
-        itemList.add(colorItem);
-    }
-
-    private void visitItem(mapParser.ItemContext itemContext, List<Item> itemList) {
-        Item colorItem = ParserUtil.createItem(itemContext.getChild(1).getText(), gameDefinition);
-        itemList.add(colorItem);
-    }
 }

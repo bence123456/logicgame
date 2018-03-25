@@ -25,14 +25,13 @@ public class TypesParser implements Parser {
         TypesContext typesContext = getTypesContext(input);
         TypesVisitor typesVisitor = new TypesVisitor(gameDefinition);
 
-        Map<String, Type> typesMap = gameDefinition.getTypesMap();
-        typesMap.put("Type0", new Type(null));    // border type
-        typesMap.put("Type1", new Type(new ArrayList<>()));     // unmutable type
+        Map<String, String> typesMap = gameDefinition.getTypesMap();
+        typesMap.put("Type0", "");    // border, unmutable types
 
         parseTypes(typesContext, typesMap, typesVisitor);
     }
 
-    private void parseTypes(TypesContext typesContext, Map<String, Type> typesMap, TypesVisitor typesVisitor) {
+    private void parseTypes(TypesContext typesContext, Map<String, String> typesMap, TypesVisitor typesVisitor) {
         for (TypedeclContext typedeclContext : typesContext.typedecl()) {
             String typeName = "Type" + typedeclContext.typehead().NUMBER().getText();
             if (typesMap.containsKey(typeName)) {
@@ -41,10 +40,10 @@ public class TypesParser implements Parser {
 
             TypedefContext typedefContext = typedeclContext.typedef();
             LoopContext loopContext = typedefContext.loop();
-            List<TypeStatement> typeStatementList = (loopContext != null) ? typesVisitor.visitLoop(loopContext) : typesVisitor.visitTypedef(typedefContext);
+//            List<TypeStatement> typeStatementList = (loopContext != null) ? typesVisitor.visitLoop(loopContext) : typesVisitor.visitTypedef(typedefContext);
 
-            Type type = new Type(typeStatementList);
-            typesMap.put(typeName, type);
+            String typeActCode = typesVisitor.visitTypedef(typedefContext);
+            typesMap.put(typeName, typeActCode);
         }
     }
 

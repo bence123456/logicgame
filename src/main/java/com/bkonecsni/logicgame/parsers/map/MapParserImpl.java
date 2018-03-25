@@ -2,7 +2,6 @@ package com.bkonecsni.logicgame.parsers.map;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.map.GameMap;
-import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.visitors.MapVisitor;
 import map.mapLexer;
 import map.mapParser;
@@ -10,18 +9,29 @@ import map.mapParser.MapContext;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class MapParserImpl implements MapParser {
 
     @Override
-    public void parse(CharStream input, GameDefinition gameDefinition, String levelKey) {
+    public void parse(CharStream input, GameDefinition gameDefinition, String levelKey, String gameName) {
         MapContext mapContext = getMapContext(input);
         MapVisitor visitor = new MapVisitor(gameDefinition);
 
-        List<Tile> tiles = visitor.visitMap(mapContext);
+        String tiles = visitor.visitMap(mapContext);
 
-        GameMap gameMap = new GameMap(tiles);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter("generated/games/"+ gameName +"/"+ gameName +".txt");
+//            out = new PrintWriter("generated/games/parks/parks.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        out.println(tiles);
+        out.close();
+
+        GameMap gameMap = null;//new GameMap(tiles);
         gameDefinition.getMaps().put(levelKey, gameMap);
     }
 
