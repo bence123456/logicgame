@@ -1,8 +1,9 @@
 package com.bkonecsni.logicgame.runner;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.exceptions.NoSuchImageException;
-import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
+import com.bkonecsni.logicgame.parsers.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.SymbolsParser;
 import com.bkonecsni.logicgame.parsers.TypesParser;
 import com.bkonecsni.logicgame.parsers.ValidationParser;
@@ -12,10 +13,7 @@ import org.antlr.v4.runtime.CharStreams;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class LogicGame {
     private MapParserImpl mapParserImpl = new MapParserImpl();
     private ValidationParser validationParser = new ValidationParser();
 
-    public List<GameDefinition> parse() throws IOException {
+    public List<GameDefinition> parse() throws Exception {
         List<GameDefinition> gameDefinitions = new ArrayList<>();
         Map<String, Integer> gameLevelNumberMap = createGameLevelNumberMapFromProperty();
 
@@ -38,9 +36,22 @@ public class LogicGame {
             symbolsParser.parse(symbolsInput, gameDefinition);
 
             CharStream typesInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_types.txt");
-            typesParser.parse(typesInput, gameDefinition);
+            String typesCode = typesParser.parse(typesInput, gameDefinition);
 
-            parseMaps(gameLevelNumberMap, gameName, gameDefinition);
+            StringBuilder sb = new StringBuilder();
+            sb.append("package generated.games." + gameName + ";\n\n");
+            sb.append(typesCode);
+
+            parseMaps(gameLevelNumberMap, gameName, gameDefinition, sb);
+
+            PrintWriter out = null;
+            try {
+                out = new PrintWriter("generated/games/"+ gameName +"/"+ gameName +".txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            out.println(sb.toString());
+            out.close();
 
             CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
             validationParser.parse(validationInput, gameDefinition);
@@ -56,12 +67,18 @@ public class LogicGame {
         return gameDefinitions;
     }
 
-    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition) throws IOException {
+    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, StringBuilder sb) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         Integer mumberOfMaps = gameLevelNumberMap.get(gameName);
+
         for (int i=1; i <= mumberOfMaps; i++) {
             String actualLevel = "level" + i;
             CharStream mapInput = CharStreams.fromFileName("games/" + gameName + "/maps/" + gameName + "_" + actualLevel + ".txt");
-            mapParserImpl.parse(mapInput, gameDefinition, actualLevel, gameName);
+            sb.append("public class Level_" + i + " extends LevelBase {\n\n");
+            sb.append(mapParserImpl.parse(mapInput, gameDefinition));
+            sb.append("}\n\n\n");
+
+            LevelBase level = null;//(LevelBase) Class.forName("Level_"+i).newInstance(); //level.init();
+            gameDefinition.getMaps().put(actualLevel, level);
         }
     }
 

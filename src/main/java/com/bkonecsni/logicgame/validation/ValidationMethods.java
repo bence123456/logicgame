@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.validation;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.GameMap;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.validation.scrapers.ScrapersValidationHelper;
 
@@ -14,7 +14,7 @@ public class ValidationMethods {
 
     private ScrapersValidationHelper scrapersValidationHelper = new ScrapersValidationHelper();
 
-    public boolean numberOfItemsInAllRow(GameMap map, List<Item> methodParams) {
+    public boolean numberOfItemsInAllRow(LevelBase map, List<Item> methodParams) {
         int paramsSize = methodParams.size();
         int expectedNumber = methodParams.get(paramsSize-1).getIntValue();
 
@@ -35,7 +35,7 @@ public class ValidationMethods {
         return true;
 }
 
-    public boolean numberOfItemsInAllColumn(GameMap map, List<Item> methodParams) {
+    public boolean numberOfItemsInAllColumn(LevelBase map, List<Item> methodParams) {
         int paramsSize = methodParams.size();
         int expectedNumber = methodParams.get(paramsSize-1).getIntValue();
 
@@ -56,7 +56,7 @@ public class ValidationMethods {
         return true;
     }
 
-    public boolean numberOfItemsInAllAreaWithSameColor(GameMap map, List<Item> methodParams) {
+    public boolean numberOfItemsInAllAreaWithSameColor(LevelBase map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
         Map<Color, List<Tile>> colorAreaTilesMap = createColorAreaTilesMap(map);
@@ -70,7 +70,7 @@ public class ValidationMethods {
         return true;
     }
 
-    public boolean twoNeighbouringSymbolsExists(GameMap map, List<Item> methodParams) {
+    public boolean twoNeighbouringSymbolsExists(LevelBase map, List<Item> methodParams) {
         Item symbolItem = methodParams.get(0);
         List<Tile> tilesWithGivenItem = map.getTilesWithGivenItem(symbolItem);
 
@@ -86,15 +86,15 @@ public class ValidationMethods {
         return false;
     }
 
-    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+    public boolean isSkylineCorrectForEveryRowAndColumn(LevelBase map, List<Item> methodParams) {
         return scrapersValidationHelper.isSkylineCorrectForEveryRowAndColumn(map, methodParams);
     }
 
-    public boolean isSumSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+    public boolean isSumSkylineCorrectForEveryRowAndColumn(LevelBase map, List<Item> methodParams) {
         return scrapersValidationHelper.isSumSkylineCorrectForEveryRowAndColumn(map, methodParams);
     }
 
-    public boolean neighboursHaveCorrectNumberOfItems(GameMap map, List<Item> methodParams) {
+    public boolean neighboursHaveCorrectNumberOfItems(LevelBase map, List<Item> methodParams) {
         Item item = methodParams.get(0);
 
         for (Tile tile : map.getTileList()) {
@@ -117,7 +117,7 @@ public class ValidationMethods {
         return true;
     }
 
-    private Map<Tile, List<Tile>> getUnMutableTileNeighbourTilesMap(GameMap map) {
+    private Map<Tile, List<Tile>> getUnMutableTileNeighbourTilesMap(LevelBase map) {
         return null;
     }
 
@@ -133,7 +133,7 @@ public class ValidationMethods {
         return numberOfItems == expectedNumber;
     }
 
-    private Map<Color, List<Tile>> createColorAreaTilesMap(GameMap map) {
+    private Map<Color, List<Tile>> createColorAreaTilesMap(LevelBase map) {
         Map<Color, List<Tile>> colorAreaTilesMap = new HashMap<>();
         List<Color> colorList = map.getColorList();
 

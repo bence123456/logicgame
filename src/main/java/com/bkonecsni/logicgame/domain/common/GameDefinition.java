@@ -1,22 +1,18 @@
 package com.bkonecsni.logicgame.domain.common;
 
-import com.bkonecsni.logicgame.domain.map.GameMap;
-import com.bkonecsni.logicgame.domain.types.Type;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameDefinition {
 
     private Map<String, ImageIcon> symbolsMap = new HashMap<>();
 
-    private Map<String, String> typesMap = new HashMap<>();
+    private Set<String> definedTypes = new HashSet<>();
 
-    private Map<String, GameMap> maps = new HashMap<>();
+    private Map<String, LevelBase> maps = new HashMap<>();
 
     private List<ValidationStatement> winStatementList = new ArrayList<>();
     private List<ValidationStatement> looseStatementList = new ArrayList<>();
@@ -43,19 +39,19 @@ public class GameDefinition {
         this.symbolsMap = symbolsMap;
     }
 
-    public Map<String, String> getTypesMap() {
-        return typesMap;
+    public Set<String> getDefinedTypes() {
+        return definedTypes;
     }
 
-    public void setTypesMap(Map<String, String> typesMap) {
-        this.typesMap = typesMap;
+    public void setDefinedTypes(Set<String> definedTypes) {
+        this.definedTypes = definedTypes;
     }
 
-    public Map<String, GameMap> getMaps() {
+    public Map<String, LevelBase> getMaps() {
         return maps;
     }
 
-    public void setMaps(Map<String, GameMap> maps) {
+    public void setMaps(Map<String, LevelBase> maps) {
         this.maps = maps;
     }
 

@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.validation.scrapers;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.GameMap;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.Tile;
 
 import java.util.ArrayList;
@@ -11,15 +11,15 @@ import java.util.Map;
 
 public class ScrapersValidationHelper {
 
-    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+    public boolean isSkylineCorrectForEveryRowAndColumn(LevelBase map, List<Item> methodParams) {
         return isSkylineCorrectForEveryRowAndColumn(map, true);
     }
 
-    public boolean isSumSkylineCorrectForEveryRowAndColumn(GameMap map, List<Item> methodParams) {
+    public boolean isSumSkylineCorrectForEveryRowAndColumn(LevelBase map, List<Item> methodParams) {
         return isSkylineCorrectForEveryRowAndColumn(map, false);
     }
 
-    public boolean isSkylineCorrectForEveryRowAndColumn(GameMap map, boolean shouldIncrementWithOne) {
+    public boolean isSkylineCorrectForEveryRowAndColumn(LevelBase map, boolean shouldIncrementWithOne) {
         Map<Tile, List<Tile>> skylineTilesMap = createSkylineTilesMap(map);
 
         for (Tile skylineTile : skylineTilesMap.keySet()) {
@@ -52,7 +52,7 @@ public class ScrapersValidationHelper {
         return visibleSkyscrapersNumber;
     }
 
-    private Map<Tile, List<Tile>> createSkylineTilesMap(GameMap map) {
+    private Map<Tile, List<Tile>> createSkylineTilesMap(LevelBase map) {
         int nrOfPlayableColums = map.getPlayableColumnNumber();
         int nrOfPlayableRows = map.getPlayableRowNumber();
         int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
@@ -68,7 +68,7 @@ public class ScrapersValidationHelper {
         return skylineTilesMap;
     }
 
-    private void addTopSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
+    private void addTopSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                        int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
 
         for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
@@ -84,7 +84,7 @@ public class ScrapersValidationHelper {
         }
     }
 
-    private void addBottomSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
+    private void addBottomSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                           int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
 
         for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
@@ -100,7 +100,7 @@ public class ScrapersValidationHelper {
         }
     }
 
-    private void addLeftSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
+    private void addLeftSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                         int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
 
         for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {
@@ -116,7 +116,7 @@ public class ScrapersValidationHelper {
         }
     }
 
-    private void addRightSkylineWrappers(GameMap map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
+    private void addRightSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
                                          int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
 
         for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {

@@ -13,7 +13,7 @@ public class ParserUtil {
         String itemCreationString = null;
 
         if (StringUtils.isNumeric(itemAsString)) {
-            itemCreationString = "new Item(null,  " + Integer.valueOf(itemAsString) + ", null, null)";
+            itemCreationString = "new Item(null, " + Integer.valueOf(itemAsString) + ", null, null)";
         } else if(itemAsString.length() == 1) {
             itemCreationString = "new Item(" + itemAsString.charAt(0) + ", null, null, null)";
         } else if(itemAsString.startsWith("S")) {

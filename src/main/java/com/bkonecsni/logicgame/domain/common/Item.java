@@ -19,13 +19,6 @@ public class Item {
         this.color = color;
     }
 
-    private void setFields(Character charValue, Integer intValue, String symbol, Color color) {
-        this.charValue = charValue;
-        this.intValue = intValue;
-        this.symbol = symbol;
-        this.color = color;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

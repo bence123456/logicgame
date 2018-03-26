@@ -6,13 +6,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameMap {
+public abstract class LevelBase {
 
-    private List<Tile> tileList;
+    protected List<Tile> tileList;
 
-    public GameMap(List<Tile> tileList) {
-        this.tileList = tileList;
-    }
+    public abstract void init();
 
     public int getRowNumber() {
         List<Tile> tmpTiles = getSortedTilesBasedOnRow();

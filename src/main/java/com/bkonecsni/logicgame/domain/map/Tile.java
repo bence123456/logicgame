@@ -17,6 +17,12 @@ public class Tile {
 
     private List<Item> itemList;
 
+    public Tile(Point position, Point size, List<Item> itemList) {
+        this.position = position;
+        this.size = size;
+        this.itemList = itemList;
+    }
+
     public static Comparator<Tile> getColumnNrComparator() {
         return (tile1, tile2) -> {
             int tile1Column = tile1.getPosition().y;

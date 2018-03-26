@@ -4,7 +4,6 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.NoSuchImageException;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import symbols.symbolsLexer;
 import symbols.symbolsParser;
 import symbols.symbolsParser.*;
@@ -15,7 +14,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class SymbolsParser implements Parser {
+public class SymbolsParser implements IParser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {

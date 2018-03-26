@@ -5,34 +5,41 @@ import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.types.TypeStatement;
 import com.bkonecsni.logicgame.domain.types.equation.Condition;
 import com.bkonecsni.logicgame.domain.types.equation.Update;
+import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import types.typesBaseVisitor;
 import types.typesParser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
+import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.*;
 
 public class TypesVisitor extends typesBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
-
-    public static final String TAB = "    ";
-    public static final String D_TAB = TAB + TAB;
-    public static final String T_TAB = TAB + D_TAB;
-    public static final String SPACE = " ";
 
     public TypesVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
     }
 
     @Override
-    public String visitLoop(typesParser.LoopContext loopContext) {
-//        Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
-//        List<Item> itemList = createItemListFromLoop(loopContext, gameDefinition);
-//
-//        return createTypeStatementListFromLoop(itemIndex, itemList);
-        return null;
+    public String visitTypes(typesParser.TypesContext typesContext) {
+        Set<String> definedTypes = gameDefinition.getDefinedTypes();
+        StringBuilder sb = new StringBuilder();
+
+        for (typesParser.TypedeclContext typedeclContext : typesContext.typedecl()) {
+            String typeName = "Type" + typedeclContext.typehead().NUMBER().getText();
+            if (definedTypes.contains(typeName)) {
+                throw new TypeAlreadyDefinedException(typeName);
+            }
+
+            String onClickCode = createOnClickCode(typedeclContext);
+            createTileCode(sb, typeName, onClickCode);
+
+            definedTypes.add(typeName);
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -50,6 +57,39 @@ public class TypesVisitor extends typesBaseVisitor<String> {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public String visitLoop(typesParser.LoopContext loopContext) {
+//        Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
+//        List<Item> itemList = createItemListFromLoop(loopContext, gameDefinition);
+//
+//        return createTypeStatementListFromLoop(itemIndex, itemList);
+        return null;
+    }
+
+    private void createTileCode(StringBuilder sb, String typeName, String onClickCode) {
+        String className = "Tile_" + typeName;
+
+        sb.append("public class " + className + " implements ITile {\n\n");
+        sb.append(TAB + "private Point position; \n\n" + TAB + "private Point size; \n\n" +
+                TAB + "private List<Item> itemList; \n\n");
+
+        appendConstructor(sb, className);
+
+        sb.append(TAB + "public void onClick() {\n" + onClickCode + "\n" + TAB + "}\n\n");
+        appendGettersAndSetters(sb);
+    }
+
+    private String createOnClickCode(typesParser.TypedeclContext typedeclContext) {
+        typesParser.TypedefContext typedefContext = typedeclContext.typedef();
+
+        if (typedefContext != null) {
+            typesParser.LoopContext loopContext = typedefContext.loop();
+            return (loopContext != null) ? visitLoop(loopContext) : visitTypedef(typedefContext);
+        }
+
+        return "";
     }
 
     private List<Item> createItemListFromLoop(typesParser.LoopContext loopContext, GameDefinition gameDefinition) {
@@ -121,5 +161,22 @@ public class TypesVisitor extends typesBaseVisitor<String> {
         } else {
             sb.append("if (itemList.get("+ comparableItemIndex + ").equals("+ itemCreationString +") {\n");
         }
+    }
+
+    private void appendConstructor(StringBuilder sb, String className) {
+        sb.append(TAB + "public " + className +"(Point position, Point size, List<Item> itemList) {\n" +
+                D_TAB + "this.position = position;\n" +
+                D_TAB + "this.size = size;\n" +
+                D_TAB + "this.itemList = itemList;\n" +
+                TAB + "}\n\n");
+    }
+
+    private void appendGettersAndSetters(StringBuilder sb) {
+        sb.append(TAB + "public Point getPosition() { return position; }\n\n" +
+                TAB + "public void setPosition(Point position) { this.position = position; }\n\n" +
+                TAB + "public Point getSize() {return size; }\n\n" +
+                TAB + "public void setSize(Point size) { this.size = size; }\n\n" +
+                TAB + "public List<Item> getItemList() {return itemList; }\n\n" +
+                TAB + "public void setItemList(List<Item> itemList) { this.itemList = itemList; }\n\n" + "}\n\n\n");
     }
 }

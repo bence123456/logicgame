@@ -2,7 +2,7 @@ grammar types;
 
 types: typedecl+ ;
 
-typedecl: typehead typedef ;
+typedecl: typehead typedef? ;
 typedef: loop | typestatement+ ;
 typehead: T NUMBER COL ;
 loop: ITEMS parens_nr COL LOOP LP params RP;

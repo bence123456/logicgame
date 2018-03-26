@@ -2,14 +2,13 @@ package com.bkonecsni.logicgame.gui;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.GameMap;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.statehandler.StateHandler;
 import com.bkonecsni.logicgame.validation.ValidationHandler;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -21,9 +20,9 @@ public class ButtonClickAction extends AbstractAction {
     private ValidationHandler validationHandler;
     private GameDefinition gameDefinition;
     private Map<JButton, Tile> buttonTileMap;
-    private GameMap map;
+    private LevelBase map;
 
-    public ButtonClickAction(Map<JButton, Tile> buttonTileMap, GameDefinition gameDefinition, GameMap map) {
+    public ButtonClickAction(Map<JButton, Tile> buttonTileMap, GameDefinition gameDefinition, LevelBase map) {
         this.buttonTileMap = buttonTileMap;
         this.gameDefinition = gameDefinition;
         this.map = map;

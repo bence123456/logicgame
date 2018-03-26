@@ -2,7 +2,7 @@ package com.bkonecsni.logicgame.gui;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.GameMap;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.Tile;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ public class LogicGameGui extends JFrame {
     private Map<JButton, Tile> buttonTileMap;
 
     public LogicGameGui(GameDefinition gameDefinition) {
-        GameMap map = gameDefinition.getMaps().get("level1");
+        LevelBase map = gameDefinition.getMaps().get("level1");
         int rows = map.getRowNumber();
         int columns = map.getColumnNumber();
 
@@ -42,7 +42,7 @@ public class LogicGameGui extends JFrame {
         add(panel, BorderLayout.CENTER);
     }
 
-    private void addTiles(GameMap map, int rows, int columns, GameDefinition gameDefinition) {
+    private void addTiles(LevelBase map, int rows, int columns, GameDefinition gameDefinition) {
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
                 JButton button = new JButton();
@@ -72,7 +72,7 @@ public class LogicGameGui extends JFrame {
         }
     }
 
-    private void addButtonListener(GameDefinition gameDefinition, GameMap map) {
+    private void addButtonListener(GameDefinition gameDefinition, LevelBase map) {
         buttonClickAction = new ButtonClickAction(buttonTileMap, gameDefinition, map);
         for (JButton button : buttonTileMap.keySet()) {
             button.addActionListener(buttonClickAction);

@@ -13,7 +13,7 @@ import validation.validationParser.WinContext;
 
 import java.util.List;
 
-public class ValidationParser implements Parser {
+public class ValidationParser implements IParser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {
