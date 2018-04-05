@@ -1,6 +1,15 @@
-package generated.games.minesweeper;
+package games.minesweeper;
 
-public class Tile_Type0 implements ITile {
+import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.interfaces.map.ITile;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
+
+import java.awt.Point;
+import java.awt.Color;
+import java.util.List;
+import java.util.Arrays;
+
+public class Tile_Type0 extends TileBase {
 
     private Point position; 
 
@@ -33,7 +42,7 @@ public class Tile_Type0 implements ITile {
 }
 
 
-public class Tile_Type2 implements ITile {
+public class Tile_Type2 extends TileBase {
 
     private Point position; 
 

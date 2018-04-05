@@ -8,29 +8,29 @@ import java.util.List;
 
 public abstract class LevelBase {
 
-    protected List<Tile> tileList;
+    protected List<TileBase> tileList;
 
     public abstract void init();
 
     public int getRowNumber() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
         return tmpTiles.get(0).getPosition().x + 1;
     }
 
     public int getColumnNumber() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnColumn();
         return tmpTiles.get(0).getPosition().y + 1;
     }
 
     public int getPlayableRowNumber() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
         removeTilesWithBorderType(tmpTiles);
 
         return tmpTiles.get(0).getPosition().x + 1;
     }
 
     public int getPlayableColumnNumber() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnColumn();
         removeTilesWithBorderType(tmpTiles);
 
         return tmpTiles.get(0).getPosition().y + 1;
@@ -38,25 +38,25 @@ public abstract class LevelBase {
 
 
     public int getFirstPlayableColumnIndex() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnColumn();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnColumn();
         removeTilesWithBorderType(tmpTiles);
 
-        Tile lastTile = tmpTiles.get(tmpTiles.size()-1);
+        TileBase lastTile = tmpTiles.get(tmpTiles.size()-1);
 
         return lastTile.getPosition().y;
     }
 
     public int getFirstPlayableRowIndex() {
-        List<Tile> tmpTiles = getSortedTilesBasedOnRow();
+        List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
         removeTilesWithBorderType(tmpTiles);
 
-        Tile lastTile = tmpTiles.get(tmpTiles.size()-1);
+        TileBase lastTile = tmpTiles.get(tmpTiles.size()-1);
 
         return lastTile.getPosition().x;
     }
 
-    public Tile getTile(int row, int column) {
-        for (Tile tile : tileList) {
+    public TileBase getTile(int row, int column) {
+        for (TileBase tile : tileList) {
             if (getRowNumber(tile) == row && getColumnNumber(tile) == column) {
                 return tile;
             }
@@ -65,11 +65,11 @@ public abstract class LevelBase {
         return null;
     }
 
-    public List<Tile> getTilesFromRow(int rowNumber) {
-        List<Tile> tilesInRow = new ArrayList<>();
+    public List<TileBase> getTilesFromRow(int rowNumber) {
+        List<TileBase> tilesInRow = new ArrayList<>();
 
-        for (Tile tile : tileList) {
-            if (getRowNumber(tile) == rowNumber && !isBorderTile(tile)) {
+        for (TileBase tile : tileList) {
+            if (getRowNumber(tile) == rowNumber && !tile.isUnmutableType()) {
                 tilesInRow.add(tile);
             }
         }
@@ -77,11 +77,11 @@ public abstract class LevelBase {
         return tilesInRow;
     }
 
-    public List<Tile> getTilesFromColumn(int columnNumber) {
-        List<Tile> tilesInColumn = new ArrayList<>();
+    public List<TileBase> getTilesFromColumn(int columnNumber) {
+        List<TileBase> tilesInColumn = new ArrayList<>();
 
-        for (Tile tile : tileList) {
-            if (getColumnNumber(tile) == columnNumber && !isBorderTile(tile)) {
+        for (TileBase tile : tileList) {
+            if (getColumnNumber(tile) == columnNumber && !tile.isUnmutableType()) {
                 tilesInColumn.add(tile);
             }
         }
@@ -92,9 +92,9 @@ public abstract class LevelBase {
     public List<Color> getColorList() {
         List<Color> colors = new ArrayList<>();
 
-        for (Tile tile : tileList) {
+        for (TileBase tile : tileList) {
             Color tileColor = tile.getItemList().get(0).getColor();
-            if (!colors.contains(tileColor) && !isBorderTile(tile)) {
+            if (!colors.contains(tileColor) && !tile.isUnmutableType()) {
                 colors.add(tileColor);
             }
         }
@@ -102,12 +102,12 @@ public abstract class LevelBase {
         return colors;
     }
 
-    public List<Tile> getTilesForColor(Color color) {
-        List<Tile> tiles = new ArrayList<>();
+    public List<TileBase> getTilesForColor(Color color) {
+        List<TileBase> tiles = new ArrayList<>();
 
-        for (Tile tile : tileList) {
+        for (TileBase tile : tileList) {
             Color tileColor = tile.getItemList().get(0).getColor();
-            if (tileColor.equals(color) && !isBorderTile(tile)) {
+            if (tileColor.equals(color) && !tile.isUnmutableType()) {
                 tiles.add(tile);
             }
         }
@@ -115,19 +115,19 @@ public abstract class LevelBase {
         return tiles;
     }
 
-    public List<Tile> getNeighboursForTile(Tile tile) {
-        List<Tile> tiles = new ArrayList<>();
+    public List<TileBase> getNeighboursForTile(TileBase tile) {
+        List<TileBase> tiles = new ArrayList<>();
 
         addNeighboursToListIfExists(tile, tiles);
 
         return tiles;
     }
 
-    public List<Tile> getTilesWithGivenItem(Item item) {
-        List<Tile> tilesWithGivenItem = new ArrayList<>();
+    public List<TileBase> getTilesWithGivenItem(Item item) {
+        List<TileBase> tilesWithGivenItem = new ArrayList<>();
 
-        for (Tile tile : tileList) {
-            if (tile.getItemList().contains(item) && !isBorderTile(tile)) {
+        for (TileBase tile : tileList) {
+            if (tile.getItemList().contains(item) && !tile.isUnmutableType()) {
                 tilesWithGivenItem.add(tile);
             }
         }
@@ -135,19 +135,11 @@ public abstract class LevelBase {
         return tilesWithGivenItem;
     }
 
-    private void removeTilesWithBorderType(List<Tile> tmpTiles) {
-        tmpTiles.removeIf(actualTile -> actualTile.getType().isBorderType());
+    private void removeTilesWithBorderType(List<TileBase> tmpTiles) {
+        tmpTiles.removeIf(actualTile -> actualTile.isUnmutableType());
     }
 
-    private boolean isBorderTile(Tile tile) {
-        return tile.getType().isBorderType();
-    }
-
-    private boolean isUnMutableTile(Tile tile) {
-        return tile.getType().isUnmutableType();
-    }
-
-    private void addNeighboursToListIfExists(Tile tile, List<Tile> tiles) {
+    private void addNeighboursToListIfExists(TileBase tile, List<TileBase> tiles) {
         int rowNr = getRowNumber(tile);
         int columnNr = getColumnNumber(tile);
 
@@ -164,43 +156,43 @@ public abstract class LevelBase {
         addNeighbourToListIfExists(rowNr+1, columnNr+1, tiles);
     }
 
-    private void addNeighbourToListIfExists(int row, int column, List<Tile> tiles) {
-        Tile tile = getTile(row, column);
+    private void addNeighbourToListIfExists(int row, int column, List<TileBase> tiles) {
+        TileBase tile = getTile(row, column);
 
-        if (tile != null && !isBorderTile(tile) && !isUnMutableTile(tile)) {
+        if (tile != null && !tile.isUnmutableType()) {
             tiles.add(tile);
         }
     }
 
-    private List<Tile> getSortedTilesBasedOnRow() {
-        List<Tile> tmpTiles = new ArrayList<>();
+    private List<TileBase> getSortedTilesBasedOnRow() {
+        List<TileBase> tmpTiles = new ArrayList<>();
         tmpTiles.addAll(tileList);
-        tmpTiles.sort(Tile.getRowNrComparator());
+        tmpTiles.sort(TileBase.getRowNrComparator());
 
         return tmpTiles;
     }
 
-    private List<Tile> getSortedTilesBasedOnColumn() {
-        List<Tile> tmpTiles = new ArrayList<>();
+    private List<TileBase> getSortedTilesBasedOnColumn() {
+        List<TileBase> tmpTiles = new ArrayList<>();
         tmpTiles.addAll(tileList);
-        tmpTiles.sort(Tile.getColumnNrComparator());
+        tmpTiles.sort(TileBase.getColumnNrComparator());
 
         return tmpTiles;
     }
 
-    private int getRowNumber(Tile tile) {
+    private int getRowNumber(TileBase tile) {
         return tile.getPosition().x;
     }
 
-    private int getColumnNumber(Tile tile) {
+    private int getColumnNumber(TileBase tile) {
         return tile.getPosition().y;
     }
 
-    public List<Tile> getTileList() {
+    public List<TileBase> getTileList() {
         return tileList;
     }
 
-    public void setTileList(List<Tile> tileList) {
+    public void setTileList(List<TileBase> tileList) {
         this.tileList = tileList;
     }
 }

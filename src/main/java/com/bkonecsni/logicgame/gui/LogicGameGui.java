@@ -3,7 +3,7 @@ package com.bkonecsni.logicgame.gui;
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.map.Tile;
+import com.bkonecsni.logicgame.domain.map.TileBase;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class LogicGameGui extends JFrame {
 
     private ButtonClickAction buttonClickAction;
 
-    private Map<JButton, Tile> buttonTileMap;
+    private Map<JButton, TileBase> buttonTileMap;
 
     public LogicGameGui(GameDefinition gameDefinition) {
         LevelBase map = gameDefinition.getMaps().get("level1");
@@ -46,7 +46,7 @@ public class LogicGameGui extends JFrame {
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
                 JButton button = new JButton();
-                Tile tile = map.getTile(i,j);
+                TileBase tile = map.getTile(i,j);
                 List<Item> itemList = tile.getItemList();
                 Color color = itemList.get(0).getColor();
                 button.setBackground(color);
@@ -59,10 +59,8 @@ public class LogicGameGui extends JFrame {
                     button.setIcon(icon);
                 }
 
-                if (!tile.getType().isBorderType()) {
-                    if (!tile.getType().isUnmutableType()) {
-                        buttonTileMap.put(button, tile);
-                    }
+                if (!tile.isUnmutableType()) {
+                    buttonTileMap.put(button, tile);
                 } else {
                     button.setBorder(null);
                 }

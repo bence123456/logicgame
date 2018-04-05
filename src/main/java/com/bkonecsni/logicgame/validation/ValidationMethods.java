@@ -1,8 +1,8 @@
 package com.bkonecsni.logicgame.validation;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.map.Tile;
 import com.bkonecsni.logicgame.validation.scrapers.ScrapersValidationHelper;
 
 import java.awt.*;
@@ -59,7 +59,7 @@ public class ValidationMethods {
     public boolean numberOfItemsInAllAreaWithSameColor(LevelBase map, List<Item> methodParams) {
         Item item = methodParams.get(0);
         int expectedNumber = methodParams.get(1).getIntValue();
-        Map<Color, List<Tile>> colorAreaTilesMap = createColorAreaTilesMap(map);
+        Map<Color, List<TileBase>> colorAreaTilesMap = createColorAreaTilesMap(map);
 
         for (Color color : colorAreaTilesMap.keySet()) {
             if (!isAreaValid(colorAreaTilesMap.get(color), item, expectedNumber)) {
@@ -72,11 +72,11 @@ public class ValidationMethods {
 
     public boolean twoNeighbouringSymbolsExists(LevelBase map, List<Item> methodParams) {
         Item symbolItem = methodParams.get(0);
-        List<Tile> tilesWithGivenItem = map.getTilesWithGivenItem(symbolItem);
+        List<TileBase> tilesWithGivenItem = map.getTilesWithGivenItem(symbolItem);
 
-        for (Tile tile : tilesWithGivenItem) {
-            List<Tile> neighbourTiles = map.getNeighboursForTile(tile);
-            for (Tile neighbourTile : neighbourTiles) {
+        for (TileBase tile : tilesWithGivenItem) {
+            List<TileBase> neighbourTiles = map.getNeighboursForTile(tile);
+            for (TileBase neighbourTile : neighbourTiles) {
                 if (neighbourTile.getItemList().contains(symbolItem)) {
                     return true;
                 }
@@ -97,12 +97,12 @@ public class ValidationMethods {
     public boolean neighboursHaveCorrectNumberOfItems(LevelBase map, List<Item> methodParams) {
         Item item = methodParams.get(0);
 
-        for (Tile tile : map.getTileList()) {
-            if (tile.getType().isUnmutableType()) {
+        for (TileBase tile : map.getTileList()) {
+            if (tile.isUnmutableType()) {
                 int expectedNrOfItems = tile.getItemList().get(1).getIntValue();
                 int actualNrOfItems = 0;
 
-                for (Tile unMutableTileNeighbour : map.getNeighboursForTile(tile)) {
+                for (TileBase unMutableTileNeighbour : map.getNeighboursForTile(tile)) {
                     if (unMutableTileNeighbour.getItemList().contains(item)) {
                         actualNrOfItems++;
                     }
@@ -117,14 +117,14 @@ public class ValidationMethods {
         return true;
     }
 
-    private Map<Tile, List<Tile>> getUnMutableTileNeighbourTilesMap(LevelBase map) {
+    private Map<TileBase, List<TileBase>> getUnMutableTileNeighbourTilesMap(LevelBase map) {
         return null;
     }
 
-    private boolean isAreaValid(List<Tile> tiles, Item item, int expectedNumber) {
+    private boolean isAreaValid(List<TileBase> tiles, Item item, int expectedNumber) {
         int numberOfItems = 0;
 
-        for (Tile tile : tiles) {
+        for (TileBase tile : tiles) {
             if (tile.getItemList().contains(item)) {
                 numberOfItems++;
             }
@@ -133,12 +133,12 @@ public class ValidationMethods {
         return numberOfItems == expectedNumber;
     }
 
-    private Map<Color, List<Tile>> createColorAreaTilesMap(LevelBase map) {
-        Map<Color, List<Tile>> colorAreaTilesMap = new HashMap<>();
+    private Map<Color, List<TileBase>> createColorAreaTilesMap(LevelBase map) {
+        Map<Color, List<TileBase>> colorAreaTilesMap = new HashMap<>();
         List<Color> colorList = map.getColorList();
 
         for (Color color : colorList) {
-            List<Tile> tilesForcolor = map.getTilesForColor(color);
+            List<TileBase> tilesForcolor = map.getTilesForColor(color);
             colorAreaTilesMap.put(color, tilesForcolor);
         }
 

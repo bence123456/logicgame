@@ -3,7 +3,7 @@ package com.bkonecsni.logicgame.gui;
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.map.Tile;
+import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.statehandler.StateHandler;
 import com.bkonecsni.logicgame.validation.ValidationHandler;
 
@@ -19,10 +19,10 @@ public class ButtonClickAction extends AbstractAction {
     private StateHandler stateHandler;
     private ValidationHandler validationHandler;
     private GameDefinition gameDefinition;
-    private Map<JButton, Tile> buttonTileMap;
+    private Map<JButton, TileBase> buttonTileMap;
     private LevelBase map;
 
-    public ButtonClickAction(Map<JButton, Tile> buttonTileMap, GameDefinition gameDefinition, LevelBase map) {
+    public ButtonClickAction(Map<JButton, TileBase> buttonTileMap, GameDefinition gameDefinition, LevelBase map) {
         this.buttonTileMap = buttonTileMap;
         this.gameDefinition = gameDefinition;
         this.map = map;
@@ -33,14 +33,14 @@ public class ButtonClickAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton buttonSource = (JButton) e.getSource();
-        Tile actualTile = buttonTileMap.get(buttonSource);
+        TileBase actualTile = buttonTileMap.get(buttonSource);
 
         handleActionEvent(buttonSource, actualTile);
 
         validate();
     }
 
-    private void handleActionEvent(JButton buttonSource, Tile actualTile) {
+    private void handleActionEvent(JButton buttonSource, TileBase actualTile) {
         stateHandler.act(actualTile);
 
         List<Item> itemList = actualTile.getItemList();

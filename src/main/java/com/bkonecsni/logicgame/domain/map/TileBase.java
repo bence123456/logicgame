@@ -1,29 +1,30 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.types.Type;
 
 import java.awt.Point;
 import java.util.Comparator;
 import java.util.List;
 
-public class Tile {
+public abstract class TileBase {
 
-    private Type type;
+    protected Point position;
 
-    private Point position;
+    protected Point size;
 
-    private Point size;
+    protected List<Item> itemList;
 
-    private List<Item> itemList;
-
-    public Tile(Point position, Point size, List<Item> itemList) {
+    public TileBase(Point position, Point size, List<Item> itemList) {
         this.position = position;
         this.size = size;
         this.itemList = itemList;
     }
 
-    public static Comparator<Tile> getColumnNrComparator() {
+    public abstract void onClick();
+
+    public abstract boolean isUnmutableType();
+
+    public static Comparator<TileBase> getColumnNrComparator() {
         return (tile1, tile2) -> {
             int tile1Column = tile1.getPosition().y;
             int tile2Column = tile2.getPosition().y;
@@ -32,21 +33,13 @@ public class Tile {
         };
     }
 
-    public static Comparator<Tile> getRowNrComparator() {
+    public static Comparator<TileBase> getRowNrComparator() {
         return (tile1, tile2) -> {
             int tile1Row = tile1.getPosition().x;
             int tile2Row = tile2.getPosition().x;
 
             return tile2Row - tile1Row;
         };
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public Point getPosition() {

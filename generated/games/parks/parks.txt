@@ -1,6 +1,15 @@
-package generated.games.parks;
+package games.parks;
 
-public class Tile_Type2 implements ITile {
+import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.interfaces.map.ITile;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
+
+import java.awt.Point;
+import java.awt.Color;
+import java.util.List;
+import java.util.Arrays;
+
+public class Tile_Type2 extends TileBase {
 
     private Point position; 
 
@@ -18,12 +27,12 @@ public class Tile_Type2 implements ITile {
         if (itemList.get(1) == null) {
             Item oldItem = itemList.get(1);
             itemList.remove(oldItem);
-            itemList.add(new Item(null, null, S1, null));
-        } else if (itemList.get(1).equals(new Item(null, null, S1, null)) {
+            itemList.add(new Item(null, null, "S1", null));
+        } else if (itemList.get(1).equals(new Item(null, null, "S1", null))) {
             Item oldItem = itemList.get(1);
             itemList.remove(oldItem);
-            itemList.add(new Item(null, null, S2, null));
-        } else if (itemList.get(1).equals(new Item(null, null, S2, null)) {
+            itemList.add(new Item(null, null, "S2", null));
+        } else if (itemList.get(1).equals(new Item(null, null, "S2", null))) {
             Item oldItem = itemList.get(1);
             itemList.remove(oldItem);
         }

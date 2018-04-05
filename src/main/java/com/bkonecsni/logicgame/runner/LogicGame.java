@@ -7,6 +7,8 @@ import com.bkonecsni.logicgame.parsers.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.SymbolsParser;
 import com.bkonecsni.logicgame.parsers.TypesParser;
 import com.bkonecsni.logicgame.parsers.ValidationParser;
+import net.openhft.compiler.CachedCompiler;
+import net.openhft.compiler.CompilerUtils;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
@@ -39,14 +41,15 @@ public class LogicGame {
             String typesCode = typesParser.parse(typesInput, gameDefinition);
 
             StringBuilder sb = new StringBuilder();
-            sb.append("package generated.games." + gameName + ";\n\n");
+            sb.append("package games." + gameName + ";\n\n");
+            appendImports(sb);
             sb.append(typesCode);
 
             parseMaps(gameLevelNumberMap, gameName, gameDefinition, sb);
 
             PrintWriter out = null;
             try {
-                out = new PrintWriter("generated/games/"+ gameName +"/"+ gameName +".txt");
+                out = new PrintWriter("generated/games/"+ gameName +"/"+ gameName +".java");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -72,10 +75,16 @@ public class LogicGame {
 
         for (int i=1; i <= mumberOfMaps; i++) {
             String actualLevel = "level" + i;
+            String className = "Level_" + i;
             CharStream mapInput = CharStreams.fromFileName("games/" + gameName + "/maps/" + gameName + "_" + actualLevel + ".txt");
-            sb.append("public class Level_" + i + " extends LevelBase {\n\n");
-            sb.append(mapParserImpl.parse(mapInput, gameDefinition));
-            sb.append("}\n\n\n");
+
+            String levelCode = "class " + className + " extends LevelBase {\n\n" + mapParserImpl.parse(mapInput, gameDefinition) + "}\n\n";
+            sb.append(levelCode);
+
+//            Class aClass = CompilerUtils.CACHED_COMPILER.loadFromJava(className, levelCode);
+//            CachedCompiler cc = new CachedCompiler();
+//            Runnable runner = (Runnable) aClass.newInstance();
+//            runner.run();
 
             LevelBase level = null;//(LevelBase) Class.forName("Level_"+i).newInstance(); //level.init();
             gameDefinition.getMaps().put(actualLevel, level);
@@ -118,5 +127,16 @@ public class LogicGame {
 
         Image scaledImage = image.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
         return new ImageIcon(scaledImage);
+    }
+
+    private void appendImports(StringBuilder sb) {
+        sb.append("import com.bkonecsni.logicgame.domain.common.Item;\n" +
+                "import com.bkonecsni.logicgame.domain.map.TileBase;\n" +
+                "import com.bkonecsni.logicgame.domain.map.LevelBase;\n" +
+                "import com.bkonecsni.logicgame.domain.map.UnMutableTile;\n\n" +
+                "import java.awt.Point;\n" +
+                "import java.awt.Color;\n" +
+                "import java.util.List;\n" +
+                "import java.util.Arrays;\n\n");
     }
 }

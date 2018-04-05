@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.statehandler;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.map.Tile;
+import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.domain.types.TypeStatement;
 import com.bkonecsni.logicgame.domain.types.equation.Update;
 import com.bkonecsni.logicgame.domain.types.equation.Condition;
@@ -11,14 +11,17 @@ import java.util.List;
 
 public class StateHandler {
 
-    public void act(Tile actualTile) {
+    public void act(TileBase actualTile) {
         List<Item> itemList = actualTile.getItemList();
-        List<TypeStatement> typeStatementList = actualTile.getType().getTypeStatementList();
 
-        List<Update> updateList = findUpdateList(itemList, typeStatementList);
-        for (Update update : updateList) {
-            update.execute(itemList);
-        }
+        actualTile.onClick();
+
+//        List<TypeStatement> typeStatementList = actualTile.getTypeStatementList();
+//
+//        List<Update> updateList = findUpdateList(itemList, typeStatementList);
+//        for (Update update : updateList) {
+//            update.execute(itemList);
+//        }
     }
 
     private List<Update> findUpdateList(List<Item> itemList, List<TypeStatement> typeStatementList) {

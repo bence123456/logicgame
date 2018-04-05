@@ -37,7 +37,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
         }
 
         sb.append("\n" + D_TAB + ");\n");
-        sb.append(TAB + "}\n\n");
+        sb.append(TAB + "}\n");
 
         return sb.toString();
     }
@@ -47,7 +47,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
 
         String typeString = visitType(tileContext.type());
-        sb.append("new Tile_" + typeString + "(");
+        sb.append("new " + typeString + "Tile (");
         sb.append(visitPosition(tileContext.position()) + ", ");
         sb.append(visitSize(tileContext.size()) + ", ");
         sb.append(visitItemList(tileContext.itemList()));

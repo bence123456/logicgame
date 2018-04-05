@@ -1,8 +1,8 @@
 package com.bkonecsni.logicgame.validation.scrapers;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.map.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +20,9 @@ public class ScrapersValidationHelper {
     }
 
     public boolean isSkylineCorrectForEveryRowAndColumn(LevelBase map, boolean shouldIncrementWithOne) {
-        Map<Tile, List<Tile>> skylineTilesMap = createSkylineTilesMap(map);
+        Map<TileBase, List<TileBase>> skylineTilesMap = createSkylineTilesMap(map);
 
-        for (Tile skylineTile : skylineTilesMap.keySet()) {
+        for (TileBase skylineTile : skylineTilesMap.keySet()) {
             int skylineNumber = skylineTile.getItemList().get(1).getIntValue();
             int visibleSkyscrapersNumber = getVisibleSkyscrapersNumber(skylineTilesMap.get(skylineTile), shouldIncrementWithOne);
 
@@ -34,12 +34,12 @@ public class ScrapersValidationHelper {
         return true;
     }
 
-    private int getVisibleSkyscrapersNumber(List<Tile> tilesForSkyline, boolean shouldIncrementWithOne) {
-        Tile actualTile = tilesForSkyline.get(0);
+    private int getVisibleSkyscrapersNumber(List<TileBase> tilesForSkyline, boolean shouldIncrementWithOne) {
+        TileBase actualTile = tilesForSkyline.get(0);
         int visibleSkyscrapersNumber = shouldIncrementWithOne ? 1 : actualTile.getItemList().get(1).getIntValue();
 
         for (int i=1; i<tilesForSkyline.size(); i++) {
-            Tile nextTile = tilesForSkyline.get(i);
+            TileBase nextTile = tilesForSkyline.get(i);
             Integer nextTileIntValue = nextTile.getItemList().get(1).getIntValue();
 
             if (actualTile.getItemList().get(1).getIntValue() < nextTileIntValue) {
@@ -52,13 +52,13 @@ public class ScrapersValidationHelper {
         return visibleSkyscrapersNumber;
     }
 
-    private Map<Tile, List<Tile>> createSkylineTilesMap(LevelBase map) {
+    private Map<TileBase, List<TileBase>> createSkylineTilesMap(LevelBase map) {
         int nrOfPlayableColums = map.getPlayableColumnNumber();
         int nrOfPlayableRows = map.getPlayableRowNumber();
         int firstPlayableColumnIndex = map.getFirstPlayableColumnIndex();
         int firstPlayableRowIndex = map.getFirstPlayableRowIndex();
 
-        Map<Tile, List<Tile>> skylineTilesMap = new HashMap<>();
+        Map<TileBase, List<TileBase>> skylineTilesMap = new HashMap<>();
 
         addTopSkylineWrappers(map, nrOfPlayableColums, nrOfPlayableRows, firstPlayableColumnIndex, firstPlayableRowIndex, skylineTilesMap);
         addBottomSkylineWrappers(map, nrOfPlayableColums, nrOfPlayableRows, firstPlayableColumnIndex, firstPlayableRowIndex, skylineTilesMap);
@@ -69,14 +69,14 @@ public class ScrapersValidationHelper {
     }
 
     private void addTopSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
-                                       int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
+                                       int firstPlayableRowIndex, Map<TileBase, List<TileBase>> skylineTilesMap) {
 
         for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
-            Tile topSkyline = map.getTile(0, i);
-            List<Tile> tilesForSkyline = new ArrayList<>();
+            TileBase topSkyline = map.getTile(0, i);
+            List<TileBase> tilesForSkyline = new ArrayList<>();
 
             for (int j=firstPlayableRowIndex; j<nrOfPlayableRows; j++) {
-                Tile tile = map.getTile(j, i);
+                TileBase tile = map.getTile(j, i);
                 tilesForSkyline.add(tile);
             }
 
@@ -85,14 +85,14 @@ public class ScrapersValidationHelper {
     }
 
     private void addBottomSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
-                                          int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
+                                          int firstPlayableRowIndex, Map<TileBase, List<TileBase>> skylineTilesMap) {
 
         for (int i=firstPlayableColumnIndex; i<nrOfPlayableColums; i++) {
-            Tile bottomSkyline = map.getTile(nrOfPlayableRows, i);
-            List<Tile> tilesForSkyline = new ArrayList<>();
+            TileBase bottomSkyline = map.getTile(nrOfPlayableRows, i);
+            List<TileBase> tilesForSkyline = new ArrayList<>();
 
             for (int j=nrOfPlayableRows-1; j>=firstPlayableRowIndex; j--) {
-                Tile tile = map.getTile(j, i);
+                TileBase tile = map.getTile(j, i);
                 tilesForSkyline.add(tile);
             }
 
@@ -101,14 +101,14 @@ public class ScrapersValidationHelper {
     }
 
     private void addLeftSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
-                                        int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
+                                        int firstPlayableRowIndex, Map<TileBase, List<TileBase>> skylineTilesMap) {
 
         for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {
-            Tile leftSkyline = map.getTile(i, 0);
-            List<Tile> tilesForSkyline = new ArrayList<>();
+            TileBase leftSkyline = map.getTile(i, 0);
+            List<TileBase> tilesForSkyline = new ArrayList<>();
 
             for (int j=firstPlayableColumnIndex; j<nrOfPlayableColums; j++) {
-                Tile tile = map.getTile(i, j);
+                TileBase tile = map.getTile(i, j);
                 tilesForSkyline.add(tile);
             }
 
@@ -117,14 +117,14 @@ public class ScrapersValidationHelper {
     }
 
     private void addRightSkylineWrappers(LevelBase map, int nrOfPlayableColums, int nrOfPlayableRows, int firstPlayableColumnIndex,
-                                         int firstPlayableRowIndex, Map<Tile, List<Tile>> skylineTilesMap) {
+                                         int firstPlayableRowIndex, Map<TileBase, List<TileBase>> skylineTilesMap) {
 
         for (int i=firstPlayableRowIndex; i<nrOfPlayableRows; i++) {
-            Tile rightSkyline = map.getTile(i, nrOfPlayableColums);
-            List<Tile> tilesForSkyline = new ArrayList<>();
+            TileBase rightSkyline = map.getTile(i, nrOfPlayableColums);
+            List<TileBase> tilesForSkyline = new ArrayList<>();
 
             for (int j=nrOfPlayableColums-1; j>=firstPlayableColumnIndex; j--) {
-                Tile tile = map.getTile(i, j);
+                TileBase tile = map.getTile(i, j);
                 tilesForSkyline.add(tile);
             }
 

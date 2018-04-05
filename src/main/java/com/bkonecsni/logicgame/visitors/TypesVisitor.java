@@ -34,7 +34,11 @@ public class TypesVisitor extends typesBaseVisitor<String> {
             }
 
             String onClickCode = createOnClickCode(typedeclContext);
-            createTileCode(sb, typeName, onClickCode);
+            if (onClickCode != null && !onClickCode.isEmpty()) {
+                createTileCode(sb, typeName, onClickCode);
+            } else {
+                createTileCodeForUnMutableType(sb, typeName);
+            }
 
             definedTypes.add(typeName);
         }
@@ -69,16 +73,21 @@ public class TypesVisitor extends typesBaseVisitor<String> {
     }
 
     private void createTileCode(StringBuilder sb, String typeName, String onClickCode) {
-        String className = "Tile_" + typeName;
-
-        sb.append("public class " + className + " implements ITile {\n\n");
-        sb.append(TAB + "private Point position; \n\n" + TAB + "private Point size; \n\n" +
-                TAB + "private List<Item> itemList; \n\n");
-
+        String className = typeName + "Tile";
+        sb.append("class " + className + " extends TileBase {\n\n");
         appendConstructor(sb, className);
 
+        appendOverrite(sb);
         sb.append(TAB + "public void onClick() {\n" + onClickCode + "\n" + TAB + "}\n\n");
-        appendGettersAndSetters(sb);
+        appendOverrite(sb);
+        sb.append(TAB + "public boolean isUnmutableType() {\n" + D_TAB + "return false;\n" + TAB + "}\n\n" + "}\n\n");
+    }
+
+    private void createTileCodeForUnMutableType(StringBuilder sb, String typeName) {
+        String className = typeName + "Tile";
+        sb.append("class " + className + " extends UnMutableTile {\n\n");
+        appendConstructor(sb, className);
+        sb.append("}\n\n");
     }
 
     private String createOnClickCode(typesParser.TypedeclContext typedeclContext) {
@@ -159,24 +168,17 @@ public class TypesVisitor extends typesBaseVisitor<String> {
         if (itemCreationString == null) {
             sb.append("if (itemList.get("+ comparableItemIndex + ") == null) {\n");
         } else {
-            sb.append("if (itemList.get("+ comparableItemIndex + ").equals("+ itemCreationString +") {\n");
+            sb.append("if (itemList.get("+ comparableItemIndex + ").equals("+ itemCreationString +")) {\n");
         }
     }
 
     private void appendConstructor(StringBuilder sb, String className) {
         sb.append(TAB + "public " + className +"(Point position, Point size, List<Item> itemList) {\n" +
-                D_TAB + "this.position = position;\n" +
-                D_TAB + "this.size = size;\n" +
-                D_TAB + "this.itemList = itemList;\n" +
+                D_TAB + "super(position, size, itemList);\n" +
                 TAB + "}\n\n");
     }
 
-    private void appendGettersAndSetters(StringBuilder sb) {
-        sb.append(TAB + "public Point getPosition() { return position; }\n\n" +
-                TAB + "public void setPosition(Point position) { this.position = position; }\n\n" +
-                TAB + "public Point getSize() {return size; }\n\n" +
-                TAB + "public void setSize(Point size) { this.size = size; }\n\n" +
-                TAB + "public List<Item> getItemList() {return itemList; }\n\n" +
-                TAB + "public void setItemList(List<Item> itemList) { this.itemList = itemList; }\n\n" + "}\n\n\n");
+    private void appendOverrite(StringBuilder sb) {
+        sb.append(TAB + "@Override\n");
     }
 }

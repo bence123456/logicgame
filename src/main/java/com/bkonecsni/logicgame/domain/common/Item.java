@@ -19,6 +19,22 @@ public class Item {
         this.color = color;
     }
 
+    public static Item createWithCharValue(Character charValue) {
+        return new Item(charValue, null, null, null);
+    }
+
+    public static Item createWithIntValue(Integer intValue) {
+        return new Item(null, intValue, null, null);
+    }
+
+    public static Item createWithSymbol(String symbol) {
+        return new Item(null, null, symbol, null);
+    }
+
+    public static Item createWithColor(Color color) {
+        return new Item(null, null, null, color);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

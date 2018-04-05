@@ -13,23 +13,23 @@ public class ParserUtil {
         String itemCreationString = null;
 
         if (StringUtils.isNumeric(itemAsString)) {
-            itemCreationString = "new Item(null, " + Integer.valueOf(itemAsString) + ", null, null)";
+            itemCreationString = "Item.createWithIntValue(" + Integer.valueOf(itemAsString) + ")";
         } else if(itemAsString.length() == 1) {
-            itemCreationString = "new Item(" + itemAsString.charAt(0) + ", null, null, null)";
+            itemCreationString = "Item.createWithCharValue('" + itemAsString.charAt(0) + "')";
         } else if(itemAsString.startsWith("S")) {
             if (!gameDefinition.getSymbolsMap().containsKey(itemAsString)) {
                 throw new NoSuchSymbolException(itemAsString);
             }
-            itemCreationString = "new Item(null, null, " + itemAsString + ", null)";
+            itemCreationString = "Item.createWithSymbol(\"" + itemAsString + "\")";
         } else if(itemAsString.startsWith("#")) {
-            String color = getColorCreatiionString(itemAsString);
-            itemCreationString = "new Item(null, null, null, " + color + ")";
+            String colorCreationString = getColorCreationString(itemAsString);
+            itemCreationString = "Item.createWithColor(" + colorCreationString + ")";
         }
 
         return itemCreationString;
     }
 
-    public static String getColorCreatiionString(String itemAsString) {
+    public static String getColorCreationString(String itemAsString) {
         String stringColor;
 
         if (itemAsString.length() == 4) {
