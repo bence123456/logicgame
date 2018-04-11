@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.parsers;
+package com.bkonecsni.logicgame.parsers.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
@@ -13,7 +13,7 @@ import validation.validationParser.WinContext;
 
 import java.util.List;
 
-public class ValidationParser implements IParser {
+public class ValidationParserImpl implements ValidationParser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition) {

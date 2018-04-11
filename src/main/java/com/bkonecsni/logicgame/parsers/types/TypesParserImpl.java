@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.parsers;
+package com.bkonecsni.logicgame.parsers.types;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.visitors.TypesVisitor;
@@ -8,10 +8,12 @@ import types.typesLexer;
 import types.typesParser;
 import types.typesParser.TypesContext;
 
-public class TypesParser implements Parser {
+import java.util.Map;
+
+public class TypesParserImpl implements TypesParser {
 
     @Override
-    public String parse(CharStream input, GameDefinition gameDefinition) {
+    public Map<String, String> parse(CharStream input, GameDefinition gameDefinition) {
         TypesContext typesContext = getTypesContext(input);
         TypesVisitor typesVisitor = new TypesVisitor(gameDefinition);
 

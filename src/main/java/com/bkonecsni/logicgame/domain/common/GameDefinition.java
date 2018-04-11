@@ -8,6 +8,8 @@ import java.util.*;
 
 public class GameDefinition {
 
+    private String gameName;
+
     private Map<String, ImageIcon> symbolsMap = new HashMap<>();
 
     private Set<String> definedTypes = new HashSet<>();
@@ -19,7 +21,9 @@ public class GameDefinition {
 
     private Map<Integer, ImageIcon> numberIconMap = new HashMap<>();
 
-    public GameDefinition() { }
+    public GameDefinition(String gameName) {
+        this.gameName = gameName;
+    }
 
     public ImageIcon getIcon(Item item) {
         Integer intValue = item.getIntValue();
@@ -31,51 +35,32 @@ public class GameDefinition {
         }
     }
 
-    public Map<String, ImageIcon> getSymbolsMap() {
-        return symbolsMap;
+    public String getGameName() {
+        return gameName;
     }
 
-    public void setSymbolsMap(Map<String, ImageIcon> symbolsMap) {
-        this.symbolsMap = symbolsMap;
+    public Map<String, ImageIcon> getSymbolsMap() {
+        return symbolsMap;
     }
 
     public Set<String> getDefinedTypes() {
         return definedTypes;
     }
 
-    public void setDefinedTypes(Set<String> definedTypes) {
-        this.definedTypes = definedTypes;
-    }
-
     public Map<String, LevelBase> getMaps() {
         return maps;
-    }
-
-    public void setMaps(Map<String, LevelBase> maps) {
-        this.maps = maps;
     }
 
     public List<ValidationStatement> getWinStatementList() {
         return winStatementList;
     }
 
-    public void setWinStatementList(List<ValidationStatement> winStatementList) {
-        this.winStatementList = winStatementList;
-    }
-
     public List<ValidationStatement> getLooseStatementList() {
         return looseStatementList;
-    }
-
-    public void setLooseStatementList(List<ValidationStatement> looseStatementList) {
-        this.looseStatementList = looseStatementList;
     }
 
     public Map<Integer, ImageIcon> getNumberIconMap() {
         return numberIconMap;
     }
 
-    public void setNumberIconMap(Map<Integer, ImageIcon> numberIconMap) {
-        this.numberIconMap = numberIconMap;
-    }
 }
