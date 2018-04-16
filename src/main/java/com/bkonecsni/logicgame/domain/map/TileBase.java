@@ -1,6 +1,7 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.types.TypeStatement;
 
 import java.awt.Point;
 import java.util.Comparator;
@@ -14,13 +15,16 @@ public abstract class TileBase {
 
     protected List<Item> itemList;
 
+    protected List<TypeStatement> typeStatementList;
+
     public TileBase(Point position, Point size, List<Item> itemList) {
         this.position = position;
         this.size = size;
         this.itemList = itemList;
+        init();
     }
 
-    public abstract void onClick();
+    public abstract void init();
 
     public abstract boolean isUnmutableType();
 
@@ -64,5 +68,9 @@ public abstract class TileBase {
 
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
+    }
+
+    public List<TypeStatement> getTypeStatementList() {
+        return typeStatementList;
     }
 }

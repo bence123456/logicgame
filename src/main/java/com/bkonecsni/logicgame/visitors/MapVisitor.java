@@ -79,14 +79,14 @@ public class MapVisitor extends mapBaseVisitor<String> {
     @Override
     public String visitItemList(mapParser.ItemListContext itemListContext) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Arrays.asList(");
+        sb.append("new ArrayList(Arrays.asList(");
 
         sb.append(ParserUtil.getItemCreationString(itemListContext.color().COLOR().getText(), gameDefinition));
         for (mapParser.ItemContext itemContext : itemListContext.item()) {
             String itemCreationString = ParserUtil.getItemCreationString(itemContext.getChild(1).getText(), gameDefinition);
             sb.append(", " + itemCreationString);
         }
-        sb.append(")");
+        sb.append("))");
 
         return sb.toString();
     }
@@ -138,6 +138,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
                 "import com.bkonecsni.logicgame.domain.common.Item;\n\n" +
                 "import java.awt.Point;\n" +
                 "import java.awt.Color;\n" +
+                "import java.util.ArrayList;\n" +
                 "import java.util.Arrays;\n\n");
     }
 }

@@ -13,15 +13,12 @@ public class StateHandler {
 
     public void act(TileBase actualTile) {
         List<Item> itemList = actualTile.getItemList();
+        List<TypeStatement> typeStatementList = actualTile.getTypeStatementList();
 
-        actualTile.onClick();
-
-//        List<TypeStatement> typeStatementList = actualTile.getTypeStatementList();
-//
-//        List<Update> updateList = findUpdateList(itemList, typeStatementList);
-//        for (Update update : updateList) {
-//            update.execute(itemList);
-//        }
+        List<Update> updateList = findUpdateList(itemList, typeStatementList);
+        for (Update update : updateList) {
+            update.execute(itemList);
+        }
     }
 
     private List<Update> findUpdateList(List<Item> itemList, List<TypeStatement> typeStatementList) {

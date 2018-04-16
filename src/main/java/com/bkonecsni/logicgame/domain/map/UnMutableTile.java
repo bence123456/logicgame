@@ -3,6 +3,7 @@ package com.bkonecsni.logicgame.domain.map;
 import com.bkonecsni.logicgame.domain.common.Item;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UnMutableTile extends TileBase {
@@ -12,7 +13,9 @@ public class UnMutableTile extends TileBase {
     }
 
     @Override
-    public void onClick() {}
+    public void init() {
+        typeStatementList = new ArrayList<>();
+    }
 
     @Override
     public boolean isUnmutableType() {
