@@ -85,7 +85,7 @@ public class SimpleValidationHelper {
         for (int i=0; i<paramContexts.size(); i++) {
             Class paramType = paramTypes.get(i);
             TerminalNode number = paramContexts.get(i).NUMBER();
-            String itemContextText = number == null ? paramContexts.get(i).item().getText().replace(" ", "") : number.getText();
+            String itemContextText = number == null ? paramContexts.get(i).item().ID().getText() : number.getText();
 
             if (paramType.equals(Item.class)) {
                 addItemParamToList(gameDefinition, itemList, itemContextText);
@@ -106,15 +106,11 @@ public class SimpleValidationHelper {
     }
 
     private void addItemParamToList(GameDefinition gameDefinition, List<String> itemList, String itemContextText) throws ValidationMethodParameterException {
-        if (itemContextText.startsWith("item:")) {
-            String itemCreationString = ParserUtil.getItemCreationString(itemContextText.substring(5), gameDefinition);
-            if (itemCreationString == null) {
-                throw new ValidationMethodParameterException("Item parameter is invalid! Declare it based on the rules.");
-            }
-            itemList.add(itemCreationString);
-        } else {
-            throw new ValidationMethodParameterException("Item parameter is in incorrect format! Use 'item: [item text]'");
+        String itemCreationString = ParserUtil.getItemCreationString(itemContextText, gameDefinition);
+        if (itemCreationString == null) {
+            throw new ValidationMethodParameterException("Item parameter is invalid! Declare it based on the rules.");
         }
+        itemList.add(itemCreationString);
     }
 
     private void addIntParamToList(List<String> itemList, int i, String itemContextText) throws ValidationMethodParameterException {

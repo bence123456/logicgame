@@ -1,10 +1,19 @@
-win:
-numberOfItemsInAllRow(item:1, 1) == true
-numberOfItemsInAllRow(item:2, 1) == true
-numberOfItemsInAllRow(item:3, 1) == true
-numberOfItemsInAllRow(item:4, 1) == true
-numberOfItemsInAllColumn(item:1, 1) == true
-numberOfItemsInAllColumn(item:2, 1) == true
-numberOfItemsInAllColumn(item:3, 1) == true
-numberOfItemsInAllColumn(item:4, 1) == true
-
+int i = 5;
+int j;
+{
+    String s;
+    s = "abc";
+    {
+        boolean b;
+        b = true;
+        {
+            String s = "ez egy string";
+            if (b) {
+               b=false;
+            }
+        }
+        if (s) {
+            s="asd";
+        }
+    }
+}

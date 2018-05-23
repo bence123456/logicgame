@@ -1,9 +1,9 @@
 win:
-numberOfItemsInAllRow(item:1, 1) == true
-numberOfItemsInAllRow(item:2, 1) == true
-numberOfItemsInAllRow(item:3, 1) == true
-numberOfItemsInAllRow(item:4, 1) == true
-numberOfItemsInAllColumn(item:1, 1) == true
-numberOfItemsInAllColumn(item:2, 1) == true
-numberOfItemsInAllColumn(item:3, 1) == true
-numberOfItemsInAllColumn(item:4, 1) == true
+numberOfItemsInAllRow([1], 1) == true
+numberOfItemsInAllRow([2], 1) == true
+numberOfItemsInAllRow([3], 1) == true
+numberOfItemsInAllRow([4], 1) == true
+numberOfItemsInAllColumn([1], 1) == true
+numberOfItemsInAllColumn([2], 1) == true
+numberOfItemsInAllColumn([3], 1) == true
+numberOfItemsInAllColumn([4], 1) == true

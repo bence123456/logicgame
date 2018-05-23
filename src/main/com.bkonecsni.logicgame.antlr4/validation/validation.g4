@@ -30,20 +30,15 @@ expression
 	| NULL
 	;
 
-
 func: funcname LP params? RP ISEQ BOOL ;
 funcname: ID ;
-params: (param COMMA)* param ;
+params: (param (COMMA param)*) | param  ;
 param: item | NUMBER ;
 
-item: 'item:' (NUMBER | CHAR | COLOR | SYMBOL);
+item: '[' ID ']' ;
 
-ID: [a-z] [A-Za-z]* ;
+ID: [a-zA-Z][a-zA-Z0-9_]* ;
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
-CHAR:   [A-Z] ;
-COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;
-HDN: [A-F] | [a-f] | [0-9] ;
-SYMBOL: 'S' NUMBER ;
 
 WIN: 'win' COL ;
 

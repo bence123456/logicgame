@@ -1,5 +1,5 @@
 win:
-numberOfItemsInAllRow(item:S2, 1) == true
-numberOfItemsInAllColumn(item:S2, 1) == true
-numberOfItemsInAllAreaWithSameColor(item:S2, 1) == true
-twoNeighbouringSymbolsExists(item:S2) == false
+numberOfItemsInAllRow([S2], 1) == true
+numberOfItemsInAllColumn([S2], 1) == true
+numberOfItemsInAllAreaWithSameColor([S2], 1) == true
+twoNeighbouringSymbolsExists([S2]) == false
