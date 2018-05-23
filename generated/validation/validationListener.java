@@ -18,25 +18,95 @@ public interface validationListener extends ParseTreeListener {
 	 */
 	void exitValidation(validationParser.ValidationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link validationParser#win}.
+	 * Enter a parse tree produced by {@link validationParser#statementList}.
 	 * @param ctx the parse tree
 	 */
-	void enterWin(validationParser.WinContext ctx);
+	void enterStatementList(validationParser.StatementListContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link validationParser#win}.
+	 * Exit a parse tree produced by {@link validationParser#statementList}.
 	 * @param ctx the parse tree
 	 */
-	void exitWin(validationParser.WinContext ctx);
+	void exitStatementList(validationParser.StatementListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link validationParser#loose}.
+	 * Enter a parse tree produced by {@link validationParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterLoose(validationParser.LooseContext ctx);
+	void enterStatement(validationParser.StatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link validationParser#loose}.
+	 * Exit a parse tree produced by {@link validationParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitLoose(validationParser.LooseContext ctx);
+	void exitStatement(validationParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#variableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableDeclaration(validationParser.VariableDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#variableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableDeclaration(validationParser.VariableDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#typeName}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeName(validationParser.TypeNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#typeName}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeName(validationParser.TypeNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#varName}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarName(validationParser.VarNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#varName}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarName(validationParser.VarNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(validationParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(validationParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(validationParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(validationParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#assignmentStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentStatement(validationParser.AssignmentStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#assignmentStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentStatement(validationParser.AssignmentStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression(validationParser.ExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression(validationParser.ExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link validationParser#func}.
 	 * @param ctx the parse tree
@@ -68,15 +138,15 @@ public interface validationListener extends ParseTreeListener {
 	 */
 	void exitParams(validationParser.ParamsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link validationParser#parens_nr}.
+	 * Enter a parse tree produced by {@link validationParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void enterParens_nr(validationParser.Parens_nrContext ctx);
+	void enterParam(validationParser.ParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link validationParser#parens_nr}.
+	 * Exit a parse tree produced by {@link validationParser#param}.
 	 * @param ctx the parse tree
 	 */
-	void exitParens_nr(validationParser.Parens_nrContext ctx);
+	void exitParam(validationParser.ParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link validationParser#item}.
 	 * @param ctx the parse tree

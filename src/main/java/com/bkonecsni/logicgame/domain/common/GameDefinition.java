@@ -1,7 +1,6 @@
 package com.bkonecsni.logicgame.domain.common;
 
 import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.validation.ValidationStatement;
 
 import javax.swing.*;
 import java.util.*;
@@ -15,9 +14,6 @@ public class GameDefinition {
     private Set<String> definedTypes = new HashSet<>();
 
     private Map<String, LevelBase> maps = new HashMap<>();
-
-    private List<ValidationStatement> winStatementList = new ArrayList<>();
-    private List<ValidationStatement> looseStatementList = new ArrayList<>();
 
     private Map<Integer, ImageIcon> numberIconMap = new HashMap<>();
 
@@ -49,14 +45,6 @@ public class GameDefinition {
 
     public Map<String, LevelBase> getMaps() {
         return maps;
-    }
-
-    public List<ValidationStatement> getWinStatementList() {
-        return winStatementList;
-    }
-
-    public List<ValidationStatement> getLooseStatementList() {
-        return looseStatementList;
     }
 
     public Map<Integer, ImageIcon> getNumberIconMap() {

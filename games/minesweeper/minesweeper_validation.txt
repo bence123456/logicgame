@@ -1,2 +1,2 @@
 win:
-neighboursHaveCorrectNumberOfItems(S2) == true
+neighboursHaveCorrectNumberOfItems(item:S2) == true

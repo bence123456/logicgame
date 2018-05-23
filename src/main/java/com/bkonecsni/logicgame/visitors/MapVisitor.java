@@ -135,7 +135,8 @@ public class MapVisitor extends mapBaseVisitor<String> {
         }
 
         sb.append("import com.bkonecsni.logicgame.domain.map.LevelBase;\n" +
-                "import com.bkonecsni.logicgame.domain.common.Item;\n\n" +
+                "import com.bkonecsni.logicgame.domain.common.Item;\n" +
+                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n" +
                 "import java.awt.Point;\n" +
                 "import java.awt.Color;\n" +
                 "import java.util.ArrayList;\n" +

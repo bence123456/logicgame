@@ -5,5 +5,5 @@ import org.antlr.v4.runtime.CharStream;
 
 public interface ValidationParser {
 
-    void parse(CharStream input, GameDefinition gameDefinition);
+    String parse(CharStream input, GameDefinition gameDefinition);
 }

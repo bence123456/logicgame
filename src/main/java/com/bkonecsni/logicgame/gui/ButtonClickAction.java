@@ -5,7 +5,6 @@ import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.statehandler.StateHandler;
-import com.bkonecsni.logicgame.validation.ValidationHandler;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -17,7 +16,6 @@ import java.util.Map;
 public class ButtonClickAction extends AbstractAction {
 
     private StateHandler stateHandler;
-    private ValidationHandler validationHandler;
     private GameDefinition gameDefinition;
     private Map<JButton, TileBase> buttonTileMap;
     private LevelBase map;
@@ -27,7 +25,6 @@ public class ButtonClickAction extends AbstractAction {
         this.gameDefinition = gameDefinition;
         this.map = map;
         this.stateHandler = new StateHandler();
-        this.validationHandler = new ValidationHandler();
     }
 
     @Override
@@ -57,7 +54,7 @@ public class ButtonClickAction extends AbstractAction {
         boolean valid = false;
 
         try {
-            valid = validationHandler.isValid(map, gameDefinition.getWinStatementList());
+            valid = map.isValid();
         } catch (Exception e1) {
             e1.printStackTrace();
         }

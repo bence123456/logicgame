@@ -1,18 +1,42 @@
 grammar validation;
 
-validation: WIN win+ LOOSE? loose* ;
-
-win: func ISEQ BOOL ;
-loose: func ISEQ BOOL ;
+validation: (WIN func+) | statementList ;
 BOOL: TRUE | FALSE ;
 
-func: funcname LP params? RP ;
-funcname: ID ;
-params: (item COMMA)* item ;
+statementList :	statement+ ;
 
-parens_nr: LP NUMBER RP ;
-item: NUMBER | CHAR | COLOR | SYMBOL | AREA_DEF ;
-AREA_DEF: 'COLOR' | 'RECT' ;
+statement :	variableDeclaration
+	|	ifStatement
+	|	block
+	|	assignmentStatement ;
+
+variableDeclaration : typeName varName ('=' expression)? ';' ;
+
+typeName :	ID ;
+
+varName :	ID ;
+
+ifStatement : 	'if' '(' expression ')' block ;
+
+block :	'{' statementList '}' ;
+
+assignmentStatement : varName '=' expression ';' ;
+
+expression
+	: varName
+	| NUMBER
+	| STRING
+	| BOOL
+	| NULL
+	;
+
+
+func: funcname LP params? RP ISEQ BOOL ;
+funcname: ID ;
+params: (param COMMA)* param ;
+param: item | NUMBER ;
+
+item: 'item:' (NUMBER | CHAR | COLOR | SYMBOL);
 
 ID: [a-z] [A-Za-z]* ;
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
@@ -22,12 +46,15 @@ HDN: [A-F] | [a-f] | [0-9] ;
 SYMBOL: 'S' NUMBER ;
 
 WIN: 'win' COL ;
-LOOSE: 'loose' COL ;
 
 ISEQ: '==' ;
 TRUE: 'true' ;
 FALSE: 'false' ;
 EMPTY: 'empty' ;
+
+ITEM: 'item' ;
+NULL : 'null';
+STRING : '"' (~[\r\n"])* '"' ;
 
 LP:  '(' ;
 RP:  ')' ;
