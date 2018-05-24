@@ -1,7 +1,6 @@
 grammar validation;
 
-validation: (WIN func+) | statementList ;
-BOOL: TRUE | FALSE ;
+validation:  statementList ;
 
 statementList :	statement+ ;
 
@@ -30,30 +29,11 @@ expression
 	| NULL
 	;
 
-func: funcname LP params? RP ISEQ BOOL ;
-funcname: ID ;
-params: (param (COMMA param)*) | param  ;
-param: item | NUMBER ;
+ID: [a-zA-Z0-9][a-zA-Z0-9_]* ;
 
-item: '[' ID ']' ;
-
-ID: [a-zA-Z][a-zA-Z0-9_]* ;
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
-
-WIN: 'win' COL ;
-
-ISEQ: '==' ;
-TRUE: 'true' ;
-FALSE: 'false' ;
-EMPTY: 'empty' ;
-
-ITEM: 'item' ;
-NULL : 'null';
 STRING : '"' (~[\r\n"])* '"' ;
-
-LP:  '(' ;
-RP:  ')' ;
-COMMA: ',' ;
-COL: ':' ;
+BOOL: 'true' | 'false' ;
+NULL : 'null';
 
 WS : [ \t\r\n]+ -> skip ;

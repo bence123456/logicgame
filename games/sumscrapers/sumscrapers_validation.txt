@@ -1,19 +1,15 @@
 int i = 5;
 int j;
-{
+boolean b;
     String s;
     s = "abc";
     {
-        boolean b;
+
         b = true;
         {
-            String s = "ez egy string";
             if (b) {
                b=false;
             }
         }
-        if (s) {
-            s="asd";
-        }
     }
-}
+    return b;

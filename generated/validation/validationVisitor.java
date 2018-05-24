@@ -70,34 +70,4 @@ public interface validationVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression(validationParser.ExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link validationParser#func}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunc(validationParser.FuncContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link validationParser#funcname}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFuncname(validationParser.FuncnameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link validationParser#params}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParams(validationParser.ParamsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link validationParser#param}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParam(validationParser.ParamContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link validationParser#item}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitItem(validationParser.ItemContext ctx);
 }

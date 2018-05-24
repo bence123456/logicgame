@@ -1,7 +1,6 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.bkonecsni.logicgame.exceptions.ValidationMethodParameterException;
 import org.apache.commons.lang3.StringUtils;
 import validation.validationBaseVisitor;
 import validation.validationParser;
@@ -13,61 +12,23 @@ import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.TAB;
 
 public class ValidationVisitor extends validationBaseVisitor<String> {
 
-    private SimpleValidationHelper simpleValidationHelper;
-
     private GameDefinition gameDefinition;
 
     public ValidationVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
-        this.simpleValidationHelper = new SimpleValidationHelper(gameDefinition);
     }
 
     public String visitValidation(validationParser.ValidationContext validationContext) {
-        String validationCode;
-
-        if (validationContext.statementList() != null) {
-            validationCode = visitList(validationContext.statementList().statement(), "\n");
-            indent(validationCode);
-        } else {
-            validationCode = createSimpleValidationCode(validationContext);
-        }
+        String validationCode = visitStatementList(validationContext.statementList());
+        indent(validationCode);
 
         return createValidationClassCode(validationCode);
     }
 
-    private String createSimpleValidationCode(validationParser.ValidationContext validationContext) {
-        String validationCode = null;
-
-        try {
-            validationCode = simpleValidationHelper.createValidationCode(validationContext);
-        } catch (ValidationMethodParameterException e) {
-            e.printStackTrace();
-        }
-
-        return validationCode;
+    public String visitStatementList(validationParser.StatementListContext context) {
+        return visitList(context.statement(), "\n");
     }
 
-    private String createValidationClassCode(String statements) {
-        StringBuilder sb = new StringBuilder();
-
-        String gameName = gameDefinition.getGameName();
-        sb.append("package gamecode." + gameName + ".validation;\n\n");
-
-        appendImport(sb);
-        sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {\n\n");
-        sb.append(TAB + "public boolean areWinConditionsApply() {\n");
-
-        sb.append(D_TAB + statements + TAB + "}\n}");
-
-        return sb.toString();
-    }
-
-    private void appendImport(StringBuilder sb) {
-        sb.append("import com.bkonecsni.logicgame.domain.common.Item;\n" +
-                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n");
-    }
-
-    /// COMPLEX
     public String visitBlock(validationParser.BlockContext context) {
         String statements = visitStatementList(context.statementList());
         indent(statements);
@@ -94,10 +55,10 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         return varName + " = " + expression + ";";
     }
 
-    public String visitFunc(validationParser.FuncContext ctx) {
-        // TODO!!  common methods in ValidationBase, check if exists?
-        return visitChildren(ctx);
-    }
+//    public String visitFunc(validationParser.FuncContext ctx) {
+//        // TODO!!  common methods in ValidationBase, check if exists?
+//        return visitChildren(ctx);
+//    }
 
     public String visitIfStatement(validationParser.IfStatementContext context) {
         String result = "if (" + visitExpression(context.expression()) + ") ";
@@ -156,6 +117,26 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
             string.concat("\t");
             string.replace("\n", "\n\t");
         }
+    }
+
+    private String createValidationClassCode(String statements) {
+        StringBuilder sb = new StringBuilder();
+
+        String gameName = gameDefinition.getGameName();
+        sb.append("package gamecode." + gameName + ".validation;\n\n");
+
+        appendImport(sb);
+        sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {\n\n");
+        sb.append(TAB + "public boolean areWinConditionsApply() {\n");
+
+        sb.append(D_TAB + statements + TAB + "}\n}");
+
+        return sb.toString();
+    }
+
+    private void appendImport(StringBuilder sb) {
+        sb.append("import com.bkonecsni.logicgame.domain.common.Item;\n" +
+                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n");
     }
 
 }

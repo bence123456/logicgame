@@ -137,10 +137,7 @@ public abstract class ValidationBase {
         return tilesWithGivenItem;
     }
 
-
-    // TODO: handle list of items (in validationvisitor as well!)
-    public boolean numberOfItemsInAllRow(Item item /*List<Item> searchedItems*/, int expectedNumber) {
-        //for (Item item : searchedItems) {
+    public boolean numberOfItemsInAllRow(Item item, int expectedNumber) {
             int numberOfRows = getRowNumber();
             int numberOfPlayableRows = getPlayableRowNumber();
             int firstPlayableRowIndex = getFirstPlayableColumnIndex();
@@ -151,13 +148,11 @@ public abstract class ValidationBase {
                     return false;
                 }
             }
-        //}
 
         return true;
     }
 
-    public boolean numberOfItemsInAllColumn(Item item/*List<Item> searchedItems*/, int expectedNumber) {
-        //for (Item item : searchedItems) {
+    public boolean numberOfItemsInAllColumn(Item item, int expectedNumber) {
             int numberOfColumns = getColumnNumber();
             int numberOfPlayableColumns = getPlayableColumnNumber();
             int firstPlayableColumnIndex = getFirstPlayableColumnIndex();
@@ -168,7 +163,6 @@ public abstract class ValidationBase {
                     return false;
                 }
             }
-        //}
 
         return true;
     }

@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 import java.util.List;
 
@@ -38,26 +39,9 @@ public class LogicGame {
             CharStream symbolsInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_symbols.txt");
             symbolsParser.parse(symbolsInput, gameDefinition);
 
-            CharStream typesInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_types.txt");
-            Map<String, String> typeNameCodeMap = typesParser.parse(typesInput, gameDefinition);
+            parseTypes(gameName, gameDefinition, fileUrlPrefixForGame);
 
-            for (String typeName : typeNameCodeMap.keySet()) {
-                String typeCode = typeNameCodeMap.get(typeName);
-                String directoryName = "src/main/java/gamecode/" + gameName + "/types";
-                String fileName = typeName + "Tile.java";
-
-                writeFile(typeCode, directoryName, fileName);
-            }
-
-            CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
-            String validationCode = validationParser.parse(validationInput, gameDefinition);
-            String directoryName = "src/main/java/gamecode/" + gameName + "/validation";
-            String className = StringUtils.capitalize(gameName) + "Validation";
-            String fileName = className + ".java";
-            writeFile(validationCode, directoryName, fileName);
-
-            Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".validation." + className, validationCode);
-            ValidationBase validationHandler = (ValidationBase) validationClass.newInstance();
+            ValidationBase validationHandler = parseAndLoadValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame);
 
             parseMaps(gameLevelNumberMap, gameName, gameDefinition, validationHandler);
 
@@ -72,6 +56,38 @@ public class LogicGame {
         return gameDefinitions;
     }
 
+    private void parseTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
+        CharStream typesInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_types.txt");
+        Map<String, String> typeNameCodeMap = typesParser.parse(typesInput, gameDefinition);
+
+        for (String typeName : typeNameCodeMap.keySet()) {
+            String typeCode = typeNameCodeMap.get(typeName);
+            String directoryName = "src/main/java/gamecode/" + gameName + "/types";
+            String fileName = typeName + "Tile.java";
+
+            writeFile(typeCode, directoryName, fileName);
+        }
+    }
+
+    private ValidationBase parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        CharStream validationInput;
+        boolean simpleValidation = false;
+        try {
+            validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
+        } catch (NoSuchFileException e) {
+            validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation_simple.txt");
+            simpleValidation = true;
+        }
+
+        String validationCode = validationParser.parse(validationInput, gameDefinition, simpleValidation);
+        String directoryName = "src/main/java/gamecode/" + gameName + "/validation";
+        String className = StringUtils.capitalize(gameName) + "Validation";
+        String fileName = className + ".java";
+        writeFile(validationCode, directoryName, fileName);
+
+        Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".validation." + className, validationCode);
+        return (ValidationBase) validationClass.newInstance();
+    }
 
     private void writeFile(String value, String directoryName, String fileName){
         File directory = new File(directoryName);

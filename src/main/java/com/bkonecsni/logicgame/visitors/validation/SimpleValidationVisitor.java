@@ -8,23 +8,38 @@ import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.validation.ValidationUtil;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.commons.lang3.StringUtils;
-import validation.validationParser;
+import validation.simple.simple_validationBaseVisitor;
+import validation.simple.simple_validationParser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.D_TAB;
+import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.TAB;
 import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.T_TAB;
 
-public class SimpleValidationHelper {
+public class SimpleValidationVisitor extends simple_validationBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
 
-    public SimpleValidationHelper(GameDefinition gameDefinition) {
+    public SimpleValidationVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
     }
 
-    public String createValidationCode(validationParser.ValidationContext validationContext) throws ValidationMethodParameterException {
+    public String visitValidation(simple_validationParser.ValidationContext validationContext) {
+        String validationCode = null;
+
+        try {
+            validationCode = createSimpleValidationCode(validationContext);
+        } catch (ValidationMethodParameterException e) {
+            e.printStackTrace();
+        }
+
+        return createValidationClassCode(validationCode);
+    }
+
+    public String createSimpleValidationCode(simple_validationParser.ValidationContext validationContext) throws ValidationMethodParameterException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("return ");
 
@@ -34,15 +49,16 @@ public class SimpleValidationHelper {
         return stringBuilder.toString();
     }
 
-    private void createValidationCode(validationParser.ValidationContext validationContext, StringBuilder stringBuilder)
+    private void createValidationCode(simple_validationParser.ValidationContext validationContext, StringBuilder stringBuilder)
             throws ValidationMethodParameterException {
 
         boolean isFirst = true;
 
-        for (validationParser.FuncContext funcContext : validationContext.func()) {
+        for (simple_validationParser.WinContext winContext : validationContext.win()) {
+            simple_validationParser.FuncContext funcContext = winContext.func();
             String methodName = getMethodName(funcContext);
             List<String> methodParams = getMethodParams(funcContext.params(), gameDefinition, methodName);
-            String negation = Boolean.parseBoolean(funcContext.BOOL().getText()) ? "" : "!";
+            String negation = Boolean.parseBoolean(winContext.BOOL().getText()) ? "" : "!";
 
             if (isFirst) {
                 stringBuilder.append(negation + methodName + "(" + StringUtils.join(methodParams, ',') + ")");
@@ -53,7 +69,7 @@ public class SimpleValidationHelper {
         }
     }
 
-    private String getMethodName(validationParser.FuncContext funcContext) {
+    private String getMethodName(simple_validationParser.FuncContext funcContext) {
         String methodName = funcContext.funcname().getText();
         List<String> validationMethodNames = getValidationMethodNames();
 
@@ -64,11 +80,11 @@ public class SimpleValidationHelper {
         return methodName;
     }
 
-    private List<String> getMethodParams(validationParser.ParamsContext paramsContext, GameDefinition gameDefinition,
+    private List<String> getMethodParams(simple_validationParser.ParamsContext paramsContext, GameDefinition gameDefinition,
                                          String methodName) throws ValidationMethodParameterException {
 
         List<Class> paramTypes = ValidationUtil.getValidationFuncNameParamsMap().get(methodName);
-        List<validationParser.ParamContext> paramContexts = paramsContext.param();
+        List<simple_validationParser.ParamContext> paramContexts = paramsContext.param();
 
         checkParamTypesAndSize(paramsContext, methodName, paramTypes, paramContexts);
 
@@ -78,14 +94,14 @@ public class SimpleValidationHelper {
     }
 
     private List<String> createItemList(GameDefinition gameDefinition, List<Class> paramTypes,
-                                        List<validationParser.ParamContext> paramContexts) throws ValidationMethodParameterException {
+                                        List<simple_validationParser.ParamContext> paramContexts) throws ValidationMethodParameterException {
 
         List<String> itemList = new ArrayList<>();
 
         for (int i=0; i<paramContexts.size(); i++) {
             Class paramType = paramTypes.get(i);
             TerminalNode number = paramContexts.get(i).NUMBER();
-            String itemContextText = number == null ? paramContexts.get(i).item().ID().getText() : number.getText();
+            String itemContextText = number == null ? paramContexts.get(i).item().getChild(1).getText() : number.getText();
 
             if (paramType.equals(Item.class)) {
                 addItemParamToList(gameDefinition, itemList, itemContextText);
@@ -97,8 +113,8 @@ public class SimpleValidationHelper {
         return itemList;
     }
 
-    private void checkParamTypesAndSize(validationParser.ParamsContext paramsContext, String methodName, List<Class> paramTypes,
-                                        List<validationParser.ParamContext> paramContexts) throws ValidationMethodParameterException {
+    private void checkParamTypesAndSize(simple_validationParser.ParamsContext paramsContext, String methodName, List<Class> paramTypes,
+                                        List<simple_validationParser.ParamContext> paramContexts) throws ValidationMethodParameterException {
 
         if (paramsContext == null && !paramTypes.isEmpty() || paramsContext != null && paramContexts.size() != paramTypes.size()) {
             throw new ValidationMethodParameterException("Number of paramaters in " + methodName + " does not have the expected size!");
@@ -126,5 +142,25 @@ public class SimpleValidationHelper {
     private List<String> getValidationMethodNames() {
         Set<String> validationMethodNamesSet = ValidationUtil.getValidationFuncNameParamsMap().keySet();
         return new ArrayList<>(validationMethodNamesSet);
+    }
+
+    private String createValidationClassCode(String statements) {
+        StringBuilder sb = new StringBuilder();
+
+        String gameName = gameDefinition.getGameName();
+        sb.append("package gamecode." + gameName + ".validation;\n\n");
+
+        appendImport(sb);
+        sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {\n\n");
+        sb.append(TAB + "public boolean areWinConditionsApply() {\n");
+
+        sb.append(D_TAB + statements + TAB + "}\n}");
+
+        return sb.toString();
+    }
+
+    private void appendImport(StringBuilder sb) {
+        sb.append("import com.bkonecsni.logicgame.domain.common.Item;\n" +
+                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n");
     }
 }
