@@ -1,15 +1,8 @@
-int i = 5;
-int j;
-boolean b;
-    String s;
-    s = "abc";
-    {
-
-        b = true;
-        {
-            if (b) {
-               b=false;
-            }
-        }
-    }
-    return b;
+numberOfItemsInAllRow([1], 1) &&
+numberOfItemsInAllRow([2], 1) &&
+numberOfItemsInAllRow([3], 1) &&
+numberOfItemsInAllRow([4], 1) &&
+numberOfItemsInAllColumn([1], 1) &&
+numberOfItemsInAllColumn([2], 1) &&
+numberOfItemsInAllColumn([3], 1) &&
+numberOfItemsInAllColumn([4], 1);

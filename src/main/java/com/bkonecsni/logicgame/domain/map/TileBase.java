@@ -3,7 +3,7 @@ package com.bkonecsni.logicgame.domain.map;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.types.TypeStatement;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,6 +28,30 @@ public abstract class TileBase {
 
     public abstract boolean isUnmutableType();
 
+    public boolean isHelperType() {
+        return isUnmutableType() && itemList.size() > 1;
+    }
+
+    public Character getCharValue(int itemIndex) {
+        Item item = getItem(itemIndex);
+        return item == null ? null : item.getCharValue();
+    }
+
+    public Integer getIntValue(int itemIndex) {
+        Item item = getItem(itemIndex);
+        return item == null ? null : item.getIntValue();
+    }
+
+    public String getSymbol(int itemIndex) {
+        Item item = getItem(itemIndex);
+        return item == null ? null : item.getSymbol();
+    }
+
+    public Color getColor(int itemIndex) {
+        Item item = getItem(itemIndex);
+        return item == null ? null : item.getColor();
+    }
+
     public static Comparator<TileBase> getColumnNrComparator() {
         return (tile1, tile2) -> {
             int tile1Column = tile1.getPosition().y;
@@ -44,6 +68,10 @@ public abstract class TileBase {
 
             return tile2Row - tile1Row;
         };
+    }
+
+    private Item getItem(int itemIndex) {
+        return itemList.get(itemIndex);
     }
 
     public Point getPosition() {

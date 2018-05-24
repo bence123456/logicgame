@@ -1,0 +1,4 @@
+return numberOfItemsInAllRow([S2], 1) &&
+numberOfItemsInAllColumn([S2], 1) &&
+numberOfItemsInAllAreaWithSameColor([S2], 1) &&
+!twoNeighbouringSymbolsExists([S2]);

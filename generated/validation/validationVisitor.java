@@ -41,17 +41,23 @@ public interface validationVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeName(validationParser.TypeNameContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link validationParser#varName}.
+	 * Visit a parse tree produced by {@link validationParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarName(validationParser.VarNameContext ctx);
+	T visitType(validationParser.TypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link validationParser#ifStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIfStatement(validationParser.IfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#forStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatement(validationParser.ForStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link validationParser#block}.
 	 * @param ctx the parse tree
@@ -65,9 +71,81 @@ public interface validationVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignmentStatement(validationParser.AssignmentStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link validationParser#modifyStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitModifyStatement(validationParser.ModifyStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#boolStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolStatement(validationParser.BoolStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnStatement(validationParser.ReturnStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#multipleExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultipleExpression(validationParser.MultipleExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperator(validationParser.OperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link validationParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpression(validationParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#varName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarName(validationParser.VarNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#func}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc(validationParser.FuncContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#funcname}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncname(validationParser.FuncnameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(validationParser.ParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParam(validationParser.ParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#item}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitItem(validationParser.ItemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#mparam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMparam(validationParser.MparamContext ctx);
 }

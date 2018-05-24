@@ -1,1 +1,0 @@
-neighboursHaveCorrectNumberOfItems([S2]) == true

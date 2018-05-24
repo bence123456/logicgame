@@ -1,19 +1,63 @@
 package com.bkonecsni.logicgame.domain.validation;
 
+import com.bkonecsni.logicgame.domain.common.HelperTileLocation;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public abstract class ValidationBase {
 
     private List<TileBase> tileList;
 
     public abstract boolean areWinConditionsApply();
+
+    public boolean isUnMutable(TileBase tileBase) {
+        return tileBase.isUnmutableType();
+    }
+
+    public boolean isHelper(TileBase tileBase) {
+        return tileBase.isUnmutableType() && tileBase.getItemList().size() > 1;
+    }
+
+    public int getIntValue(TileBase tile, int itemIndex) {
+        return tile.getItemList().get(itemIndex).getIntValue();
+    }
+
+    public int getIntValue(Item item) {
+        return item.getIntValue();
+    }
+
+    public List<TileBase> getPlayableTilesForHelperTile(TileBase tileBase) {
+        List<TileBase> playableTilesInRowOrColumn = new ArrayList<>();
+        int columnNumber = getColumnNumber(tileBase);
+        int rowNumber = getRowNumber(tileBase);
+
+        switch (getHelperTileLocation(tileBase)) {
+            case TOP:
+                playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
+            case BOTTOM:
+                playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
+            case LEFT:
+                playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
+            case RIGHT:
+                playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
+            case NONE:
+                break;
+        }
+
+        return playableTilesInRowOrColumn;
+    }
+
+    public Item getItem(TileBase tileBase, int i) {
+        return tileBase.getItemList().get(i);
+    }
+
+    public TileBase getTile(List<TileBase> tileList, int i) {
+        return tileList.get(i);
+    }
 
     public int getRowNumber() {
         List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
@@ -50,6 +94,26 @@ public abstract class ValidationBase {
 
     public int getFirstPlayableRowIndex() {
         List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
+        removeTilesWithBorderType(tmpTiles);
+
+        TileBase lastTile = tmpTiles.get(tmpTiles.size()-1);
+
+        return lastTile.getPosition().x;
+    }
+
+    public int getLastPlayableColumnIndex() {
+        List<TileBase> tmpTiles = getSortedTilesBasedOnColumn();
+        Collections.reverse(tmpTiles);
+        removeTilesWithBorderType(tmpTiles);
+
+        TileBase lastTile = tmpTiles.get(tmpTiles.size()-1);
+
+        return lastTile.getPosition().y;
+    }
+
+    public int getLastPlayableRowIndex() {
+        List<TileBase> tmpTiles = getSortedTilesBasedOnRow();
+        Collections.reverse(tmpTiles);
         removeTilesWithBorderType(tmpTiles);
 
         TileBase lastTile = tmpTiles.get(tmpTiles.size()-1);
@@ -282,6 +346,25 @@ public abstract class ValidationBase {
         tmpTiles.sort(TileBase.getColumnNrComparator());
 
         return tmpTiles;
+    }
+
+    private HelperTileLocation getHelperTileLocation(TileBase tile) {
+        int x = getRowNumber(tile);
+        int y = getColumnNumber(tile);
+        int lastPlayableRowNr = getLastPlayableRowIndex();
+        int lastPlayableColumnNr = getLastPlayableColumnIndex();
+
+        if (x==0 && y>0 && y<=lastPlayableColumnNr) {
+            return HelperTileLocation.TOP;
+        } else if (x==lastPlayableRowNr+1 && y>0 && y<=lastPlayableColumnNr) {
+            return HelperTileLocation.BOTTOM;
+        } else if (y==0 && x>0 && x<=lastPlayableRowNr) {
+            return HelperTileLocation.LEFT;
+        } else if (y==lastPlayableColumnNr && x>0 && x<=lastPlayableRowNr) {
+            return HelperTileLocation.RIGHT;
+        }
+
+        return HelperTileLocation.NONE;
     }
 
     private int getRowNumber(TileBase tile) {

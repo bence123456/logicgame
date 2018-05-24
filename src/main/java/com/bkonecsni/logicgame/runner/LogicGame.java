@@ -70,16 +70,8 @@ public class LogicGame {
     }
 
     private ValidationBase parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        CharStream validationInput;
-        boolean simpleValidation = false;
-        try {
-            validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
-        } catch (NoSuchFileException e) {
-            validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation_simple.txt");
-            simpleValidation = true;
-        }
-
-        String validationCode = validationParser.parse(validationInput, gameDefinition, simpleValidation);
+        CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
+        String validationCode = validationParser.parse(validationInput, gameDefinition);
         String directoryName = "src/main/java/gamecode/" + gameName + "/validation";
         String className = StringUtils.capitalize(gameName) + "Validation";
         String fileName = className + ".java";

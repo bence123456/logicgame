@@ -7,29 +7,37 @@ statementList :	statement+ ;
 statement :	variableDeclaration
 	|	ifStatement
 	|	block
-	|	assignmentStatement ;
+	|	assignmentStatement
+	|   forStatement
+	|   returnStatement
+	|   modifyStatement ;
 
-variableDeclaration : typeName varName ('=' expression)? ';' ;
+variableDeclaration : typeName varName ('=' multipleExpression)? SCOLON ;
 
-typeName :	ID ;
+typeName :	type | 'List' LP type RP ;
+type :	ID;
 
-varName :	ID ;
+ifStatement : 	'if' LP boolStatement RP block ;
 
-ifStatement : 	'if' '(' expression ')' block ;
+forStatement : 'for ' LP ((typeName varName ':' varName) | (variableDeclaration boolStatement varName ('++' | '--'))) RP block ;
 
 block :	'{' statementList '}' ;
 
-assignmentStatement : varName '=' expression ';' ;
+assignmentStatement : varName '=' multipleExpression SCOLON ;
 
-expression
-	: varName
-	| NUMBER
-	| STRING
-	| BOOL
-	| NULL
-	;
+modifyStatement : multipleExpression SCOLON ;
 
-ID: [a-zA-Z0-9][a-zA-Z0-9_]* ;
+boolStatement : multipleExpression SCOLON? ;
+
+returnStatement : 'return' (BOOL | multipleExpression ) SCOLON;
+
+multipleExpression: expression (operator expression)* ;
+
+operator: '==' | '>' | '<' | '<=' | '>=' | '!=' | '+' | '-' | '+=' | '-=' | '&&' | '||' ;
+
+expression: func | varName | NUMBER | STRING | BOOL | NULL ;
+
+ID: [a-zA-Z][a-zA-Z]* ;
 
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
 STRING : '"' (~[\r\n"])* '"' ;
@@ -37,3 +45,24 @@ BOOL: 'true' | 'false' ;
 NULL : 'null';
 
 WS : [ \t\r\n]+ -> skip ;
+
+varName : ID ;
+
+func: NEG? (ID '.')? funcname LP params? RP ;
+funcname: ID ;
+params: param (COMMA param)* ;
+
+param: mparam | item | NUMBER ;
+item: '[' (NUMBER | CHAR | COLOR | SYMBOL) ']' ;
+mparam: ID ;
+
+CHAR:   [A-Z] ;
+COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;
+HDN: [A-F] | [a-f] | [0-9] ;
+SYMBOL: 'S' NUMBER ;
+
+LP:  '(' ;
+RP:  ')' ;
+COMMA: ',' ;
+SCOLON: ';' ;
+NEG: '!' ;

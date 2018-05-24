@@ -19,10 +19,55 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     }
 
     public String visitValidation(validationParser.ValidationContext validationContext) {
-        String validationCode = visitStatementList(validationContext.statementList());
-        indent(validationCode);
+        validationParser.StatementListContext statementListContext = validationContext.statementList();
+        String validationCode;
+
+        if (simpleValidation(statementListContext)) {
+            validationCode = createSimpleValidationCode(statementListContext);
+        } else {
+            validationCode= visitStatementList(statementListContext);
+            indent(validationCode);
+        }
 
         return createValidationClassCode(validationCode);
+    }
+
+    private boolean simpleValidation(validationParser.StatementListContext statementListContext) {
+        List<validationParser.StatementContext> statementContextList = statementListContext.statement();
+        return statementContextList.size() == 1 && statementContextList.get(0).returnStatement() != null;
+    }
+
+    private String createSimpleValidationCode(validationParser.StatementListContext statementListContext) {
+        validationParser.ReturnStatementContext returnStatementContext = statementListContext.statement(0).returnStatement();
+        List<validationParser.ExpressionContext> expressionContexts = returnStatementContext.multipleExpression().expression();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("return ");
+
+
+
+        for (validationParser.ExpressionContext expressionContext : expressionContexts) {
+            sb.append(visitFunc(expressionContext.func()));
+        }
+
+        return sb.append(";").toString();
+    }
+
+    public String visitFunc(validationParser.FuncContext funcContext) {
+        StringBuilder sb = new StringBuilder();
+        if (funcContext.NEG() != null) {
+            sb.append("!");
+        }
+
+        String funcname = funcContext.funcname().getText();
+    }
+
+    public String visitMultipleExpression(validationParser.MultipleExpressionContext ctx) {
+
+    }
+
+    public String visitModifyStatement(validationParser.ModifyStatementContext ctx) {
+
     }
 
     public String visitStatementList(validationParser.StatementListContext context) {
