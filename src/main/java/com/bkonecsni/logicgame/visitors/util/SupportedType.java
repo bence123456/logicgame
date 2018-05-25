@@ -40,4 +40,13 @@ public enum SupportedType {
     public String toString() {
         return clazz.getName();
     }
+
+    public static SupportedType fromString(String text) {
+        for (SupportedType supportedType : SupportedType.values()) {
+            if (supportedType.clazz.getName().equals(text)) {
+                return supportedType;
+            }
+        }
+        return null;
+    }
 }

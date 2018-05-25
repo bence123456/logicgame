@@ -2,6 +2,7 @@ package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.CommonValidationException;
+import com.bkonecsni.logicgame.visitors.util.SupportedOperator;
 import com.bkonecsni.logicgame.visitors.util.SupportedType;
 import org.apache.commons.lang3.StringUtils;
 import validation.validationBaseVisitor;
@@ -9,8 +10,11 @@ import validation.validationParser;
 import validation.validationParser.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.bkonecsni.logicgame.visitors.util.SupportedOperator.*;
+import static com.bkonecsni.logicgame.visitors.util.SupportedType.*;
 import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.D_TAB;
 import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.TAB;
 
@@ -49,7 +53,7 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     @Override
     public String visitStatement(validationParser.StatementContext ctx) {
-        return null;
+        return visitChildren(ctx);
     }
 
     @Override
@@ -79,16 +83,19 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     @Override
     public String visitMultipleExpression(MultipleExpressionContext ctx) {
-        if (ctx.getChildCount() == 1) {
+        int expressionsSize = ctx.getChildCount();
+
+        if (expressionsSize == 1) {
             return visitExpression(ctx.expression(0));
         } else {
-            return null;
+            return visitMultipleExpression(ctx, expressionsSize);
         }
     }
 
     @Override
     public String visitReturnStatement(validationParser.ReturnStatementContext ctx) {
-        return null;
+        String statement = ctx.BOOL() != null ? ctx.BOOL().getText() : visitMultipleExpression(ctx.multipleExpression());
+        return "return " + statement + ";";
     }
 
     @Override
@@ -112,17 +119,18 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     @Override
     public String visitExpression(ExpressionContext context) {
         // TODO: complex expressions (operations)
-        return context.getChild(0).getText();
+        return " " + context.getChild(0).getText();
     }
 
     @Override
     public String visitType(validationParser.TypeContext ctx) {
+
         return visitChildren(ctx);
     }
 
     @Override
     public String visitOperator(validationParser.OperatorContext ctx) {
-        return visitChildren(ctx);
+        return " " + ctx.getText();
     }
 
     @Override
@@ -170,6 +178,95 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         return result;
     }
 
+    private String visitMultipleExpression(MultipleExpressionContext ctx, int expressionsSize) {
+        StringBuilder sb = new StringBuilder();
+        ExpressionContext firstExpression = ctx.expression(0);
+
+        for (int i=1; i<expressionsSize; i++) {
+            ExpressionContext rightExpression = ctx.expression(i);
+            SupportedType rightExpressionReturnType = getExpressionReturnType(rightExpression);
+            OperatorContext operatorContext = ctx.operator(i - 1);
+            SupportedOperator operator = getSupportedOperator(operatorContext);
+
+            SupportedType leftExpressionReturnType = null;
+            if (i == 1) {
+                leftExpressionReturnType = getExpressionReturnType(firstExpression);
+            } else {
+                leftExpressionReturnType = getExpressionReturnType(leftExpressionReturnType, rightExpressionReturnType, operator);
+            }
+
+            List<SupportedOperator> supportedOperators = leftExpressionReturnType.getSupportedOperators();
+            if (!supportedOperators.contains(operator)) {
+                throw new CommonValidationException(operator.getStringValue() + "operator can not be applied between " + leftExpressionReturnType
+                        + " types. Available operators: " + listSupportedOperators((SupportedOperator[]) supportedOperators.toArray()));
+            }
+
+            if (i == 1) {
+                sb.append(visitExpression(firstExpression));
+            }
+            sb.append(visitOperator(operatorContext));
+            sb.append(visitExpression(rightExpression));
+        }
+
+        return sb.toString();
+    }
+
+
+    private SupportedType getExpressionReturnType(ExpressionContext expressionContext) {
+        SupportedType supportedType = null;
+
+        if (expressionContext.STRING() != null) {
+            supportedType = STRING;
+        } else if (expressionContext.BOOL() != null) {
+            supportedType = BOOL;
+        } else if (expressionContext.NUMBER() != null) {
+            supportedType = INT;
+        } else if (expressionContext.func() != null) {
+            supportedType = getExpressionReturnType(expressionContext.func());
+        } else if (expressionContext.varName() != null) {
+            supportedType = getExpressionReturnType(expressionContext.varName());
+        }
+
+        return supportedType;
+    }
+
+    private SupportedType getExpressionReturnType(SupportedType leftReturnType, SupportedType rightReturnType, SupportedOperator operator){
+        if (leftReturnType.equals(rightReturnType)) {
+            SupportedType returnType = leftReturnType;
+
+            if (leftReturnType.equals(INT)) {
+                List<SupportedOperator> sameReturnTypeIntOperators = Arrays.asList(PLUS, MINUS, PLUSEQUALS, MINUSEQUALS);
+                returnType = sameReturnTypeIntOperators.contains(operator) ? INT : BOOL;
+            }
+
+            return returnType;
+        } else {
+            String message = "Two expressions have different return type, operator can only be applied between expressions with same return type!" +
+                    " Left: " + leftReturnType.toString() + ", right: " + rightReturnType.toString();
+            throw new CommonValidationException(message);
+        }
+    }
+
+    private SupportedType getExpressionReturnType(FuncContext funcContext){
+        return null;
+    }
+
+    private SupportedType getExpressionReturnType(VarNameContext varNameContext){
+        return null;
+    }
+
+    private SupportedOperator getSupportedOperator(OperatorContext operatorContext) {
+        String operatorText = operatorContext.getText();
+        SupportedOperator supportedOperator = SupportedOperator.fromString(operatorText);
+
+        if (supportedOperator == null) {
+            throw new CommonValidationException(operatorText + " operator is not supported! Supported operators: "
+                    + listSupportedOperators(SupportedOperator.values()));
+        }
+
+        return supportedOperator;
+    }
+
     private String getVarNameAndType(VariableDeclarationContext context) {
         String varName = context.varName().getText();
         if (definedVariables.contains(varName)) {
@@ -178,15 +275,11 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         definedVariables.add(varName);
 
         String typeName = context.typeName().getText();
-        if (SupportedType.valueOf(typeName) == null) {
-            throw new CommonValidationException(typeName + " type is not supported! Supported types are: " + listSupportedTypes().trim());
+        if (SupportedType.fromString(typeName) == null) {
+            throw new CommonValidationException(typeName + " type is not supported! Supported types: " + listSupportedTypes());
         }
 
         return typeName + " " + varName;
-    }
-
-    private boolean isOperatorApplicable(ExpressionContext left, ExpressionContext right) {
-        return true;
     }
 
     private void checkIfLastStatementIsReturn(StatementListContext statementListContext) {
@@ -226,11 +319,20 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     }
 
     private String listSupportedTypes() {
-        String supportedTypes = null;
+        String supportedTypes = "";
         for (SupportedType supportedType : SupportedType.values()) {
-            supportedTypes += supportedType.toString() + ",";
+            supportedTypes += supportedType.toString() + ", ";
         }
 
-        return StringUtils.removeEnd(supportedTypes, ",");
+        return StringUtils.removeEnd(supportedTypes, ", ");
+    }
+
+    private String listSupportedOperators(SupportedOperator[] supportedOperators) {
+        String supportedOperatorsString = "";
+        for (SupportedOperator supportedOperator : supportedOperators) {
+            supportedOperatorsString += supportedOperator.getStringValue() + ", ";
+        }
+
+        return StringUtils.removeEnd(supportedOperatorsString, ", ");
     }
 }

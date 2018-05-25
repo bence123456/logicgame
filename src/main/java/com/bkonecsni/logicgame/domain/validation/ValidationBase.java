@@ -14,20 +14,8 @@ public abstract class ValidationBase {
 
     public abstract boolean areWinConditionsApply();
 
-    public boolean isUnMutable(TileBase tileBase) {
-        return tileBase.isUnmutableType();
-    }
-
-    public boolean isHelper(TileBase tileBase) {
-        return tileBase.isUnmutableType() && tileBase.getItemList().size() > 1;
-    }
-
-    public int getIntValue(TileBase tile, int itemIndex) {
-        return tile.getItemList().get(itemIndex).getIntValue();
-    }
-
-    public int getIntValue(Item item) {
-        return item.getIntValue();
+    public boolean isNull(Object object) {
+        return object == null;
     }
 
     public List<TileBase> getPlayableTilesForHelperTile(TileBase tileBase) {

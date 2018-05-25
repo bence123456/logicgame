@@ -35,14 +35,13 @@ multipleExpression: expression (operator expression)* ;
 
 operator: '==' | '>' | '<' | '<=' | '>=' | '!=' | '+' | '-' | '+=' | '-=' | '&&' | '||' ;
 
-expression: func | varName | NUMBER | STRING | BOOL | NULL ;
+expression: func | varName | NUMBER | STRING | BOOL ;
 
 ID: [a-zA-Z][a-zA-Z]* ;
 
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
 STRING : '"' (~[\r\n"])* '"' ;
 BOOL: 'true' | 'false' ;
-NULL : 'null';
 
 WS : [ \t\r\n]+ -> skip ;
 
