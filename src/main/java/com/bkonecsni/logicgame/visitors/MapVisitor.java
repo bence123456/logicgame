@@ -6,7 +6,7 @@ import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import map.mapBaseVisitor;
 import map.mapParser;
-import map.mapParser.TileContext;
+import map.mapParser.*;
 
 import java.util.Set;
 
@@ -23,7 +23,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitMap(mapParser.MapContext ctx) {
+    public String visitMap(MapContext ctx) {
         StringBuilder sb = new StringBuilder();
 
         appendImportsAndClassHeader(sb);
@@ -34,7 +34,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitTile(mapParser.TileContext tileContext) {
+    public String visitTile(TileContext tileContext) {
         StringBuilder sb = new StringBuilder();
 
         String typeString = visitType(tileContext.type());
@@ -48,7 +48,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitType(mapParser.TypeContext typeContext) {
+    public String visitType(TypeContext typeContext) {
         String typeString = typeContext.T().getText() + typeContext.NUMBER().getText();
         Set<String> definedTypes = gameDefinition.getDefinedTypes();
 
@@ -60,7 +60,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitPosition(mapParser.PositionContext positionContext) {
+    public String visitPosition(PositionContext positionContext) {
         int positionX = Integer.parseInt(positionContext.NUMBER(0).getText());
         int positionY = Integer.parseInt(positionContext.NUMBER(1).getText());
 
@@ -68,7 +68,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitSize(mapParser.SizeContext sizeContext) {
+    public String visitSize(SizeContext sizeContext) {
         if (sizeContext != null) {
             return "new Point(" + getSize(sizeContext) + ")";
         } else {
@@ -77,7 +77,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     @Override
-    public String visitItemList(mapParser.ItemListContext itemListContext) {
+    public String visitItemList(ItemListContext itemListContext) {
         StringBuilder sb = new StringBuilder();
         sb.append("new ArrayList(Arrays.asList(");
 
@@ -91,7 +91,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
         return sb.toString();
     }
 
-    private String getSize(mapParser.SizeContext sizeContext) {
+    private String getSize(SizeContext sizeContext) {
         int positionX = Integer.parseInt(sizeContext.NUMBER(0).getText());
         int positionY = Integer.parseInt(sizeContext.NUMBER(1).getText());
 
@@ -102,7 +102,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
         return positionX + "," + positionY;
     }
 
-    private void appendInit(mapParser.MapContext ctx, StringBuilder sb) {
+    private void appendInit(MapContext ctx, StringBuilder sb) {
         sb.append(TAB + "public void init() {\n");
         sb.append(D_TAB + "this.tileList = Arrays.asList(\n");
 

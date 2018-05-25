@@ -5,6 +5,7 @@ import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import types.typesBaseVisitor;
 import types.typesParser;
+import types.typesParser.*;
 
 import java.util.*;
 
@@ -19,11 +20,11 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     }
 
     @Override
-    public Map<String, String> visitTypes(typesParser.TypesContext typesContext) {
+    public Map<String, String> visitTypes(TypesContext typesContext) {
         Map<String, String> typeCodeList = new HashMap<>();
         Set<String> definedTypes = gameDefinition.getDefinedTypes();
 
-        for (typesParser.TypedeclContext typedeclContext : typesContext.typedecl()) {
+        for (TypedeclContext typedeclContext : typesContext.typedecl()) {
             String typeName = "Type" + typedeclContext.typehead().NUMBER().getText();
             if (definedTypes.contains(typeName)) {
                 throw new TypeAlreadyDefinedException(typeName);
@@ -38,7 +39,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return typeCodeList;
     }
 
-    private String createTileCode(typesParser.TypedeclContext typedeclContext, String typeName) {
+    private String createTileCode(TypedeclContext typedeclContext, String typeName) {
         String initCode = createInitCode(typedeclContext);
 
         String className = typeName + "Tile";
@@ -50,18 +51,18 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     }
 
 
-    private String createInitCode(typesParser.TypedeclContext typedeclContext) {
-        typesParser.TypedefContext typedefContext = typedeclContext.typedef();
+    private String createInitCode(TypedeclContext typedeclContext) {
+        TypedefContext typedefContext = typedeclContext.typedef();
 
         if (typedefContext != null) {
-            typesParser.LoopContext loopContext = typedefContext.loop();
+            LoopContext loopContext = typedefContext.loop();
             return (loopContext != null) ? visitLoopDeclaration(loopContext) : visitTypedefDeclaration(typedefContext);
         }
 
         return "";
     }
 
-    private String visitLoopDeclaration(typesParser.LoopContext loopContext) {
+    private String visitLoopDeclaration(LoopContext loopContext) {
         StringBuilder sb = new StringBuilder();
         sb.append(D_TAB + "this.typeStatementList = Arrays.asList(\n");
 
@@ -74,7 +75,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     }
 
-    private List<String> createItemCreationStringListFromLoop(typesParser.LoopContext loopContext, GameDefinition gameDefinition) {
+    private List<String> createItemCreationStringListFromLoop(LoopContext loopContext, GameDefinition gameDefinition) {
         List<String> itemCreationStringList = new ArrayList<>();
 
         for (typesParser.ItemContext itemContext : loopContext.params().item()) {
@@ -101,12 +102,12 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String visitTypedefDeclaration(typesParser.TypedefContext typedefContext) {
+    private String visitTypedefDeclaration(TypedefContext typedefContext) {
         StringBuilder sb = new StringBuilder();
         sb.append(D_TAB + "this.typeStatementList = Arrays.asList(\n");
 
         boolean isFirst = true;
-        for (typesParser.TypestatementContext typestatementContext : typedefContext.typestatement()) {
+        for (TypestatementContext typestatementContext : typedefContext.typestatement()) {
             if (isFirst) {
                 sb.append(T_TAB + createTypeStatement(gameDefinition, typestatementContext));
                 isFirst = false;
@@ -132,20 +133,20 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String createTypeStatement(GameDefinition gameDefinition, typesParser.TypestatementContext typestatementContext) {
+    private String createTypeStatement(GameDefinition gameDefinition, TypestatementContext typestatementContext) {
         StringBuilder sb = new StringBuilder();
         sb.append("new TypeStatement(");
         boolean firstCondition = true;
         boolean firstUpdate = true;
 
         sb.append("Arrays.asList(");
-        for (typesParser.ConditionContext conditionContext : typestatementContext.condition()) {
+        for (ConditionContext conditionContext : typestatementContext.condition()) {
             sb.append(parseCondition(gameDefinition, conditionContext, firstCondition));
             firstCondition = false;
         }
 
         sb.append("), Arrays.asList(");
-        for (typesParser.UpdatestatementContext updatestatementContext : typestatementContext.updatestatement()) {
+        for (UpdatestatementContext updatestatementContext : typestatementContext.updatestatement()) {
             sb.append(parseUpdate(gameDefinition, updatestatementContext, firstUpdate));
             firstUpdate =false;
         }
@@ -154,7 +155,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String parseUpdate(GameDefinition gameDefinition, typesParser.UpdatestatementContext updatestatementContext, boolean firstUpdate) {
+    private String parseUpdate(GameDefinition gameDefinition, UpdatestatementContext updatestatementContext, boolean firstUpdate) {
         StringBuilder sb = new StringBuilder();
         if (!firstUpdate) {
             sb.append(", ");
@@ -167,7 +168,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String parseCondition(GameDefinition gameDefinition, typesParser.ConditionContext conditionContext, boolean firstCondition) {
+    private String parseCondition(GameDefinition gameDefinition, ConditionContext conditionContext, boolean firstCondition) {
         StringBuilder sb = new StringBuilder();
         if (!firstCondition) {
             sb.append(", ");

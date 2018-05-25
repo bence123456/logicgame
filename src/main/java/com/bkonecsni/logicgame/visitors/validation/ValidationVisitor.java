@@ -1,10 +1,14 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.exceptions.CommonValidationException;
+import com.bkonecsni.logicgame.visitors.util.SupportedType;
 import org.apache.commons.lang3.StringUtils;
 import validation.validationBaseVisitor;
 import validation.validationParser;
+import validation.validationParser.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.D_TAB;
@@ -14,137 +18,146 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
 
+    private List<String> definedVariables = new ArrayList<>();
+
     public ValidationVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
     }
 
-    public String visitValidation(validationParser.ValidationContext validationContext) {
-        validationParser.StatementListContext statementListContext = validationContext.statementList();
-        String validationCode;
+    @Override
+    public String visitValidation(ValidationContext validationContext) {
+        StatementListContext statementListContext = validationContext.statementList();
+        checkIfLastStatementIsReturn(statementListContext);
 
-        if (simpleValidation(statementListContext)) {
-            validationCode = createSimpleValidationCode(statementListContext);
-        } else {
-            validationCode= visitStatementList(statementListContext);
-            indent(validationCode);
-        }
+        String validationCode = visitStatementList(statementListContext);
+        indent(validationCode);
 
         return createValidationClassCode(validationCode);
     }
 
-    private boolean simpleValidation(validationParser.StatementListContext statementListContext) {
-        List<validationParser.StatementContext> statementContextList = statementListContext.statement();
-        return statementContextList.size() == 1 && statementContextList.get(0).returnStatement() != null;
-    }
-
-    private String createSimpleValidationCode(validationParser.StatementListContext statementListContext) {
-        validationParser.ReturnStatementContext returnStatementContext = statementListContext.statement(0).returnStatement();
-        List<validationParser.ExpressionContext> expressionContexts = returnStatementContext.multipleExpression().expression();
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("return ");
-
-
-
-        for (validationParser.ExpressionContext expressionContext : expressionContexts) {
-            sb.append(visitFunc(expressionContext.func()));
-        }
-
-        return sb.append(";").toString();
-    }
-
-    public String visitFunc(validationParser.FuncContext funcContext) {
-        StringBuilder sb = new StringBuilder();
-        if (funcContext.NEG() != null) {
-            sb.append("!");
-        }
-
-        String funcname = funcContext.funcname().getText();
-    }
-
-    public String visitMultipleExpression(validationParser.MultipleExpressionContext ctx) {
-
-    }
-
-    public String visitModifyStatement(validationParser.ModifyStatementContext ctx) {
-
-    }
-
-    public String visitStatementList(validationParser.StatementListContext context) {
+    @Override
+    public String visitStatementList(StatementListContext context) {
         return visitList(context.statement(), "\n");
     }
 
+    @Override
     public String visitBlock(validationParser.BlockContext context) {
         String statements = visitStatementList(context.statementList());
         indent(statements);
         return "\n{ " + statements + "\n}";
     }
 
-    public String visitVariableDeclaration(validationParser.VariableDeclarationContext context) {
+    @Override
+    public String visitStatement(validationParser.StatementContext ctx) {
+        return null;
+    }
+
+    @Override
+    public String visitVariableDeclaration(VariableDeclarationContext context) {
         String varAndTypeName = getVarNameAndType(context);
 
-        // declaration
-        if (context.expression() == null) {
+        if (context.multipleExpression() == null) {
             return varAndTypeName + ";";
         }
 
-        // definition
-        String expression = visitExpression(context.expression());
-        return varAndTypeName + " = " +  expression + ";";
+        String multipleExpression = visitMultipleExpression(context.multipleExpression());
+        return varAndTypeName + " = " +  multipleExpression + ";";
     }
 
-    public String visitAssignmentStatement(validationParser.AssignmentStatementContext context) {
+    @Override
+    public String visitAssignmentStatement(AssignmentStatementContext context) {
         String varName = context.varName().getText();
-        String expression = visitExpression(context.expression());
+        String expression = visitMultipleExpression(context.multipleExpression());
 
         return varName + " = " + expression + ";";
     }
 
-//    public String visitFunc(validationParser.FuncContext ctx) {
-//        // TODO!!  common methods in ValidationBase, check if exists?
-//        return visitChildren(ctx);
-//    }
+    @Override
+    public String visitModifyStatement(ModifyStatementContext ctx) {
+        return null;
+    }
 
-    public String visitIfStatement(validationParser.IfStatementContext context) {
-        String result = "if (" + visitExpression(context.expression()) + ") ";
+    @Override
+    public String visitMultipleExpression(MultipleExpressionContext ctx) {
+        if (ctx.getChildCount() == 1) {
+            return visitExpression(ctx.expression(0));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String visitReturnStatement(validationParser.ReturnStatementContext ctx) {
+        return null;
+    }
+
+    @Override
+    public String visitIfStatement(IfStatementContext context) {
+        String result = "if (" + visitBoolStatement(context.boolStatement()) + ") ";
         result += visitBlock(context.block());
 
         return result;
     }
 
-    public String visitExpression(validationParser.ExpressionContext context) {
+    @Override
+    public String visitForStatement(validationParser.ForStatementContext ctx) {
+        return null;
+    }
+
+    @Override
+    public String visitBoolStatement(validationParser.BoolStatementContext ctx) {
+        return null;
+    }
+
+    @Override
+    public String visitExpression(ExpressionContext context) {
         // TODO: complex expressions (operations)
         return context.getChild(0).getText();
     }
 
-    private String getVarNameAndType(validationParser.VariableDeclarationContext context) {
-        String varName = context.varName().getText();
-
-        // var
-        if (context.typeName() == null) {
-            validationParser.ExpressionContext expr = context.expression();
-
-            if (expr.NUMBER() != null)
-                return "int " + varName;
-
-            if (expr.STRING() != null)
-                return "String " + varName;
-
-            if (expr.BOOL() != null)
-                return "boolean " + varName;
-
-            // TODO: item, own types?
-            // TODO: variable types from symbol table
-            return "UNKNOWN " + varName;
-        }
-
-        String typeName = context.typeName().getText();
-
-        // not var
-        return typeName + " " + varName;
+    @Override
+    public String visitType(validationParser.TypeContext ctx) {
+        return visitChildren(ctx);
     }
 
-    private String visitList(List<validationParser.StatementContext> tree, String separator) {
+    @Override
+    public String visitOperator(validationParser.OperatorContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public String visitFunc(FuncContext funcContext) {
+        StringBuilder sb = new StringBuilder();
+        if (funcContext.NEG() != null) {
+            sb.append("!");
+        }
+
+        String funcname = funcContext.funcname().getText();
+
+        return funcname;
+    }
+
+    @Override
+    public String visitParams(validationParser.ParamsContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public String visitParam(validationParser.ParamContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public String visitItem(validationParser.ItemContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public String visitMparam(validationParser.MparamContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    private String visitList(List<StatementContext> tree, String separator) {
         String result = "";
 
         for (int i = 0; i < tree.size(); i++) {
@@ -155,6 +168,34 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         }
 
         return result;
+    }
+
+    private String getVarNameAndType(VariableDeclarationContext context) {
+        String varName = context.varName().getText();
+        if (definedVariables.contains(varName)) {
+            throw new CommonValidationException("Variable name: " + varName + " is already in use!");
+        }
+        definedVariables.add(varName);
+
+        String typeName = context.typeName().getText();
+        if (SupportedType.valueOf(typeName) == null) {
+            throw new CommonValidationException(typeName + " type is not supported! Supported types are: " + listSupportedTypes().trim());
+        }
+
+        return typeName + " " + varName;
+    }
+
+    private boolean isOperatorApplicable(ExpressionContext left, ExpressionContext right) {
+        return true;
+    }
+
+    private void checkIfLastStatementIsReturn(StatementListContext statementListContext) {
+        List<StatementContext> statementContextList = statementListContext.statement();
+        int statementsSize = statementContextList.size();
+
+        if (statementContextList.get(statementsSize-1).returnStatement() == null) {
+            throw new CommonValidationException("Validation code must end with a return statement!");
+        }
     }
 
     private void indent(String string) {
@@ -184,4 +225,12 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
                 "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n");
     }
 
+    private String listSupportedTypes() {
+        String supportedTypes = null;
+        for (SupportedType supportedType : SupportedType.values()) {
+            supportedTypes += supportedType.toString() + ",";
+        }
+
+        return StringUtils.removeEnd(supportedTypes, ",");
+    }
 }
