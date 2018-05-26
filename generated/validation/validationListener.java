@@ -58,6 +58,16 @@ public interface validationListener extends ParseTreeListener {
 	 */
 	void exitTypeName(validationParser.TypeNameContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link validationParser#listType}.
+	 * @param ctx the parse tree
+	 */
+	void enterListType(validationParser.ListTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#listType}.
+	 * @param ctx the parse tree
+	 */
+	void exitListType(validationParser.ListTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link validationParser#type}.
 	 * @param ctx the parse tree
 	 */

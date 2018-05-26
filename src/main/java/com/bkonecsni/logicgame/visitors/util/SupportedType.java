@@ -18,7 +18,8 @@ public enum SupportedType {
     BOOL(boolean.class, Arrays.asList(EQUALS, NOTEQUALS, AND, OR)),
     CHAR(Character.class, Collections.EMPTY_LIST),
     INT(int.class, Arrays.asList(EQUALS, GREATER, LESS, GREATEREQUALS, LESSEQUALS, NOTEQUALS, PLUS, MINUS, PLUSEQUALS, MINUSEQUALS)),
-    COLOR(Color.class, Collections.EMPTY_LIST);
+    COLOR(Color.class, Collections.EMPTY_LIST),
+    LIST(List.class, Collections.EMPTY_LIST);
 
     private Class clazz;
     private List<SupportedOperator> supportedOperators;

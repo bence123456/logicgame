@@ -41,6 +41,12 @@ public interface validationVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeName(validationParser.TypeNameContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link validationParser#listType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListType(validationParser.ListTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link validationParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

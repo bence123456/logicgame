@@ -2,16 +2,18 @@ package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.CommonValidationException;
+import com.bkonecsni.logicgame.exceptions.NoSuchValidationMethodException;
+import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.visitors.util.SupportedOperator;
 import com.bkonecsni.logicgame.visitors.util.SupportedType;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.apache.commons.lang3.StringUtils;
 import validation.validationBaseVisitor;
 import validation.validationParser;
 import validation.validationParser.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Method;
+import java.util.*;
 
 import static com.bkonecsni.logicgame.visitors.util.SupportedOperator.*;
 import static com.bkonecsni.logicgame.visitors.util.SupportedType.*;
@@ -22,7 +24,7 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
 
-    private List<String> definedVariables = new ArrayList<>();
+    private Map<String, SupportedType> definedVariablesTypeMap = new HashMap();
 
     public ValidationVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
@@ -77,13 +79,8 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     }
 
     @Override
-    public String visitModifyStatement(ModifyStatementContext ctx) {
-        return null;
-    }
-
-    @Override
     public String visitMultipleExpression(MultipleExpressionContext ctx) {
-        int expressionsSize = ctx.getChildCount();
+        int expressionsSize = ctx.expression().size();
 
         if (expressionsSize == 1) {
             return visitExpression(ctx.expression(0));
@@ -100,6 +97,10 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     @Override
     public String visitIfStatement(IfStatementContext context) {
+        if (context.boolStatement().SCOLON() != null) {
+            throw new CommonValidationException("Semi colon is forbidden in if state3ment!");
+        }
+
         String result = "if (" + visitBoolStatement(context.boolStatement()) + ") ";
         result += visitBlock(context.block());
 
@@ -107,25 +108,62 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     }
 
     @Override
+    public String visitModifyStatement(ModifyStatementContext ctx) {
+        return visitMultipleExpression(ctx.multipleExpression()) + ";";
+    }
+
+    @Override
     public String visitForStatement(validationParser.ForStatementContext ctx) {
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        VariableDeclarationContext variableDeclarationContext = ctx.variableDeclaration();
+        if (variableDeclarationContext != null) {
+            sb.append(visitVariableDeclaration(variableDeclarationContext));
+            sb.append(visitBoolStatement(ctx.boolStatement()));
+
+            String varName = ctx.varName().get(0).getText();
+            if (!variableDeclarationContext.varName().getText().equals(varName)) {
+                throw new CommonValidationException("Variable name in for statement must be the declared one!");
+            }
+
+            sb.append(varName);
+            sb.append(ctx.INCORDESC());
+        } else {
+            String type = ctx.type().getText();
+            checkType(type);
+
+            String varName = ctx.varName().get(0).getText();
+            definedVariablesTypeMap.put(varName, SupportedType.fromString(type));
+
+            String listVarName = ctx.varName().get(1).getText();
+            if (!listVarName.startsWith("List")) {
+                throw new CommonValidationException("Must loop through a list in this kind of for loop!");
+            }
+
+            sb.append(type + " " + varName + " : " + listVarName);
+        }
+
+        return sb.toString();
     }
 
     @Override
     public String visitBoolStatement(validationParser.BoolStatementContext ctx) {
-        return null;
+        return visitMultipleExpression(ctx.multipleExpression()) + ctx.SCOLON() != null ? ";" : "";
     }
 
     @Override
     public String visitExpression(ExpressionContext context) {
-        // TODO: complex expressions (operations)
-        return " " + context.getChild(0).getText();
-    }
+        String expressionText = "";
 
-    @Override
-    public String visitType(validationParser.TypeContext ctx) {
+        if (context.func() != null) {
+            expressionText = visitFunc(context.func());
+        } else if (context.varName() != null) {
+            expressionText = visitVarName(context.varName());
+        } else if (context.BOOL() != null | context.NUMBER() != null | context.STRING() != null) {
+            expressionText = context.getChild(0).getText();
+        }
 
-        return visitChildren(ctx);
+        return " " + expressionText;
     }
 
     @Override
@@ -136,33 +174,67 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     @Override
     public String visitFunc(FuncContext funcContext) {
         StringBuilder sb = new StringBuilder();
+
+        String funcName = funcContext.funcname().getText();
+        String className = getClassName(funcContext);
+        Method method = getMethod(funcContext, funcName, className);
+
         if (funcContext.NEG() != null) {
+            if (!method.getReturnType().equals(boolean.class)) {
+                throw new CommonValidationException("Operator '!' can only be used before methods with boolean return type!");
+            }
             sb.append("!");
         }
 
-        String funcname = funcContext.funcname().getText();
-
-        return funcname;
+        return getFuncCodeString(funcContext, sb, funcName);
     }
 
     @Override
     public String visitParams(validationParser.ParamsContext ctx) {
-        return visitChildren(ctx);
+        StringBuilder sb = new StringBuilder();
+        List<ParamContext> paramContextList = ctx.param();
+
+        sb.append(visitParam(paramContextList.get(0)));
+        for (int i = 1; i< paramContextList.size(); i++) {
+            sb.append(", ");
+            sb.append(visitParam(paramContextList.get(i)));
+        }
+
+        return sb.toString();
     }
 
     @Override
     public String visitParam(validationParser.ParamContext ctx) {
+        TerminalNode number = ctx.NUMBER();
+
+        if (number != null) {
+            return number.getText();
+        }
+
         return visitChildren(ctx);
     }
 
     @Override
-    public String visitItem(validationParser.ItemContext ctx) {
-        return visitChildren(ctx);
+    public String visitItem(ItemContext ctx) {
+        return ParserUtil.getItemCreationString(ctx.getChild(1).getText(), gameDefinition);
     }
 
     @Override
-    public String visitMparam(validationParser.MparamContext ctx) {
-        return visitChildren(ctx);
+    public String visitMparam(MparamContext ctx) {
+        String paramName = ctx.getText();
+
+        checkIfVariableDeclared(paramName);
+
+        return paramName;
+    }
+
+    @Override
+    public String visitVarName(validationParser.VarNameContext ctx) {
+        String varName = ctx.getText();
+
+        checkIfVariableDeclared(varName);
+
+        return " " + varName;
     }
 
     private String visitList(List<StatementContext> tree, String separator) {
@@ -178,9 +250,60 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         return result;
     }
 
+    private String getClassName(FuncContext funcContext) {
+        String className;
+
+        if (funcContext.ID() != null) {
+            String varName = funcContext.ID().getText();
+            checkIfVariableDeclared(varName);
+
+            className = definedVariablesTypeMap.get(varName).getClazz().getName();
+        } else {
+            className = "com.bkonecsni.logicgame.domain.validation.ValidationBase";
+        }
+
+        return className;
+    }
+
+    private Method getMethod(FuncContext funcContext, String funcName, String className) {
+        List<Class<?>> paramTypes = getParamTypes(funcContext.params());
+
+        try {
+            return loadMethod(className, funcName, paramTypes);
+        } catch (NoSuchMethodException e) {
+            throw new NoSuchValidationMethodException(funcName, createParamTypesString(paramTypes));
+        }
+    }
+
+    private Method loadMethod(String className, String funcname, List<Class<?>> paramTypes) throws NoSuchMethodException {
+        Class<?>[] paramTypesArray = paramTypes.toArray(new Class<?>[paramTypes.size()]);
+
+        Method method = null;
+        try {
+            Class.forName(className).getMethod(funcname, paramTypesArray);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return method;
+    }
+
+    private String getFuncCodeString(FuncContext funcContext, StringBuilder sb, String funcName) {
+        sb.append(funcName).append(funcContext.LP().getText());
+
+        if (funcContext.params() != null) {
+            sb.append(visitParams(funcContext.params()));
+        }
+
+        sb.append(funcContext.RP().getText());
+
+        return sb.toString();
+    }
+
     private String visitMultipleExpression(MultipleExpressionContext ctx, int expressionsSize) {
         StringBuilder sb = new StringBuilder();
         ExpressionContext firstExpression = ctx.expression(0);
+        SupportedType leftExpressionReturnType = null;
 
         for (int i=1; i<expressionsSize; i++) {
             ExpressionContext rightExpression = ctx.expression(i);
@@ -188,7 +311,6 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
             OperatorContext operatorContext = ctx.operator(i - 1);
             SupportedOperator operator = getSupportedOperator(operatorContext);
 
-            SupportedType leftExpressionReturnType = null;
             if (i == 1) {
                 leftExpressionReturnType = getExpressionReturnType(firstExpression);
             } else {
@@ -211,7 +333,6 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         return sb.toString();
     }
 
-
     private SupportedType getExpressionReturnType(ExpressionContext expressionContext) {
         SupportedType supportedType = null;
 
@@ -224,7 +345,7 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         } else if (expressionContext.func() != null) {
             supportedType = getExpressionReturnType(expressionContext.func());
         } else if (expressionContext.varName() != null) {
-            supportedType = getExpressionReturnType(expressionContext.varName());
+            supportedType = definedVariablesTypeMap.get(expressionContext.varName().getText());
         }
 
         return supportedType;
@@ -248,11 +369,35 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     }
 
     private SupportedType getExpressionReturnType(FuncContext funcContext){
-        return null;
+        String className = getClassName(funcContext);
+        Method method = getMethod(funcContext, funcContext.funcname().getText(), className);
+
+        String returnTypeString = method.getReturnType().getName();
+        SupportedType returnType = SupportedType.fromString(returnTypeString);
+
+        if (returnType == null) {
+            throw new CommonValidationException("Incorrect return type: " + returnTypeString +
+                    "Expression return type should be one of the supported types: " + listSupportedTypes());
+        }
+
+        return returnType;
     }
 
-    private SupportedType getExpressionReturnType(VarNameContext varNameContext){
-        return null;
+    private List<Class<?>> getParamTypes(ParamsContext paramsContext) {
+        List<Class<?>> paramTypes = new ArrayList<>();
+
+        for (ParamContext paramContext : paramsContext.param()) {
+            if (paramContext.NUMBER() != null) {
+                paramTypes.add(INT.getClazz());
+            } else if (paramContext.item() != null) {
+                paramTypes.add(ITEM.getClazz());
+            } else if (paramContext.mparam() != null) {
+                Class<?> clazz = definedVariablesTypeMap.get(visitMparam(paramContext.mparam())).getClazz();
+                paramTypes.add(clazz);
+            }
+        }
+
+        return paramTypes;
     }
 
     private SupportedOperator getSupportedOperator(OperatorContext operatorContext) {
@@ -269,17 +414,24 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
     private String getVarNameAndType(VariableDeclarationContext context) {
         String varName = context.varName().getText();
-        if (definedVariables.contains(varName)) {
+        String typeName = context.typeName().getText();
+
+        String type = getType(context.typeName());
+        checkType(type);
+        if (definedVariablesTypeMap.containsKey(varName)) {
             throw new CommonValidationException("Variable name: " + varName + " is already in use!");
         }
-        definedVariables.add(varName);
-
-        String typeName = context.typeName().getText();
-        if (SupportedType.fromString(typeName) == null) {
-            throw new CommonValidationException(typeName + " type is not supported! Supported types: " + listSupportedTypes());
-        }
+        definedVariablesTypeMap.put(varName, SupportedType.fromString(type));
 
         return typeName + " " + varName;
+    }
+
+    private String getType(TypeNameContext typeNameContext) {
+        if (typeNameContext.listType() != null) {
+            return "List";
+        }
+
+        return typeNameContext.type().getText();
     }
 
     private void checkIfLastStatementIsReturn(StatementListContext statementListContext) {
@@ -288,6 +440,19 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
         if (statementContextList.get(statementsSize-1).returnStatement() == null) {
             throw new CommonValidationException("Validation code must end with a return statement!");
+        }
+        // TODO check return type
+    }
+
+    private void checkIfVariableDeclared(String variableName) {
+        if (!definedVariablesTypeMap.containsKey(variableName)) {
+            throw new CommonValidationException(variableName + " variable is not declared!");
+        }
+    }
+
+    private void checkType(String type) {
+        if (SupportedType.fromString(type) == null) {
+            throw new CommonValidationException(type + " type is not supported! Supported types: " + listSupportedTypes());
         }
     }
 
@@ -334,5 +499,14 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         }
 
         return StringUtils.removeEnd(supportedOperatorsString, ", ");
+    }
+
+    private String createParamTypesString(List<Class<?>> paramTypes) {
+        String paramTypesString = "";
+        for (Class<?> clazz : paramTypes) {
+            paramTypesString += clazz.toString() + ", ";
+        }
+
+        return StringUtils.removeEnd(paramTypesString, ", ");
     }
 }

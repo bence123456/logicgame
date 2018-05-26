@@ -2,9 +2,9 @@ grammar validation;
 
 validation:  statementList ;
 
-statementList :	statement+ ;
+statementList:	statement+ ;
 
-statement :	variableDeclaration
+statement:	variableDeclaration
 	|	ifStatement
 	|	block
 	|	assignmentStatement
@@ -12,24 +12,25 @@ statement :	variableDeclaration
 	|   returnStatement
 	|   modifyStatement ;
 
-variableDeclaration : typeName varName ('=' multipleExpression)? SCOLON ;
+variableDeclaration: typeName varName ('=' multipleExpression)? SCOLON ;
 
-typeName :	type | 'List' LP type RP ;
-type :	ID;
+typeName: type | listType ;
+listType: 'List' LP type RP ;
+type: ID ;
 
-ifStatement : 	'if' LP boolStatement RP block ;
+ifStatement: 'if' LP boolStatement RP block ;
 
-forStatement : 'for ' LP ((typeName varName ':' varName) | (variableDeclaration boolStatement varName ('++' | '--'))) RP block ;
+forStatement: 'for ' LP ((type varName ':' varName) | (variableDeclaration boolStatement varName INCORDESC)) RP block ;
 
-block :	'{' statementList '}' ;
+block:	'{' statementList '}' ;
 
-assignmentStatement : varName '=' multipleExpression SCOLON ;
+assignmentStatement: varName '=' multipleExpression SCOLON ;
 
-modifyStatement : multipleExpression SCOLON ;
+modifyStatement: multipleExpression SCOLON ;
 
-boolStatement : multipleExpression SCOLON? ;
+boolStatement: multipleExpression SCOLON? ;
 
-returnStatement : 'return' (BOOL | multipleExpression ) SCOLON;
+returnStatement: 'return' (BOOL | multipleExpression ) SCOLON;
 
 multipleExpression: expression (operator expression)* ;
 
@@ -42,6 +43,7 @@ ID: [a-zA-Z][a-zA-Z]* ;
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
 STRING : '"' (~[\r\n"])* '"' ;
 BOOL: 'true' | 'false' ;
+INCORDESC: '++' | '--' ;
 
 WS : [ \t\r\n]+ -> skip ;
 
