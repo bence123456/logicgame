@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.nio.file.NoSuchFileException;
 import java.util.*;
 import java.util.List;
 

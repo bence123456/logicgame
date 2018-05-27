@@ -31,6 +31,7 @@ modifyStatement: multipleExpression SCOLON ;
 boolStatement: multipleExpression SCOLON? ;
 
 returnStatement: 'return' (BOOL | multipleExpression ) SCOLON;
+BOOL: 'true' | 'false' ;
 
 multipleExpression: expression (operator expression)* ;
 
@@ -42,7 +43,6 @@ ID: [a-zA-Z][a-zA-Z]* ;
 
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
 STRING : '"' (~[\r\n"])* '"' ;
-BOOL: 'true' | 'false' ;
 INCORDESC: '++' | '--' ;
 
 WS : [ \t\r\n]+ -> skip ;

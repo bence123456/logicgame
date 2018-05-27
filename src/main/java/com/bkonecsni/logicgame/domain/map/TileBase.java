@@ -28,7 +28,7 @@ public abstract class TileBase {
 
     public abstract boolean isUnmutableType();
 
-    public boolean isHelperType() {
+    public boolean isHelper() {
         return isUnmutableType() && itemList.size() > 1;
     }
 
@@ -39,7 +39,7 @@ public abstract class TileBase {
 
     public Integer getIntValue(int itemIndex) {
         Item item = getItem(itemIndex);
-        return item == null ? null : item.getIntValue();
+        return item == null ? -1 : item.getIntValue();
     }
 
     public String getSymbol(int itemIndex) {
@@ -71,7 +71,7 @@ public abstract class TileBase {
     }
 
     private Item getItem(int itemIndex) {
-        return itemList.get(itemIndex);
+        return itemList.size() <= itemIndex ? null : itemList.get(itemIndex);
     }
 
     public Point getPosition() {

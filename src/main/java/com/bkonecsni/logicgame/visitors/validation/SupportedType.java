@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.visitors.util;
+package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.TileBase;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.bkonecsni.logicgame.visitors.util.SupportedOperator.*;
+import static com.bkonecsni.logicgame.visitors.validation.SupportedOperator.*;
 
 public enum SupportedType {
 
@@ -44,7 +44,7 @@ public enum SupportedType {
 
     public static SupportedType fromString(String text) {
         for (SupportedType supportedType : SupportedType.values()) {
-            if (supportedType.clazz.getName().equals(text)) {
+            if (supportedType.clazz.getSimpleName().equals(text)) {
                 return supportedType;
             }
         }

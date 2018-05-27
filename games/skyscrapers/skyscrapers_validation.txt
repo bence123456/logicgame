@@ -1,4 +1,4 @@
-List(TileBase) tiles = getTiles();
+List(TileBase) tiles = getTileList();
 
 for (TileBase tile : tiles) {
     if(tile.isHelper()) {
@@ -6,8 +6,8 @@ for (TileBase tile : tiles) {
         int visibleSkylineNumber = 1;
         List(TileBase) playableTiles = getPlayableTilesForHelperTile(tile);
 
-        TileBase actualTile = getTile(playableTiles, 0);
-        for (int i=1; i<playableTiles.siz(); i++) {
+        TileBase actualTile = playableTiles.get(0);
+        for (int i=1; i<playableTiles.size(); i++) {
             TileBase nextTile = playableTiles.get(i);
             int nextTileIntValue = nextTile.getIntValue(1);
 

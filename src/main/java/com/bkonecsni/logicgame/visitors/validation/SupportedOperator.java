@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.visitors.util;
+package com.bkonecsni.logicgame.visitors.validation;
 
 public enum SupportedOperator {
 

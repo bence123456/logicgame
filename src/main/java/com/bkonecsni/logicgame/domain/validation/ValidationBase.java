@@ -26,12 +26,20 @@ public abstract class ValidationBase {
         switch (getHelperTileLocation(tileBase)) {
             case TOP:
                 playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
+                break;
             case BOTTOM:
-                playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
+                List<TileBase> tilesFromColumn = getTilesFromColumn(columnNumber);
+                Collections.reverse(tilesFromColumn);
+                playableTilesInRowOrColumn.addAll(tilesFromColumn);
+                break;
             case LEFT:
                 playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
+                break;
             case RIGHT:
-                playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
+                List<TileBase> tilesFromRow = getTilesFromRow(rowNumber);
+                Collections.reverse(tilesFromRow);
+                playableTilesInRowOrColumn.addAll(tilesFromRow);
+                break;
             case NONE:
                 break;
         }
@@ -348,7 +356,7 @@ public abstract class ValidationBase {
             return HelperTileLocation.BOTTOM;
         } else if (y==0 && x>0 && x<=lastPlayableRowNr) {
             return HelperTileLocation.LEFT;
-        } else if (y==lastPlayableColumnNr && x>0 && x<=lastPlayableRowNr) {
+        } else if (y==lastPlayableColumnNr+1 && x>0 && x<=lastPlayableRowNr) {
             return HelperTileLocation.RIGHT;
         }
 
@@ -365,5 +373,9 @@ public abstract class ValidationBase {
 
     public void setTileList(List<TileBase> tileList) {
         this.tileList = tileList;
+    }
+
+    public List<TileBase> getTileList() {
+        return tileList;
     }
 }
