@@ -224,14 +224,29 @@ public class ValidationVisitorHelper {
         }
     }
 
-    void checkIfLastStatementIsReturn(StatementListContext statementListContext) {
+    void checkIfLastStatementIsReturnWithBoolReturnType(StatementListContext statementListContext) {
         List<StatementContext> statementContextList = statementListContext.statement();
         int statementsSize = statementContextList.size();
 
-        if (statementContextList.get(statementsSize-1).returnStatement() == null) {
+        ReturnStatementContext returnStatementContext = statementContextList.get(statementsSize - 1).returnStatement();
+        if (returnStatementContext == null) {
             throw new CommonValidationException("Validation code must end with a return statement!");
         }
-        // TODO check return type
+
+        chechkLastStatementReturnType(returnStatementContext);
+    }
+
+    private void chechkLastStatementReturnType(ReturnStatementContext returnStatementContext) {
+        if (returnStatementContext.BOOL() == null) {
+            List<ExpressionContext> expressionList = returnStatementContext.multipleExpression().expression();
+            int expressionSize = expressionList.size();
+            ExpressionContext lastExpression = expressionList.get(expressionSize - 1);
+
+            SupportedType lastExpressionReturnType = getExpressionReturnType(lastExpression);
+            if (!SupportedType.BOOL.equals(lastExpressionReturnType)) {
+                throw new CommonValidationException("Last is expression in the return statement is not BOOL!");
+            }
+        }
     }
 
     void checkIfReturnTypeIsBool(Method method) {
