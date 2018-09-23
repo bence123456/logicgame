@@ -27,9 +27,11 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     @Override
     public String visitValidation(ValidationContext validationContext) {
         StatementListContext statementListContext = validationContext.statementList();
-        helper.checkIfLastStatementIsReturnWithBoolReturnType(statementListContext);
+        ReturnStatementContext returnStatementContext = helper.getReturnStatement(statementListContext);
+        helper.checkIfLastStatementIsReturn(returnStatementContext);
 
         String validationCode = visitStatementList(statementListContext);
+        helper.checkIfReturnStatementTypeIsBool(returnStatementContext);
 //        indent(validationCode);
 
         return codeCreator.createValidationClassCode(validationCode, gameDefinition);

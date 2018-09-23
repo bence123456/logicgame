@@ -18,7 +18,7 @@ public class ValidationClassCodeCreator {
         sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {\n\n");
         sb.append(TAB + "public boolean areWinConditionsApply() {\n");
 
-        sb.append(D_TAB + statements + TAB + "}\n}");
+        sb.append(D_TAB + statements + "\n" + TAB + "}\n}");
 
         return sb.toString();
     }
