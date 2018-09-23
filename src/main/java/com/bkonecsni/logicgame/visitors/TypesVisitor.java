@@ -3,13 +3,12 @@ package com.bkonecsni.logicgame.visitors;
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import types.typesBaseVisitor;
 import types.typesParser;
 import types.typesParser.*;
 
 import java.util.*;
-
-import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.*;
 
 public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
@@ -41,13 +40,16 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     private String createTileCode(TypedeclContext typedeclContext, String typeName) {
         String initCode = createInitCode(typedeclContext);
-
         String className = typeName + "Tile";
+
+        String tileJavaCode = null;
         if (initCode != null && !initCode.isEmpty()) {
-            return createTileCodeForPlayableType(className, initCode);
+            tileJavaCode = createTileCodeForPlayableType(className, initCode);
         } else {
-            return createTileCodeForUnMutableType(className);
+            tileJavaCode = createTileCodeForUnMutableType(className);
         }
+
+        return VisitorUtil.formatJavaCode(tileJavaCode);
     }
 
 
@@ -64,13 +66,13 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     private String visitLoopDeclaration(LoopContext loopContext) {
         StringBuilder sb = new StringBuilder();
-        sb.append(D_TAB + "this.typeStatementList = Arrays.asList(\n");
+        sb.append("this.typeStatementList = Arrays.asList(");
 
         Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
         List<String> itemList = createItemCreationStringListFromLoop(loopContext, gameDefinition);
         sb.append(createTypeStatementListFromLoop(itemIndex, itemList));
 
-        sb.append("\n" + D_TAB + ");");
+        sb.append(");");
         return sb.toString();
 
     }
@@ -95,7 +97,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
                 sb.append(createTypeStatement(itemIndex, itemCreationStringList, i, 0));
             } else {
                 sb.append(createTypeStatement(itemIndex, itemCreationStringList, i, i+1));
-                sb.append(",\n");
+                sb.append(",");
             }
         }
 
@@ -104,25 +106,25 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     private String visitTypedefDeclaration(TypedefContext typedefContext) {
         StringBuilder sb = new StringBuilder();
-        sb.append(D_TAB + "this.typeStatementList = Arrays.asList(\n");
+        sb.append("this.typeStatementList = Arrays.asList(");
 
         boolean isFirst = true;
         for (TypestatementContext typestatementContext : typedefContext.typestatement()) {
             if (isFirst) {
-                sb.append(T_TAB + createTypeStatement(gameDefinition, typestatementContext));
+                sb.append(createTypeStatement(gameDefinition, typestatementContext));
                 isFirst = false;
             } else {
-                sb.append(",\n" + T_TAB + createTypeStatement(gameDefinition, typestatementContext));
+                sb.append("," + createTypeStatement(gameDefinition, typestatementContext));
             }
         }
 
-        sb.append("\n" + D_TAB + ");");
+        sb.append(");");
         return sb.toString();
     }
 
     private String createTypeStatement(Integer itemIndex, List<String> itemCreationStringList, int conditionIndex, int updateIndex) {
         StringBuilder sb = new StringBuilder();
-        sb.append(T_TAB + "new TypeStatement(");
+        sb.append("new TypeStatement(");
 
         sb.append("Arrays.asList(");
         sb.append(parseCondition(itemIndex, itemCreationStringList.get(conditionIndex)));
@@ -200,9 +202,9 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         appendConstructor(sb, className);
 
         appendOverride(sb);
-        sb.append(TAB + "public void init() {\n" + initCode + "\n" + TAB + "}\n\n");
+        sb.append("public void init() {" + initCode + "}");
         appendOverride(sb);
-        sb.append(TAB + "public boolean isUnmutableType() {\n" + D_TAB + "return false;\n" + TAB + "}\n\n" + "}\n\n");
+        sb.append("public boolean isUnmutableType() { return false;" + "}}");
 
         return sb.toString();
     }
@@ -212,39 +214,38 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
         appendImportsAndClassHeader(sb, className, "UnMutableTile", true);
         appendConstructor(sb, className);
-        sb.append("}\n\n");
+        sb.append("}");
 
         return sb.toString();
     }
 
     private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, boolean unMutable) {
-        sb.append("package gamecode." + gameDefinition.getGameName() + ".types;\n\n");
+        sb.append("package gamecode." + gameDefinition.getGameName() + ".types;");
         appendImports(sb, unMutable);
-        sb.append("public class " + className + " extends " + parentClassName + " {\n\n");
+        sb.append("public class " + className + " extends " + parentClassName + " {");
     }
 
     private void appendConstructor(StringBuilder sb, String className) {
-        sb.append(TAB + "public " + className +"(Point position, Point size, List<Item> itemList) {\n" +
-                D_TAB + "super(position, size, itemList);\n" +
-                TAB + "}\n\n");
+        sb.append("public " + className +"(Point position, Point size, List<Item> itemList) {" +
+                "super(position, size, itemList); }");
     }
 
     private void appendOverride(StringBuilder sb) {
-        sb.append(TAB + "@Override\n");
+        sb.append("@Override ");
     }
 
     private void appendImports(StringBuilder sb, boolean unMutable) {
-        String importString = unMutable ? "import com.bkonecsni.logicgame.domain.map.UnMutableTile;\n" +
-                                             "import com.bkonecsni.logicgame.domain.common.Item;\n\n" +
-                                             "import java.awt.Point;\n" + "import java.util.List;\n\n" :
+        String importString = unMutable ? "import com.bkonecsni.logicgame.domain.map.UnMutableTile;" +
+                                             "import com.bkonecsni.logicgame.domain.common.Item;" +
+                                             "import java.awt.Point;" + "import java.util.List;" :
 
-                                             "import com.bkonecsni.logicgame.domain.common.Item;\n" +
-                                             "import com.bkonecsni.logicgame.domain.map.TileBase;\n" +
-                                             "import com.bkonecsni.logicgame.domain.types.TypeStatement;\n" +
-                                             "import com.bkonecsni.logicgame.domain.types.equation.Condition;\n" +
-                                             "import com.bkonecsni.logicgame.domain.types.equation.Update;\n\n" +
-                                             "import java.awt.Color;\n" + "import java.awt.Point;\n" +
-                                             "import java.util.Arrays;\n" + "import java.util.List;\n\n";
+                                             "import com.bkonecsni.logicgame.domain.common.Item;" +
+                                             "import com.bkonecsni.logicgame.domain.map.TileBase;" +
+                                             "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
+                                             "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
+                                             "import com.bkonecsni.logicgame.domain.types.equation.Update;" +
+                                             "import java.awt.Color;" + "import java.awt.Point;" +
+                                             "import java.util.Arrays;" + "import java.util.List;";
 
         sb.append(importString);
     }

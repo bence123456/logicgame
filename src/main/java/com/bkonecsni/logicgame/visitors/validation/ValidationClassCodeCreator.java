@@ -1,12 +1,8 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseException;
-import com.github.javaparser.ast.CompilationUnit;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.ByteArrayInputStream;
 
 public class ValidationClassCodeCreator {
 
@@ -21,22 +17,9 @@ public class ValidationClassCodeCreator {
         sb.append("public boolean areWinConditionsApply() {");
         sb.append(statements + "}}");
 
-        String formattedValidationJavaCode = formatJavaCode(sb);
+        String formattedValidationJavaCode = VisitorUtil.formatJavaCode(sb.toString());
 
         return formattedValidationJavaCode;
-    }
-
-    private String formatJavaCode(StringBuilder sb) {
-        String validationJavaCode = sb.toString();
-        CompilationUnit compilationUnit = null;
-
-        try {
-            compilationUnit = JavaParser.parse(new ByteArrayInputStream(validationJavaCode.getBytes()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return compilationUnit.toString();
     }
 
     private void appendImport(StringBuilder sb) {

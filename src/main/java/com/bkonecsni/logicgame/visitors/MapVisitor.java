@@ -4,13 +4,12 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
 import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import map.mapBaseVisitor;
 import map.mapParser;
 import map.mapParser.*;
 
 import java.util.Set;
-
-import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.*;
 
 public class MapVisitor extends mapBaseVisitor<String> {
 
@@ -30,7 +29,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
         appendInit(ctx, sb);
         appendClosingBrackets(sb);
 
-        return sb.toString();
+        return VisitorUtil.formatJavaCode(sb.toString());
     }
 
     @Override
@@ -103,43 +102,41 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     private void appendInit(MapContext ctx, StringBuilder sb) {
-        sb.append(TAB + "public void init() {\n");
-        sb.append(D_TAB + "this.tileList = Arrays.asList(\n");
+        sb.append("public void init() {");
+        sb.append("this.tileList = Arrays.asList(");
 
         boolean isFirst = true;
         for (TileContext tileContext : ctx.tile()) {
             if (isFirst) {
-                sb.append(T_TAB + visitTile(tileContext));
+                sb.append(visitTile(tileContext));
                 isFirst = false;
             } else {
-                sb.append(",\n" + T_TAB + visitTile(tileContext));
+                sb.append("," + visitTile(tileContext));
             }
         }
     }
 
     private void appendImportsAndClassHeader(StringBuilder sb) {
-        sb.append("package gamecode." + gameDefinition.getGameName() + ".levels;\n\n");
+        sb.append("package gamecode." + gameDefinition.getGameName() + ".levels;");
         appendImports(sb);
-        sb.append("public class " + className + " extends LevelBase {\n\n");
+        sb.append("public class " + className + " extends LevelBase {");
     }
 
     private void appendClosingBrackets(StringBuilder sb) {
-        sb.append("\n" + D_TAB + ");\n");
-        sb.append(TAB + "}\n");
-        sb.append("}\n\n");
+        sb.append(");}}");
     }
 
     private void appendImports(StringBuilder sb) {
         for (String type: gameDefinition.getDefinedTypes()) {
-            sb.append("import gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;\n");
+            sb.append("import gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;");
         }
 
-        sb.append("import com.bkonecsni.logicgame.domain.map.LevelBase;\n" +
-                "import com.bkonecsni.logicgame.domain.common.Item;\n" +
-                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n" +
-                "import java.awt.Point;\n" +
-                "import java.awt.Color;\n" +
-                "import java.util.ArrayList;\n" +
-                "import java.util.Arrays;\n\n");
+        sb.append("import com.bkonecsni.logicgame.domain.map.LevelBase;" +
+                "import com.bkonecsni.logicgame.domain.common.Item;" +
+                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;" +
+                "import java.awt.Point;" +
+                "import java.awt.Color;" +
+                "import java.util.ArrayList;" +
+                "import java.util.Arrays;");
     }
 }
