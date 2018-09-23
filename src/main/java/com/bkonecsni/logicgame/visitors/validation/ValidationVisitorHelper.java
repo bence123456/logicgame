@@ -217,13 +217,6 @@ public class ValidationVisitorHelper {
         return clazz;
     }
 
-    void indent(String string) {
-        if (string != null) {
-            string.concat("\t");
-            string.replace("\n", "\n\t");
-        }
-    }
-
     ReturnStatementContext getReturnStatement(StatementListContext statementListContext) {
         List<StatementContext> statementContextList = statementListContext.statement();
         int statementsSize = statementContextList.size();
@@ -238,19 +231,6 @@ public class ValidationVisitorHelper {
     }
 
     void checkIfReturnStatementTypeIsBool(ReturnStatementContext returnStatementContext) {
-        if (returnStatementContext.BOOL() == null) {
-            List<ExpressionContext> expressionList = returnStatementContext.multipleExpression().expression();
-            int expressionSize = expressionList.size();
-            ExpressionContext lastExpression = expressionList.get(expressionSize - 1);
-
-            SupportedType lastExpressionReturnType = getExpressionReturnType(lastExpression);
-            if (!SupportedType.BOOL.equals(lastExpressionReturnType)) {
-                throw new CommonValidationException("Last is expression in the return statement is not BOOL!");
-            }
-        }
-    }
-
-    private void chechkLastStatementReturnType(ReturnStatementContext returnStatementContext) {
         if (returnStatementContext.BOOL() == null) {
             List<ExpressionContext> expressionList = returnStatementContext.multipleExpression().expression();
             int expressionSize = expressionList.size();

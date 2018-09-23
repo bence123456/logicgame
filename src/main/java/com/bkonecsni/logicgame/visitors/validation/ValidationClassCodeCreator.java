@@ -1,10 +1,12 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseException;
+import com.github.javaparser.ast.CompilationUnit;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.D_TAB;
-import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.TAB;
+import java.io.ByteArrayInputStream;
 
 public class ValidationClassCodeCreator {
 
@@ -12,25 +14,39 @@ public class ValidationClassCodeCreator {
         StringBuilder sb = new StringBuilder();
 
         String gameName = gameDefinition.getGameName();
-        sb.append("package gamecode." + gameName + ".validation;\n\n");
-
+        sb.append("package gamecode." + gameName + ".validation;");
         appendImport(sb);
-        sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {\n\n");
-        sb.append(TAB + "public boolean areWinConditionsApply() {\n");
+        sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {");
 
-        sb.append(D_TAB + statements + "\n" + TAB + "}\n}");
+        sb.append("public boolean areWinConditionsApply() {");
+        sb.append(statements + "}}");
 
-        return sb.toString();
+        String formattedValidationJavaCode = formatJavaCode(sb);
+
+        return formattedValidationJavaCode;
+    }
+
+    private String formatJavaCode(StringBuilder sb) {
+        String validationJavaCode = sb.toString();
+        CompilationUnit compilationUnit = null;
+
+        try {
+            compilationUnit = JavaParser.parse(new ByteArrayInputStream(validationJavaCode.getBytes()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return compilationUnit.toString();
     }
 
     private void appendImport(StringBuilder sb) {
-        sb.append("import com.bkonecsni.logicgame.domain.common.Item;\n" +
-                "import com.bkonecsni.logicgame.domain.map.TileBase;\n" +
-                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;\n\n" +
-                "import java.awt.Color;\n" +
-                "import java.util.ArrayList;\n" +
-                "import java.util.Arrays;\n" +
-                "import java.util.List;\n"
+        sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
+                "import com.bkonecsni.logicgame.domain.map.TileBase;" +
+                "import com.bkonecsni.logicgame.domain.validation.ValidationBase;" +
+                "import java.awt.Color;" +
+                "import java.util.ArrayList;" +
+                "import java.util.Arrays;" +
+                "import java.util.List;"
         );
     }
 }

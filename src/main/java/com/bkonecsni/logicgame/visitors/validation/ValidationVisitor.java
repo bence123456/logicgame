@@ -10,8 +10,6 @@ import validation.validationParser.*;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static com.bkonecsni.logicgame.visitors.util.VisitorUtil.TAB;
-
 public class ValidationVisitor extends validationBaseVisitor<String> {
 
     private GameDefinition gameDefinition;
@@ -32,21 +30,25 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
 
         String validationCode = visitStatementList(statementListContext);
         helper.checkIfReturnStatementTypeIsBool(returnStatementContext);
-//        indent(validationCode);
 
         return codeCreator.createValidationClassCode(validationCode, gameDefinition);
     }
 
     @Override
     public String visitStatementList(StatementListContext context) {
-        return visitList(context.statement(), "\n");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (StatementContext statementContext : context.statement()) {
+            stringBuilder.append(visitStatement(statementContext));
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
     public String visitBlock(validationParser.BlockContext context) {
         String statements = visitStatementList(context.statementList());
-//        indent(statements);
-        return " {\n" + TAB + statements + "\n}\n";
+        return " {" + statements + "}";
     }
 
     @Override
@@ -218,19 +220,6 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         helper.checkIfVariableDeclared(varName);
 
         return " " + varName;
-    }
-
-    private String visitList(List<validationParser.StatementContext> tree, String separator) {
-        String result = "";
-
-        for (int i = 0; i < tree.size(); i++) {
-            if (i > 0) {
-                result += separator;
-            }
-            result += TAB + visit(tree.get(i));
-        }
-
-        return result;
     }
 
     private String visitMultipleExpression(validationParser.MultipleExpressionContext ctx, int expressionsSize) {
