@@ -4,7 +4,7 @@ for (TileBase tile : tiles) {
     if(tile.isHelper()) {
         int skylineNumber = tile.getIntValue(1);
         int visibleSkylineNumber = 1;
-        List(TileBase) playableTiles = getPlayableTilesForHelperTile(tile);
+        List(TileBase) playableTiles = getPlayableTilesForMarginHelperTile(tile);
 
         TileBase actualTile = playableTiles.get(0);
         for (int i=1; i<playableTiles.size(); i++) {
@@ -17,7 +17,7 @@ for (TileBase tile : tiles) {
             }
         }
 
-        if(skylineNumber != visibleSkylineNumber) {
+        if (skylineNumber != visibleSkylineNumber) {
                 return false;
         }
     }

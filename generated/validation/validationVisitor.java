@@ -1,4 +1,4 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
+// Generated from C:/Users/Ben/IdeaProjects/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
 package validation;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -52,6 +52,12 @@ public interface validationVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitType(validationParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link validationParser#elseStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseStatement(validationParser.ElseStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link validationParser#ifStatement}.
 	 * @param ctx the parse tree

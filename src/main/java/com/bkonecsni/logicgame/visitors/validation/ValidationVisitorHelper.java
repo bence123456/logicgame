@@ -187,13 +187,26 @@ public class ValidationVisitorHelper {
 
     Method getMethod(FuncContext funcContext, String funcName, String className) {
         List<Class<?>> paramTypes = getParamTypes(funcContext.params());
-
         Class<?> clazz = loadClass(className);
+
+        Method method;
+        try {
+            method = loadMethod(clazz, funcName, paramTypes);
+        } catch (NoSuchMethodException e) {
+            method = loadMethodWithObjectParamType(clazz, funcName, paramTypes);
+        }
+
+        return method;
+    }
+
+    private Method loadMethodWithObjectParamType(Class<?> clazz, String funcName, List<Class<?>> originalParamTypes) {
+        List<Class<?>> paramTypes = Arrays.asList(Object.class);
+
         try {
             return loadMethod(clazz, funcName, paramTypes);
         } catch (NoSuchMethodException e) {
             String availableMethods = listAvailableMethods(clazz.getMethods());
-            throw new NoSuchValidationMethodException(funcName, createParamTypesString(paramTypes), availableMethods);
+            throw new NoSuchValidationMethodException(funcName, createParamTypesString(originalParamTypes), availableMethods);
         }
     }
 

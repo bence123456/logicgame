@@ -70,7 +70,7 @@ public abstract class TileBase {
         };
     }
 
-    private Item getItem(int itemIndex) {
+    public Item getItem(int itemIndex) {
         return itemList.size() <= itemIndex ? null : itemList.get(itemIndex);
     }
 

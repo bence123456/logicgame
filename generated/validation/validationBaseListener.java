@@ -1,4 +1,4 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
+// Generated from C:/Users/Ben/IdeaProjects/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
 package validation;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -95,6 +95,18 @@ public class validationBaseListener implements validationListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitType(validationParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterElseStatement(validationParser.ElseStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseStatement(validationParser.ElseStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

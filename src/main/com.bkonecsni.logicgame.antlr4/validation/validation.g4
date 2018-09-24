@@ -18,7 +18,9 @@ typeName: type | listType ;
 listType: 'List' LP type RP ;
 type: ID ;
 
-ifStatement: 'if' LP boolStatement RP block ;
+elseStatement: 'else' block ;
+
+ifStatement: 'if' LP boolStatement RP block elseStatement? ;
 
 forStatement: 'for ' LP ((type varName ':' varName) | (variableDeclaration boolStatement varName INCORDESC)) RP block ;
 

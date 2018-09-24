@@ -18,7 +18,7 @@ public abstract class ValidationBase {
         return object == null;
     }
 
-    public List<TileBase> getPlayableTilesForHelperTile(TileBase tileBase) {
+    public List<TileBase> getPlayableTilesForMarginHelperTile(TileBase tileBase) {
         List<TileBase> playableTilesInRowOrColumn = new ArrayList<>();
         int columnNumber = getColumnNumber(tileBase);
         int rowNumber = getRowNumber(tileBase);
@@ -185,6 +185,16 @@ public abstract class ValidationBase {
         return tiles;
     }
 
+    public List<TileBase> getHorizontalAndVerticalNeighboursForTile(TileBase tile) {
+        List<TileBase> tiles = new ArrayList<>();
+        int rowNr = getRowNumber(tile);
+        int columnNr = getColumnNumber(tile);
+
+        addHorizontalAndVerticalNeighbours(tiles, rowNr, columnNr);
+
+        return tiles;
+    }
+
     public List<TileBase> getTilesWithGivenItem(Item item) {
         List<TileBase> tilesWithGivenItem = new ArrayList<>();
 
@@ -275,6 +285,14 @@ public abstract class ValidationBase {
         return true;
     }
 
+    private void addDiagonaNeighbours(List<TileBase> tiles, int rowNr, int columnNr) {
+        addNeighbourToListIfExists(rowNr-1, columnNr-1, tiles);
+        addNeighbourToListIfExists(rowNr-1, columnNr+1, tiles);
+
+        addNeighbourToListIfExists(rowNr+1, columnNr-1, tiles);
+        addNeighbourToListIfExists(rowNr+1, columnNr+1, tiles);
+    }
+
     private boolean isAreaValid(List<TileBase> tiles, Item item, int expectedNumber) {
         int numberOfItems = 0;
 
@@ -307,17 +325,16 @@ public abstract class ValidationBase {
         int rowNr = getRowNumber(tile);
         int columnNr = getColumnNumber(tile);
 
+        addHorizontalAndVerticalNeighbours(tiles, rowNr, columnNr);
+        addDiagonaNeighbours(tiles, rowNr, columnNr);
+    }
+
+    public void addHorizontalAndVerticalNeighbours(List<TileBase> tiles, int rowNr, int columnNr) {
         addNeighbourToListIfExists(rowNr, columnNr-1, tiles);
         addNeighbourToListIfExists(rowNr, columnNr+1, tiles);
 
         addNeighbourToListIfExists(rowNr-1, columnNr, tiles);
         addNeighbourToListIfExists(rowNr+1, columnNr, tiles);
-
-        addNeighbourToListIfExists(rowNr-1, columnNr-1, tiles);
-        addNeighbourToListIfExists(rowNr-1, columnNr+1, tiles);
-
-        addNeighbourToListIfExists(rowNr+1, columnNr-1, tiles);
-        addNeighbourToListIfExists(rowNr+1, columnNr+1, tiles);
     }
 
     private void addNeighbourToListIfExists(int row, int column, List<TileBase> tiles) {

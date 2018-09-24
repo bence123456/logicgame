@@ -1,0 +1,29 @@
+tile: Type1@(0,0), items: { [#000000] }
+tile: Type1@(0,1), items: { [#000000] }
+tile: Type1@(0,2), items: { [#ffffff] }
+tile: Type1@(0,3), items: { [#000000] }
+tile: Type1@(0,4), items: { [#ffffff] }
+
+tile: Type1@(1,0), items: { [#000000] }
+tile: Type1@(1,1), items: { [#000000] }
+tile: Type1@(1,2), items: { [#000000] }
+tile: Type0@(1,3), items: { [#ffffff] [4] }
+tile: Type1@(1,4), items: { [#000000] }
+
+tile: Type1@(2,0), items: { [#000000] }
+tile: Type1@(2,1), items: { [#000000] }
+tile: Type0@(2,2), items: { [#ffffff] [4] }
+tile: Type1@(2,3), items: { [#000000] }
+tile: Type1@(2,4), items: { [#000000] }
+
+tile: Type1@(3,0), items: { [#000000] }
+tile: Type1@(3,1), items: { [#000000] }
+tile: Type1@(3,2), items: { [#000000] }
+tile: Type1@(3,3), items: { [#000000] }
+tile: Type1@(3,4), items: { [#000000] }
+
+tile: Type1@(4,0), items: { [#000000] }
+tile: Type0@(4,1), items: { [#ffffff] [0] }
+tile: Type1@(4,2), items: { [#000000] }
+tile: Type1@(4,3), items: { [#000000] }
+tile: Type1@(4,4), items: { [#000000] }

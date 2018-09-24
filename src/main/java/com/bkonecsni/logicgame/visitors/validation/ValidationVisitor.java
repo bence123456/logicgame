@@ -96,11 +96,24 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
     @Override
     public String visitIfStatement(IfStatementContext context) {
         helper.checkSemiColonExistanceInIfStatement(context);
+        StringBuilder sb = new StringBuilder();
 
-        String result = "if (" + visitBoolStatement(context.boolStatement()) + ") ";
-        result += visitBlock(context.block());
+        sb.append("if (" + visitBoolStatement(context.boolStatement()) + ") ");
+        sb.append(visitBlock(context.block()));
+        sb.append(visitElseStatement(context.elseStatement()));
 
-        return result;
+        return sb.toString();
+    }
+
+    @Override
+    public String visitElseStatement(ElseStatementContext context) {
+        StringBuilder sb = new StringBuilder();
+
+        if (context != null) {
+            sb.append(visitBlock(context.block()));
+        }
+
+        return sb.toString();
     }
 
     @Override

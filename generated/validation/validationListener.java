@@ -1,4 +1,4 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
+// Generated from C:/Users/Ben/IdeaProjects/logicgame/src/main/com.bkonecsni.logicgame.antlr4/validation\validation.g4 by ANTLR 4.7
 package validation;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -77,6 +77,16 @@ public interface validationListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(validationParser.TypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link validationParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseStatement(validationParser.ElseStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link validationParser#elseStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseStatement(validationParser.ElseStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link validationParser#ifStatement}.
 	 * @param ctx the parse tree

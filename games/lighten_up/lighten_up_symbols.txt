@@ -1,0 +1,1 @@
+S1:src/main/resources/images/symbols/lightbulb.png
