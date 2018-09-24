@@ -110,6 +110,7 @@ public class ValidationVisitor extends validationBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
 
         if (context != null) {
+            sb.append("else ");
             sb.append(visitBlock(context.block()));
         }
 

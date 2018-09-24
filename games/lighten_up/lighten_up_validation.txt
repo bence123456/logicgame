@@ -6,10 +6,10 @@ for (TileBase tile : tiles) {
         List(TileBase) neighbourTiles = getHorizontalAndVerticalNeighboursForTile(tile);
 
         int actualAdjacentBulbsNr = 0;
-        for (int i=0; i<neighbourTiles.size()-1; i++) {
+        for (int i=0; i<neighbourTiles.size(); i++) {
             TileBase actualTile = neighbourTiles.get(i);
 
-            Item symbolItem = tile.getItem(1);
+            Item symbolItem = actualTile.getItem(1);
             if (!isNull(symbolItem) && symbolItem.equals([S1])) {
                 actualAdjacentBulbsNr += 1;
             }
@@ -21,7 +21,7 @@ for (TileBase tile : tiles) {
     } else {
         Item colorItem = tile.getItem(0);
 
-        if (!isNull(colorItem) && colorItem.equals([#ffffff])) {
+        if (!tile.isUnmutableType() && !isNull(colorItem) && !colorItem.equals([#ffff00])) {
             return false;
         }
     }

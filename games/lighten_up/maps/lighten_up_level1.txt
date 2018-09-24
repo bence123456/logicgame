@@ -1,8 +1,8 @@
 tile: Type1@(0,0), items: { [#000000] }
 tile: Type1@(0,1), items: { [#000000] }
-tile: Type1@(0,2), items: { [#ffffff] }
+tile: Type0@(0,2), items: { [#ffffff] }
 tile: Type1@(0,3), items: { [#000000] }
-tile: Type1@(0,4), items: { [#ffffff] }
+tile: Type0@(0,4), items: { [#ffffff] }
 
 tile: Type1@(1,0), items: { [#000000] }
 tile: Type1@(1,1), items: { [#000000] }
