@@ -4,6 +4,7 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
+import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +22,11 @@ public class LogicGameGui extends JFrame {
 
     public LogicGameGui(GameDefinition gameDefinition) {
         LevelBase map = gameDefinition.getMaps().get("level1");
-        int rows = map.getRowNumber();
-        int columns = map.getColumnNumber();
+        ValidationBase validationHandler = gameDefinition.getValidationHandler();
+        validationHandler.setTileList(map.getTileList());
+
+        int rows = validationHandler.getRowNumber();
+        int columns = validationHandler.getColumnNumber();
 
         createUIPanel(rows, columns);
 
@@ -46,7 +50,7 @@ public class LogicGameGui extends JFrame {
         for (int i=0; i<rows; i++) {
             for (int j=0; j<columns; j++) {
                 JButton button = new JButton();
-                TileBase tile = map.getTile(i,j);
+                TileBase tile = gameDefinition.getValidationHandler().getTile(i,j);
                 List<Item> itemList = tile.getItemList();
                 Color color = itemList.get(0).getColor();
                 button.setBackground(color);

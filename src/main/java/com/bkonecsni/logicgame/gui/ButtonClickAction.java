@@ -4,7 +4,7 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
-import com.bkonecsni.logicgame.statehandler.StateHandler;
+import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class ButtonClickAction extends AbstractAction {
 
-    private StateHandler stateHandler;
     private GameDefinition gameDefinition;
     private Map<JButton, TileBase> buttonTileMap;
     private LevelBase map;
@@ -24,7 +23,6 @@ public class ButtonClickAction extends AbstractAction {
         this.buttonTileMap = buttonTileMap;
         this.gameDefinition = gameDefinition;
         this.map = map;
-        this.stateHandler = new StateHandler();
     }
 
     @Override
@@ -38,7 +36,7 @@ public class ButtonClickAction extends AbstractAction {
     }
 
     private void handleActionEvent(JButton buttonSource, TileBase actualTile) {
-        stateHandler.act(actualTile);
+        actualTile.handleState();
 
         List<Item> itemList = actualTile.getItemList();
         if (itemList.size() == 2) {
@@ -51,15 +49,9 @@ public class ButtonClickAction extends AbstractAction {
     }
 
     private void validate() {
-        boolean valid = false;
+        ValidationBase validationHandler = gameDefinition.getValidationHandler();
 
-        try {
-            valid = map.isValid();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-
-        if (valid) {
+        if (validationHandler.areWinConditionsApply()) {
             JEditorPane editorPane = createEditorPane();
             JOptionPane.showMessageDialog(null, editorPane);
         }

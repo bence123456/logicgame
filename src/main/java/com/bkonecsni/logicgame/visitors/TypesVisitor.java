@@ -198,13 +198,11 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     private String createTileCodeForPlayableType(String className, String initCode) {
         StringBuilder sb = new StringBuilder();
 
-        appendImportsAndClassHeader(sb, className, "TileBase", false);
+        appendImportsAndClassHeader(sb, className, "CommonTile", false);
         appendConstructor(sb, className);
 
         appendOverride(sb);
-        sb.append("public void init() {" + initCode + "}");
-        appendOverride(sb);
-        sb.append("public boolean isUnmutableType() { return false;" + "}}");
+        sb.append("public void init() {" + initCode + "}}");
 
         return sb.toString();
     }
@@ -240,7 +238,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
                                              "import java.awt.Point;" + "import java.util.List;" :
 
                                              "import com.bkonecsni.logicgame.domain.common.Item;" +
-                                             "import com.bkonecsni.logicgame.domain.map.TileBase;" +
+                                             "import com.bkonecsni.logicgame.domain.map.CommonTile;" +
                                              "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
                                              "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
                                              "import com.bkonecsni.logicgame.domain.types.equation.Update;" +

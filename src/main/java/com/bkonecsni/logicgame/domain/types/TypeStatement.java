@@ -11,8 +11,6 @@ public class TypeStatement {
 
     private List<Update> updateList;
 
-    public TypeStatement() { }
-
     public TypeStatement(List<Condition> conditionList, List<Update> updateList) {
         this.conditionList = conditionList;
         this.updateList = updateList;

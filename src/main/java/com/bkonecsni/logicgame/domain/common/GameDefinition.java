@@ -1,6 +1,7 @@
 package com.bkonecsni.logicgame.domain.common;
 
 import com.bkonecsni.logicgame.domain.map.LevelBase;
+import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 
 import javax.swing.*;
 import java.util.*;
@@ -16,6 +17,8 @@ public class GameDefinition {
     private Map<String, LevelBase> maps = new HashMap<>();
 
     private Map<Integer, ImageIcon> numberIconMap = new HashMap<>();
+
+    private ValidationBase validationHandler;
 
     public GameDefinition(String gameName) {
         this.gameName = gameName;
@@ -51,4 +54,11 @@ public class GameDefinition {
         return numberIconMap;
     }
 
+    public ValidationBase getValidationHandler() {
+        return validationHandler;
+    }
+
+    public void setValidationHandler(ValidationBase validationHandler) {
+        this.validationHandler = validationHandler;
+    }
 }

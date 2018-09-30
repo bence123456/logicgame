@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.types.TypeStatement;
+import com.bkonecsni.logicgame.domain.types.equation.Condition;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -15,16 +15,13 @@ public abstract class TileBase {
 
     protected List<Item> itemList;
 
-    protected List<TypeStatement> typeStatementList;
-
     public TileBase(Point position, Point size, List<Item> itemList) {
         this.position = position;
         this.size = size;
         this.itemList = itemList;
-        init();
     }
 
-    public abstract void init();
+    public abstract void handleState();
 
     public abstract boolean isUnmutableType();
 
@@ -70,6 +67,19 @@ public abstract class TileBase {
         };
     }
 
+    protected boolean areAllConditionMatch(List<Condition> conditionList){
+        boolean areAllConditionMatch = true;
+
+        for (Condition condition : conditionList) {
+            if (!condition.isConditionMatch(itemList)) {
+                areAllConditionMatch = false;
+                break;
+            }
+        }
+
+        return areAllConditionMatch;
+    }
+
     public Item getItem(int itemIndex) {
         return itemList.size() <= itemIndex ? null : itemList.get(itemIndex);
     }
@@ -96,9 +106,5 @@ public abstract class TileBase {
 
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
-    }
-
-    public List<TypeStatement> getTypeStatementList() {
-        return typeStatementList;
     }
 }

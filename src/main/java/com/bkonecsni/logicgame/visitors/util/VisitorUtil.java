@@ -8,9 +8,6 @@ import java.io.ByteArrayInputStream;
 
 public class VisitorUtil {
 
-    public static final String END_BRACE = "}";
-    public static final String D_END_BRACE = "}}";
-
     public static String formatJavaCode(String stringToFormat) {
         CompilationUnit compilationUnit = null;
 

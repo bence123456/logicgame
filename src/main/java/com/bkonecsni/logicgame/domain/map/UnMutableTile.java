@@ -13,9 +13,7 @@ public class UnMutableTile extends TileBase {
     }
 
     @Override
-    public void init() {
-        typeStatementList = new ArrayList<>();
-    }
+    public void handleState() {}
 
     @Override
     public boolean isUnmutableType() {

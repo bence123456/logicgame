@@ -1,1 +1,1 @@
-neighboursHaveCorrectNumberOfItems([S2]);
+return neighboursHaveCorrectNumberOfItems([S2]);

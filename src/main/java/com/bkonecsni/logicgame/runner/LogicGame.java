@@ -40,9 +40,9 @@ public class LogicGame {
 
             parseTypes(gameName, gameDefinition, fileUrlPrefixForGame);
 
-            ValidationBase validationHandler = parseAndLoadValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame);
+            parseAndLoadValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame);
 
-            parseMaps(gameLevelNumberMap, gameName, gameDefinition, validationHandler);
+            parseMaps(gameLevelNumberMap, gameName, gameDefinition);
 
             for (int i=0; i<10; i++) {
                 ImageIcon imageIcon = getImageScaledIcon(i);
@@ -68,7 +68,7 @@ public class LogicGame {
         }
     }
 
-    private ValidationBase parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private void parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
         String validationCode = validationParser.parse(validationInput, gameDefinition);
         String directoryName = "src/main/java/gamecode/" + gameName + "/validation";
@@ -77,7 +77,8 @@ public class LogicGame {
         writeFile(validationCode, directoryName, fileName);
 
         Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".validation." + className, validationCode);
-        return (ValidationBase) validationClass.newInstance();
+        ValidationBase validationHandler = (ValidationBase) validationClass.newInstance();
+        gameDefinition.setValidationHandler(validationHandler);
     }
 
     private void writeFile(String value, String directoryName, String fileName){
@@ -96,8 +97,7 @@ public class LogicGame {
         }
     }
 
-    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition,
-                           ValidationBase validationHandler) throws Exception {
+    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition) throws Exception {
         Integer numberOfMaps = gameLevelNumberMap.get(gameName);
 
         for (int i=1; i <= numberOfMaps; i++) {
@@ -112,7 +112,6 @@ public class LogicGame {
             Class levelClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".levels." + className, levelCode);
             LevelBase level = (LevelBase) levelClass.newInstance();
             level.init();
-            level.setValidationHandler(validationHandler);
 
             gameDefinition.getMaps().put(actualLevel, level);
         }
