@@ -210,7 +210,7 @@ public abstract class ValidationBase {
     public boolean numberOfItemsInAllRow(Item item, int expectedNumber) {
             int numberOfRows = getRowNumber();
             int numberOfPlayableRows = getPlayableRowNumber();
-            int firstPlayableRowIndex = getFirstPlayableColumnIndex();
+            int firstPlayableRowIndex = getFirstPlayableRowIndex();
             int lastIndex = numberOfRows == numberOfPlayableRows ? numberOfRows : numberOfPlayableRows;
 
             for (int j=firstPlayableRowIndex; j<lastIndex; j++) {
