@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.visitors.validation;
+package com.bkonecsni.logicgame.visitors.statementlist;
 
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.TileBase;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.bkonecsni.logicgame.visitors.validation.SupportedOperator.*;
+import static com.bkonecsni.logicgame.visitors.statementlist.SupportedOperator.*;
 
 public enum SupportedType {
 

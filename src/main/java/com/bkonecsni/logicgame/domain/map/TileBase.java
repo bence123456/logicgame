@@ -1,7 +1,6 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.types.equation.Condition;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -65,19 +64,6 @@ public abstract class TileBase {
 
             return tile2Row - tile1Row;
         };
-    }
-
-    protected boolean areAllConditionMatch(List<Condition> conditionList){
-        boolean areAllConditionMatch = true;
-
-        for (Condition condition : conditionList) {
-            if (!condition.isConditionMatch(itemList)) {
-                areAllConditionMatch = false;
-                break;
-            }
-        }
-
-        return areAllConditionMatch;
     }
 
     public Item getItem(int itemIndex) {

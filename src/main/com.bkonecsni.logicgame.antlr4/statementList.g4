@@ -1,6 +1,4 @@
-grammar validation;
-
-validation:  statementList ;
+grammar statementList;
 
 statementList:	statement+ ;
 

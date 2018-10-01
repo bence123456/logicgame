@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.parsers.types;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.bkonecsni.logicgame.visitors.TypesVisitor;
+import com.bkonecsni.logicgame.visitors.types.TypesVisitor;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import types.typesLexer;

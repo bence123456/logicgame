@@ -1,19 +1,37 @@
-package com.bkonecsni.logicgame.visitors.validation;
+package com.bkonecsni.logicgame.visitors.statementlist;
 
 import com.bkonecsni.logicgame.exceptions.CommonValidationException;
 import com.bkonecsni.logicgame.exceptions.NoSuchValidationMethodException;
 import org.apache.commons.lang3.StringUtils;
-import validation.validationParser.*;
+import statementlist.statementListParser.*;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static com.bkonecsni.logicgame.visitors.validation.SupportedOperator.*;
-import static com.bkonecsni.logicgame.visitors.validation.SupportedType.*;
+import static com.bkonecsni.logicgame.visitors.statementlist.SupportedOperator.*;
+import static com.bkonecsni.logicgame.visitors.statementlist.SupportedType.*;
 
-public class ValidationVisitorHelper {
+public class CommonStatementListVisitorHelper {
 
     private Map<String, SupportedType> definedVariablesTypeMap = new HashMap();
+
+    public SupportedType getExpressionReturnType(ExpressionContext expressionContext) {
+        SupportedType supportedType = null;
+
+        if (expressionContext.STRING() != null) {
+            supportedType = STRING;
+        } else if (expressionContext.BOOL() != null) {
+            supportedType = BOOL;
+        } else if (expressionContext.NUMBER() != null) {
+            supportedType = INT;
+        } else if (expressionContext.func() != null) {
+            supportedType = getExpressionReturnType(expressionContext.func());
+        } else if (expressionContext.varName() != null) {
+            supportedType = definedVariablesTypeMap.get(expressionContext.varName().getText());
+        }
+
+        return supportedType;
+    }
 
     void visitForLoop(ForStatementContext ctx, StringBuilder sb) {
         String type = ctx.type().getText();
@@ -47,24 +65,6 @@ public class ValidationVisitorHelper {
         }
 
         sb.append(funcName).append(funcContext.LP().getText());
-    }
-
-    SupportedType getExpressionReturnType(ExpressionContext expressionContext) {
-        SupportedType supportedType = null;
-
-        if (expressionContext.STRING() != null) {
-            supportedType = STRING;
-        } else if (expressionContext.BOOL() != null) {
-            supportedType = BOOL;
-        } else if (expressionContext.NUMBER() != null) {
-            supportedType = INT;
-        } else if (expressionContext.func() != null) {
-            supportedType = getExpressionReturnType(expressionContext.func());
-        } else if (expressionContext.varName() != null) {
-            supportedType = definedVariablesTypeMap.get(expressionContext.varName().getText());
-        }
-
-        return supportedType;
     }
 
     SupportedType getExpressionReturnType(SupportedType leftReturnType, SupportedType rightReturnType, SupportedOperator operator){
@@ -228,32 +228,6 @@ public class ValidationVisitorHelper {
         }
 
         return clazz;
-    }
-
-    ReturnStatementContext getReturnStatement(StatementListContext statementListContext) {
-        List<StatementContext> statementContextList = statementListContext.statement();
-        int statementsSize = statementContextList.size();
-
-        return statementContextList.get(statementsSize - 1).returnStatement();
-    }
-
-    void checkIfLastStatementIsReturn(ReturnStatementContext returnStatementContext) {
-        if (returnStatementContext == null) {
-            throw new CommonValidationException("Validation code must end with a return statement!");
-        }
-    }
-
-    void checkIfReturnStatementTypeIsBool(ReturnStatementContext returnStatementContext) {
-        if (returnStatementContext.BOOL() == null) {
-            List<ExpressionContext> expressionList = returnStatementContext.multipleExpression().expression();
-            int expressionSize = expressionList.size();
-            ExpressionContext lastExpression = expressionList.get(expressionSize - 1);
-
-            SupportedType lastExpressionReturnType = getExpressionReturnType(lastExpression);
-            if (!SupportedType.BOOL.equals(lastExpressionReturnType)) {
-                throw new CommonValidationException("Last is expression in the return statement is not BOOL!");
-            }
-        }
     }
 
     void checkIfReturnTypeIsBool(Method method) {

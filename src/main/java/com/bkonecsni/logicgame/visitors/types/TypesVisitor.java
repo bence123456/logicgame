@@ -1,11 +1,10 @@
-package com.bkonecsni.logicgame.visitors;
+package com.bkonecsni.logicgame.visitors.types;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import types.typesBaseVisitor;
-import types.typesParser;
 import types.typesParser.*;
 
 import java.util.*;
@@ -14,8 +13,11 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     private GameDefinition gameDefinition;
 
+    private TypesClassCodeCreator typesClassCodeCreator;
+
     public TypesVisitor(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
+        typesClassCodeCreator = new TypesClassCodeCreator(gameDefinition);
     }
 
     @Override
@@ -39,29 +41,37 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     }
 
     private String createTileCode(TypedeclContext typedeclContext, String typeName) {
-        String initCode = createInitCode(typedeclContext);
+        TypedefContext typedefContext = typedeclContext.typedef();
         String className = typeName + "Tile";
+        String tileJavaCode;
 
-        String tileJavaCode = null;
-        if (initCode != null && !initCode.isEmpty()) {
-            tileJavaCode = createTileCodeForPlayableType(className, initCode);
+        if (typedefContext != null) {
+            tileJavaCode = createPlayableTileCode(typedefContext, className);
         } else {
-            tileJavaCode = createTileCodeForUnMutableType(className);
+            tileJavaCode = typesClassCodeCreator.createTileCodeForUnMutableType(className);
         }
 
         return VisitorUtil.formatJavaCode(tileJavaCode);
     }
 
+    private String createPlayableTileCode(TypedefContext typedefContext, String className) {
+        StatementListContext statementListContext = typedefContext.statementList();
+        String playableTileJavaCode;
 
-    private String createInitCode(TypedeclContext typedeclContext) {
-        TypedefContext typedefContext = typedeclContext.typedef();
-
-        if (typedefContext != null) {
-            LoopContext loopContext = typedefContext.loop();
-            return (loopContext != null) ? visitLoopDeclaration(loopContext) : visitTypedefDeclaration(typedefContext);
+        if (statementListContext != null) {
+            String statementListContextString = statementListContext.getText();
+            playableTileJavaCode = typesClassCodeCreator.createComplexTileClassCode(className, statementListContextString);
+        } else {
+            String initCode = createInitCode(typedefContext);
+            playableTileJavaCode = typesClassCodeCreator.createTileCodeForCommonPlayableType(className, initCode);
         }
 
-        return "";
+        return playableTileJavaCode;
+    }
+
+    private String createInitCode(TypedefContext typedefContext) {
+        LoopContext loopContext = typedefContext.loop();
+        return (loopContext != null) ? visitLoopDeclaration(loopContext) : visitTypedefDeclaration(typedefContext);
     }
 
     private String visitLoopDeclaration(LoopContext loopContext) {
@@ -71,16 +81,15 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         Integer itemIndex = Integer.valueOf(loopContext.parens_nr().NUMBER().getText());
         List<String> itemList = createItemCreationStringListFromLoop(loopContext, gameDefinition);
         sb.append(createTypeStatementListFromLoop(itemIndex, itemList));
-
         sb.append(");");
-        return sb.toString();
 
+        return sb.toString();
     }
 
     private List<String> createItemCreationStringListFromLoop(LoopContext loopContext, GameDefinition gameDefinition) {
         List<String> itemCreationStringList = new ArrayList<>();
 
-        for (typesParser.ItemContext itemContext : loopContext.params().item()) {
+        for (TypeitemContext itemContext : loopContext.typeparams().typeitem()) {
             String itemCreationString = ParserUtil.getItemCreationString(itemContext.getText(), gameDefinition);
             itemCreationStringList.add(itemCreationString);
         }
@@ -105,11 +114,23 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     }
 
     private String visitTypedefDeclaration(TypedefContext typedefContext) {
+        String typeDefString = null;
+        List<TypestatementContext> typestatementContextList = typedefContext.typestatement();
+
         StringBuilder sb = new StringBuilder();
         sb.append("this.typeStatementList = Arrays.asList(");
+        sb.append(visitTypeStatements(typestatementContextList));
+
+        typeDefString = sb.append(");").toString();
+
+        return typeDefString;
+    }
+
+    private String visitTypeStatements(List<TypestatementContext> typestatementContextList) {
+        StringBuilder sb = new StringBuilder();
 
         boolean isFirst = true;
-        for (TypestatementContext typestatementContext : typedefContext.typestatement()) {
+        for (TypestatementContext typestatementContext : typestatementContextList) {
             if (isFirst) {
                 sb.append(createTypeStatement(gameDefinition, typestatementContext));
                 isFirst = false;
@@ -118,7 +139,6 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
             }
         }
 
-        sb.append(");");
         return sb.toString();
     }
 
@@ -164,7 +184,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer itemToUpdateIndex = Integer.parseInt(updatestatementContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.item().getText(), gameDefinition);
+        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.typeitem().getText(), gameDefinition);
         sb.append(parseUpdate(itemToUpdateIndex, itemCreationString));
 
         return sb.toString();
@@ -177,7 +197,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.item().getText(), gameDefinition);
+        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.typeitem().getText(), gameDefinition);
         sb.append(parseCondition(comparableItemIndex, itemCreationString));
 
         return sb.toString();
@@ -193,58 +213,5 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
 
     private String parseEquation(Integer leftItemIndex, String itemCreationString, String constructorString) {
         return constructorString + leftItemIndex + ", " + itemCreationString + ")";
-    }
-
-    private String createTileCodeForPlayableType(String className, String initCode) {
-        StringBuilder sb = new StringBuilder();
-
-        appendImportsAndClassHeader(sb, className, "CommonTile", false);
-        appendConstructor(sb, className);
-
-        appendOverride(sb);
-        sb.append("public void init() {" + initCode + "}}");
-
-        return sb.toString();
-    }
-
-    private String createTileCodeForUnMutableType(String className) {
-        StringBuilder sb = new StringBuilder();
-
-        appendImportsAndClassHeader(sb, className, "UnMutableTile", true);
-        appendConstructor(sb, className);
-        sb.append("}");
-
-        return sb.toString();
-    }
-
-    private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, boolean unMutable) {
-        sb.append("package gamecode." + gameDefinition.getGameName() + ".types;");
-        appendImports(sb, unMutable);
-        sb.append("public class " + className + " extends " + parentClassName + " {");
-    }
-
-    private void appendConstructor(StringBuilder sb, String className) {
-        sb.append("public " + className +"(Point position, Point size, List<Item> itemList) {" +
-                "super(position, size, itemList); }");
-    }
-
-    private void appendOverride(StringBuilder sb) {
-        sb.append("@Override ");
-    }
-
-    private void appendImports(StringBuilder sb, boolean unMutable) {
-        String importString = unMutable ? "import com.bkonecsni.logicgame.domain.map.UnMutableTile;" +
-                                             "import com.bkonecsni.logicgame.domain.common.Item;" +
-                                             "import java.awt.Point;" + "import java.util.List;" :
-
-                                             "import com.bkonecsni.logicgame.domain.common.Item;" +
-                                             "import com.bkonecsni.logicgame.domain.map.CommonTile;" +
-                                             "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
-                                             "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
-                                             "import com.bkonecsni.logicgame.domain.types.equation.Update;" +
-                                             "import java.awt.Color;" + "import java.awt.Point;" +
-                                             "import java.util.Arrays;" + "import java.util.List;";
-
-        sb.append(importString);
     }
 }

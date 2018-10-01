@@ -4,7 +4,6 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.gui.LogicGameGui;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.List;
 
 public class Main {

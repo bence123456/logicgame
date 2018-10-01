@@ -2,6 +2,7 @@ package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.types.TypeStatement;
+import com.bkonecsni.logicgame.domain.types.equation.Condition;
 import com.bkonecsni.logicgame.domain.types.equation.Update;
 
 import java.awt.*;
@@ -44,6 +45,19 @@ public abstract class CommonTile extends TileBase {
         }
 
         return updateList;
+    }
+
+    private boolean areAllConditionMatch(List<Condition> conditionList){
+        boolean areAllConditionMatch = true;
+
+        for (Condition condition : conditionList) {
+            if (!condition.isConditionMatch(itemList)) {
+                areAllConditionMatch = false;
+                break;
+            }
+        }
+
+        return areAllConditionMatch;
     }
 
     public List<TypeStatement> getTypeStatementList() {

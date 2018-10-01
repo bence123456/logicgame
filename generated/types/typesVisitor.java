@@ -1,4 +1,4 @@
-// Generated from C:/BME_MSC/2_felev/onlab2/logicgame/src/main/com.bkonecsni.logicgame.antlr4/types\types.g4 by ANTLR 4.7
+// Generated from C:/Users/Ben/IdeaProjects/logicgame/src/main/com.bkonecsni.logicgame.antlr4\types.g4 by ANTLR 4.7
 package types;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -41,11 +41,11 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLoop(typesParser.LoopContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#params}.
+	 * Visit a parse tree produced by {@link typesParser#typeparams}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParams(typesParser.ParamsContext ctx);
+	T visitTypeparams(typesParser.TypeparamsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link typesParser#typestatement}.
 	 * @param ctx the parse tree
@@ -71,9 +71,153 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParens_nr(typesParser.Parens_nrContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link typesParser#typeitem}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeitem(typesParser.TypeitemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#statementList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementList(typesParser.StatementListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(typesParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#variableDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableDeclaration(typesParser.VariableDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#typeName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeName(typesParser.TypeNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#listType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListType(typesParser.ListTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(typesParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#elseStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseStatement(typesParser.ElseStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(typesParser.IfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#forStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatement(typesParser.ForStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(typesParser.BlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#assignmentStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentStatement(typesParser.AssignmentStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#modifyStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitModifyStatement(typesParser.ModifyStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#boolStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolStatement(typesParser.BoolStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnStatement(typesParser.ReturnStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#multipleExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultipleExpression(typesParser.MultipleExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperator(typesParser.OperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(typesParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#varName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarName(typesParser.VarNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#func}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc(typesParser.FuncContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#funcname}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncname(typesParser.FuncnameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(typesParser.ParamsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#param}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParam(typesParser.ParamContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link typesParser#item}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitItem(typesParser.ItemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link typesParser#mparam}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMparam(typesParser.MparamContext ctx);
 }

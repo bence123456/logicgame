@@ -16,15 +16,6 @@ public abstract class CommonComplexTile extends TileBase {
         super(position, size, itemList);
     }
 
-    public abstract void executeUpdate();
-
-    @Override
-    public void handleState() {
-        if (areAllConditionMatch(conditionList)) {
-            executeUpdate();
-        }
-    }
-
     @Override
     public boolean isUnmutableType() {
         return false;
