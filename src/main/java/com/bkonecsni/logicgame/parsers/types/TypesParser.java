@@ -8,4 +8,6 @@ import java.util.Map;
 public interface TypesParser {
 
     Map<String, String> parse(CharStream input, GameDefinition gameDefinition);
+
+    String parse(CharStream input, GameDefinition gameDefinition, String typeName);
 }

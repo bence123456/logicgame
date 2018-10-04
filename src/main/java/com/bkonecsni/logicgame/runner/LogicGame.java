@@ -12,6 +12,7 @@ import net.openhft.compiler.CompilerUtils;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.filefilter.PrefixFileFilter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -56,12 +57,32 @@ public class LogicGame {
     }
 
     private void parseTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
+        String directoryName = "src/main/java/gamecode/" + gameName + "/types";
+
+        parseCommonTypes(directoryName, gameDefinition, fileUrlPrefixForGame);
+        parseComplexTypes(gameName, gameDefinition, fileUrlPrefixForGame, directoryName);
+    }
+
+    private void parseComplexTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame, String directoryName) throws IOException {
+        File directory = new File(StringUtils.substringBeforeLast(fileUrlPrefixForGame, "/"));
+        File[] files = directory.listFiles((FileFilter) new PrefixFileFilter(gameName + "_complex"));
+        List<File> complexTypeFiles = Arrays.asList(files);
+
+        for (File complexTypeFile : complexTypeFiles) {
+            CharStream complexTypesInput = CharStreams.fromFileName(complexTypeFile.getAbsolutePath());
+            String typeName = StringUtils.substringAfterLast(StringUtils.removeEnd(complexTypeFile.getName(), ".txt"), "_");
+            String typeCode = typesParser.parse(complexTypesInput, gameDefinition, typeName);
+
+            writeFile(typeCode, directoryName, typeName + "Tile.java");
+        }
+    }
+
+    private void parseCommonTypes(String directoryName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
         CharStream typesInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_types.txt");
         Map<String, String> typeNameCodeMap = typesParser.parse(typesInput, gameDefinition);
 
         for (String typeName : typeNameCodeMap.keySet()) {
             String typeCode = typeNameCodeMap.get(typeName);
-            String directoryName = "src/main/java/gamecode/" + gameName + "/types";
             String fileName = typeName + "Tile.java";
 
             writeFile(typeCode, directoryName, fileName);

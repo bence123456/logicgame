@@ -1,9 +1,7 @@
 package com.bkonecsni.logicgame.visitors.types;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.bkonecsni.logicgame.parsers.util.StatementListParserUtil;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
-import statementlist.statementListParser.*;
 
 public class TypesClassCodeCreator {
 
@@ -38,22 +36,15 @@ public class TypesClassCodeCreator {
         return sb.toString();
     }
 
-    public String createComplexTileClassCode(String className, String statementListContext) {
+    public String createComplexTileClassCode(String className, String handleStateCode) {
         StringBuilder sb = new StringBuilder();
 
         appendImportsAndClassHeader(sb, className, "CommonComplexTile", false);
         appendConstructor(sb, className);
 
-        String handleStateCode = createHandleStateCode(statementListContext);
         sb.append("public void handleState(){ " + handleStateCode + "}}");
 
         return sb.toString();
-    }
-
-    private String createHandleStateCode(String statementListContextString) {
-        StatementListContext statementListContext = StatementListParserUtil.getStatementListContext(statementListContextString);
-
-        return statementListVisitor.visitStatementList(statementListContext);
     }
 
     private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, boolean unMutable) {

@@ -55,18 +55,8 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     }
 
     private String createPlayableTileCode(TypedefContext typedefContext, String className) {
-        StatementListContext statementListContext = typedefContext.statementList();
-        String playableTileJavaCode;
-
-        if (statementListContext != null) {
-            String statementListContextString = statementListContext.getText();
-            playableTileJavaCode = typesClassCodeCreator.createComplexTileClassCode(className, statementListContextString);
-        } else {
-            String initCode = createInitCode(typedefContext);
-            playableTileJavaCode = typesClassCodeCreator.createTileCodeForCommonPlayableType(className, initCode);
-        }
-
-        return playableTileJavaCode;
+        String initCode = createInitCode(typedefContext);
+        return typesClassCodeCreator.createTileCodeForCommonPlayableType(className, initCode);
     }
 
     private String createInitCode(TypedefContext typedefContext) {
@@ -89,7 +79,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
     private List<String> createItemCreationStringListFromLoop(LoopContext loopContext, GameDefinition gameDefinition) {
         List<String> itemCreationStringList = new ArrayList<>();
 
-        for (TypeitemContext itemContext : loopContext.typeparams().typeitem()) {
+        for (ItemContext itemContext : loopContext.params().item()) {
             String itemCreationString = ParserUtil.getItemCreationString(itemContext.getText(), gameDefinition);
             itemCreationStringList.add(itemCreationString);
         }
@@ -184,7 +174,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer itemToUpdateIndex = Integer.parseInt(updatestatementContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.typeitem().getText(), gameDefinition);
+        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.item().getText(), gameDefinition);
         sb.append(parseUpdate(itemToUpdateIndex, itemCreationString));
 
         return sb.toString();
@@ -197,7 +187,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.typeitem().getText(), gameDefinition);
+        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.item().getText(), gameDefinition);
         sb.append(parseCondition(comparableItemIndex, itemCreationString));
 
         return sb.toString();
