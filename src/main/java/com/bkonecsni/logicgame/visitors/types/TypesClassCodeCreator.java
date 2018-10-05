@@ -17,7 +17,7 @@ public class TypesClassCodeCreator {
     public String createTileCodeForCommonPlayableType(String className, String initCode) {
         StringBuilder sb = new StringBuilder();
 
-        appendImportsAndClassHeader(sb, className, "CommonTile", false);
+        appendImportsAndClassHeader(sb, className, "CommonTile", TypeVariation.COMMON);
         appendConstructor(sb, className);
 
         appendOverride(sb);
@@ -29,7 +29,7 @@ public class TypesClassCodeCreator {
     public String createTileCodeForUnMutableType(String className) {
         StringBuilder sb = new StringBuilder();
 
-        appendImportsAndClassHeader(sb, className, "UnMutableTile", true);
+        appendImportsAndClassHeader(sb, className, "UnMutableTile", TypeVariation.UNMUTABLE);
         appendConstructor(sb, className);
         sb.append("}");
 
@@ -39,7 +39,7 @@ public class TypesClassCodeCreator {
     public String createComplexTileClassCode(String className, String handleStateCode) {
         StringBuilder sb = new StringBuilder();
 
-        appendImportsAndClassHeader(sb, className, "CommonComplexTile", false);
+        appendImportsAndClassHeader(sb, className, "CommonComplexTile", TypeVariation.COMPLEX);
         appendConstructor(sb, className);
 
         sb.append("public void handleState(){ " + handleStateCode + "}}");
@@ -47,9 +47,9 @@ public class TypesClassCodeCreator {
         return sb.toString();
     }
 
-    private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, boolean unMutable) {
+    private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, TypeVariation typeVariation) {
         sb.append("package gamecode." + gameDefinition.getGameName() + ".types;");
-        appendImports(sb, unMutable);
+        appendImports(sb, typeVariation);
         sb.append("public class " + className + " extends " + parentClassName + " {");
     }
 
@@ -62,20 +62,27 @@ public class TypesClassCodeCreator {
         sb.append("@Override ");
     }
 
-    private void appendImports(StringBuilder sb, boolean unMutable) {
-        String importString = unMutable ? "import com.bkonecsni.logicgame.domain.map.UnMutableTile;" +
-                "import com.bkonecsni.logicgame.domain.common.Item;" +
-                "import java.awt.Point;" + "import java.util.List;" :
+    private void appendImports(StringBuilder sb, TypeVariation typeVariation) {
+        if (TypeVariation.UNMUTABLE.equals(typeVariation)) {
+            sb.append("import com.bkonecsni.logicgame.domain.map.UnMutableTile;" +
+                    "import com.bkonecsni.logicgame.domain.common.Item;" +
+                    "import java.awt.Point;" + "import java.util.List;");
 
-                "import com.bkonecsni.logicgame.domain.common.Item;" +
-                        "import com.bkonecsni.logicgame.domain.map.CommonTile;" +
-                        "import com.bkonecsni.logicgame.domain.map.CommonComplexTile;" +
-                        "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
-                        "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
-                        "import com.bkonecsni.logicgame.domain.types.equation.Update;" +
-                        "import java.awt.Color;" + "import java.awt.Point;" +
-                        "import java.util.Arrays;" + "import java.util.List;";
+        } else if (TypeVariation.COMMON.equals(typeVariation)){
+            sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
+                    "import com.bkonecsni.logicgame.domain.map.CommonTile;" +
+                    "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
+                    "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
+                    "import com.bkonecsni.logicgame.domain.types.equation.Update;" +
+                    "import java.awt.Color;" + "import java.awt.Point;" +
+                    "import java.util.Arrays;" + "import java.util.List;");
 
-        sb.append(importString);
+        } else if (TypeVariation.COMPLEX.equals(typeVariation)) {
+            sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
+                    "import com.bkonecsni.logicgame.domain.map.TileBase;" +
+                    "import com.bkonecsni.logicgame.domain.map.CommonComplexTile;" +
+                    "import java.awt.Color;" + "import java.awt.Point;" +
+                    "import java.util.ArrayList;" + "import java.util.List;");
+        }
     }
 }

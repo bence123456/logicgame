@@ -28,7 +28,6 @@ public class ValidationClassCodeCreator {
                 "import com.bkonecsni.logicgame.domain.validation.ValidationBase;" +
                 "import java.awt.Color;" +
                 "import java.util.ArrayList;" +
-                "import java.util.Arrays;" +
                 "import java.util.List;"
         );
     }
