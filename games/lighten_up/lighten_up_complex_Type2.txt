@@ -1,9 +1,9 @@
-List(TileBase) tiles = getTileList();
+List(TileBase) tiles = map.getTileList();
 
 for (TileBase tile : tiles) {
     if(tile.isHelper()) {
         int skylineNumber = tile.getIntValue(1);
-        List(TileBase) playableTiles = getPlayableTilesForMarginHelperTile(tile);
+        List(TileBase) playableTiles = map.getPlayableTilesForMarginHelperTile(tile);
 
         TileBase actualTile = playableTiles.get(0);
         int sumOfVisibleSkylineNumbers = actualTile.getIntValue(1);

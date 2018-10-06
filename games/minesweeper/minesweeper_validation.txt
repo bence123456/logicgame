@@ -1,1 +1,1 @@
-return neighboursHaveCorrectNumberOfItems([S2]);
+return map.neighboursHaveCorrectNumberOfItems([S2]);

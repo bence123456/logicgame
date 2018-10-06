@@ -1,10 +1,10 @@
-List(TileBase) tiles = getTileList();
+List(TileBase) tiles = map.getTileList();
 
 for (TileBase tile : tiles) {
     if(tile.isHelper()) {
         int skylineNumber = tile.getIntValue(1);
         int visibleSkylineNumber = 1;
-        List(TileBase) playableTiles = getPlayableTilesForMarginHelperTile(tile);
+        List(TileBase) playableTiles = map.getPlayableTilesForMarginHelperTile(tile);
 
         TileBase actualTile = playableTiles.get(0);
         for (int i=1; i<playableTiles.size(); i++) {
@@ -23,12 +23,12 @@ for (TileBase tile : tiles) {
     }
 }
 
-boolean valid = numberOfItemsInAllRow([1],1) &&
-            numberOfItemsInAllRow([2],1) &&
-            numberOfItemsInAllRow([3],1) &&
-            numberOfItemsInAllRow([4],1) &&
-            numberOfItemsInAllColumn([1],1) &&
-            numberOfItemsInAllColumn([2],1) &&
-            numberOfItemsInAllColumn([3],1) &&
-            numberOfItemsInAllColumn([4],1);
+boolean valid = map.numberOfItemsInAllRow([1],1) &&
+            map.numberOfItemsInAllRow([2],1) &&
+            map.numberOfItemsInAllRow([3],1) &&
+            map.numberOfItemsInAllRow([4],1) &&
+            map.numberOfItemsInAllColumn([1],1) &&
+            map.numberOfItemsInAllColumn([2],1) &&
+            map.numberOfItemsInAllColumn([3],1) &&
+            map.numberOfItemsInAllColumn([4],1);
 return valid;

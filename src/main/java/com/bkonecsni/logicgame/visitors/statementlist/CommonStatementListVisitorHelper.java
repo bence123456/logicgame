@@ -33,6 +33,10 @@ public class CommonStatementListVisitorHelper {
         return supportedType;
     }
 
+    void putMapAsDefinedVariable() {
+        definedVariablesTypeMap.put("map", SupportedType.MAP);
+    }
+
     void visitForLoop(ForStatementContext ctx, StringBuilder sb) {
         String type = ctx.type().getText();
         checkIfTypeSupported(type);
@@ -179,7 +183,7 @@ public class CommonStatementListVisitorHelper {
 
             className = definedVariablesTypeMap.get(varName).getClazz().getName();
         } else {
-            className = "com.bkonecsni.logicgame.domain.validation.ValidationBase";
+            className = "com.bkonecsni.logicgame.domain.map.TileBase";
         }
 
         return className;

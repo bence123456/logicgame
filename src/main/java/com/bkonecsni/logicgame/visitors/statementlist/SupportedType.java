@@ -1,6 +1,7 @@
 package com.bkonecsni.logicgame.visitors.statementlist;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ import static com.bkonecsni.logicgame.visitors.statementlist.SupportedOperator.*
 
 public enum SupportedType {
 
+    MAP(LevelBase.class, Collections.EMPTY_LIST),
     TILE(TileBase.class, Collections.EMPTY_LIST),
     ITEM(Item.class, Collections.EMPTY_LIST),
     STRING(String.class, Arrays.asList(PLUS, PLUSEQUALS)),

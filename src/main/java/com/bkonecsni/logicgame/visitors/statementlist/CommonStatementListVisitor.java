@@ -217,6 +217,7 @@ public class CommonStatementListVisitor extends statementListBaseVisitor<String>
     }
 
     protected String visitStatements(StatementListContext context) {
+        helper.putMapAsDefinedVariable();
         StringBuilder stringBuilder = new StringBuilder();
 
         for (StatementContext statementContext : context.statement()) {

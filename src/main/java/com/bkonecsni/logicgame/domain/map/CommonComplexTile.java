@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class CommonComplexTile extends TileBase {
 
-    private LevelBase map;
+    protected LevelBase map;
 
     public CommonComplexTile(Point position, Point size, List<Item> itemList) {
         super(position, size, itemList);

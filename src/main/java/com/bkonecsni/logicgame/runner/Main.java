@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         LogicGame logicGame = new LogicGame();
-        List<GameDefinition> gameDefinitions = logicGame.parse();
+        List<GameDefinition> gameDefinitions = logicGame.createGameDefinitionList();
 
         EventQueue.invokeLater(() -> {
             LogicGameGui logicGameGui = new LogicGameGui(gameDefinitions.get(0));
