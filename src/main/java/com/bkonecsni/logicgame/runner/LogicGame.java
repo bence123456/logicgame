@@ -1,15 +1,18 @@
 package com.bkonecsni.logicgame.runner;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.CommonComplexTile;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 import com.bkonecsni.logicgame.exceptions.NoSuchImageException;
+import com.bkonecsni.logicgame.listeners.ItemListChangeListener;
 import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
 import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
 import com.bkonecsni.logicgame.parsers.validation.ValidationParserImpl;
+import javafx.collections.ObservableList;
 import net.openhft.compiler.CompilerUtils;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -46,20 +49,6 @@ public class LogicGame {
         }
 
         return gameDefinitions;
-    }
-
-    private void postProcessGameDefinition(GameDefinition gameDefinition) {
-        for (LevelBase map : gameDefinition.getMaps().values()) {
-            ValidationBase validationHandler = gameDefinition.getValidationHandler();
-            validationHandler.setMap(map);
-
-            for (TileBase tileBase : map.getTileList()) {
-                if (tileBase instanceof CommonComplexTile) {
-                    CommonComplexTile commonComplexTile = (CommonComplexTile) tileBase;
-                    commonComplexTile.setMap(map);
-                }
-            }
-        }
     }
 
     private void parseGame(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws Exception {
@@ -138,6 +127,26 @@ public class LogicGame {
 
             gameDefinition.getMaps().put(actualLevel, level);
         }
+    }
+
+    private void postProcessGameDefinition(GameDefinition gameDefinition) {
+        for (LevelBase map : gameDefinition.getMaps().values()) {
+            ValidationBase validationHandler = gameDefinition.getValidationHandler();
+            validationHandler.setMap(map);
+
+            for (TileBase tile : map.getTileList()) {
+                observeItemListChange(validationHandler, tile);
+
+                if (tile instanceof CommonComplexTile) {
+                    ((CommonComplexTile) tile).setMap(map);
+                }
+            }
+        }
+    }
+
+    private void observeItemListChange(ValidationBase validationHandler, TileBase tile) {
+        ObservableList<Item> itemList = (ObservableList<Item>) tile.getItemList();
+        itemList.addListener(new ItemListChangeListener(validationHandler, tile));
     }
 
     private Map<String, Integer> createGameLevelNumberMapFromProperty() throws IOException {

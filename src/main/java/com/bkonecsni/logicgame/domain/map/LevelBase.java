@@ -17,33 +17,21 @@ public abstract class LevelBase {
         return object == null;
     }
 
-    public List<TileBase> getPlayableTilesForMarginHelperTile(TileBase tileBase) {
-        List<TileBase> playableTilesInRowOrColumn = new ArrayList<>();
-        int columnNumber = getColumnNumber(tileBase);
-        int rowNumber = getRowNumber(tileBase);
+    public void setItemListForTile(Point position, List<Item> itemList) {
+        TileBase tile = getTile(position.x, position.y);
+        if (tile != null) {
+            tile.setItemList(itemList);
+        }
+    }
 
-        switch (getHelperTileLocation(tileBase)) {
-            case TOP:
-                playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
-                break;
-            case BOTTOM:
-                List<TileBase> tilesFromColumn = getTilesFromColumn(columnNumber);
-                Collections.reverse(tilesFromColumn);
-                playableTilesInRowOrColumn.addAll(tilesFromColumn);
-                break;
-            case LEFT:
-                playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
-                break;
-            case RIGHT:
-                List<TileBase> tilesFromRow = getTilesFromRow(rowNumber);
-                Collections.reverse(tilesFromRow);
-                playableTilesInRowOrColumn.addAll(tilesFromRow);
-                break;
-            case NONE:
-                break;
+    public TileBase getTile(int row, int column) {
+        for (TileBase tile : tileList) {
+            if (getRowNumber(tile) == row && getColumnNumber(tile) == column) {
+                return tile;
+            }
         }
 
-        return playableTilesInRowOrColumn;
+        return null;
     }
 
     public Item getItem(TileBase tileBase, int i) {
@@ -116,14 +104,33 @@ public abstract class LevelBase {
         return lastTile.getPosition().x;
     }
 
-    public TileBase getTile(int row, int column) {
-        for (TileBase tile : tileList) {
-            if (getRowNumber(tile) == row && getColumnNumber(tile) == column) {
-                return tile;
-            }
+    public List<TileBase> getPlayableTilesForMarginHelperTile(TileBase tileBase) {
+        List<TileBase> playableTilesInRowOrColumn = new ArrayList<>();
+        int columnNumber = getColumnNumber(tileBase);
+        int rowNumber = getRowNumber(tileBase);
+
+        switch (getHelperTileLocation(tileBase)) {
+            case TOP:
+                playableTilesInRowOrColumn.addAll(getTilesFromColumn(columnNumber));
+                break;
+            case BOTTOM:
+                List<TileBase> tilesFromColumn = getTilesFromColumn(columnNumber);
+                Collections.reverse(tilesFromColumn);
+                playableTilesInRowOrColumn.addAll(tilesFromColumn);
+                break;
+            case LEFT:
+                playableTilesInRowOrColumn.addAll(getTilesFromRow(rowNumber));
+                break;
+            case RIGHT:
+                List<TileBase> tilesFromRow = getTilesFromRow(rowNumber);
+                Collections.reverse(tilesFromRow);
+                playableTilesInRowOrColumn.addAll(tilesFromRow);
+                break;
+            case NONE:
+                break;
         }
 
-        return null;
+        return playableTilesInRowOrColumn;
     }
 
     public List<TileBase> getTilesFromRow(int rowNumber) {
@@ -328,7 +335,7 @@ public abstract class LevelBase {
         addDiagonaNeighbours(tiles, rowNr, columnNr);
     }
 
-    public void addHorizontalAndVerticalNeighbours(List<TileBase> tiles, int rowNr, int columnNr) {
+    private void addHorizontalAndVerticalNeighbours(List<TileBase> tiles, int rowNr, int columnNr) {
         addNeighbourToListIfExists(rowNr, columnNr-1, tiles);
         addNeighbourToListIfExists(rowNr, columnNr+1, tiles);
 
@@ -389,9 +396,5 @@ public abstract class LevelBase {
 
     public List<TileBase> getTileList() {
         return tileList;
-    }
-
-    public void setTileList(List<TileBase> tileList) {
-        this.tileList = tileList;
     }
 }

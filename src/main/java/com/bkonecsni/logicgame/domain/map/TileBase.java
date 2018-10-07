@@ -1,6 +1,8 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -12,12 +14,12 @@ public abstract class TileBase {
 
     protected Point size;
 
-    protected List<Item> itemList;
+    protected ObservableList<Item> itemList;
 
     public TileBase(Point position, Point size, List<Item> itemList) {
         this.position = position;
         this.size = size;
-        this.itemList = itemList;
+        this.itemList = FXCollections.observableArrayList(itemList);
     }
 
     public abstract void handleState();
@@ -91,6 +93,6 @@ public abstract class TileBase {
     }
 
     public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+        this.itemList = (ObservableList<Item>) itemList;
     }
 }

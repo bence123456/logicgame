@@ -17,13 +17,11 @@ public class Update extends Equation{
         if (itemToUpdateIndex == itemList.size()) {
             itemList.add(newItem);
         } else {
-            Item oldItem = itemList.get(itemToUpdateIndex);
-            itemList.remove(oldItem);
-
             if (newItem != null) {
-                itemList.add(newItem);
+                itemList.set(itemToUpdateIndex, newItem);
             } else {
-                // Do nothing. ItemList(x) = empty
+                Item oldItem = itemList.get(itemToUpdateIndex);
+                itemList.remove(oldItem); // ItemList(x) = empty
             }
         }
     }
