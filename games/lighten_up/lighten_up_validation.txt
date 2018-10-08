@@ -10,7 +10,7 @@ for (TileBase tile : tiles) {
             TileBase actualTile = neighbourTiles.get(i);
 
             Item symbolItem = actualTile.getItem(1);
-            if (!map.isNull(symbolItem) && symbolItem.equals([S1])) {
+            if (!map.isNull(symbolItem) && symbolItem.equals([S2])) {
                 actualAdjacentBulbsNr += 1;
             }
         }

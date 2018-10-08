@@ -2,6 +2,7 @@ package com.bkonecsni.logicgame.visitors.statementlist;
 
 import com.bkonecsni.logicgame.exceptions.CommonValidationException;
 import com.bkonecsni.logicgame.exceptions.NoSuchValidationMethodException;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.apache.commons.lang3.StringUtils;
 import statementlist.statementListParser.*;
 
@@ -117,6 +118,8 @@ public class CommonStatementListVisitorHelper {
             for (ParamContext paramContext : paramsContext.param()) {
                 if (paramContext.NUMBER() != null) {
                     paramTypes.add(INT.getClazz());
+                } else if (paramContext.BOOL() != null) {
+                    paramTypes.add(BOOL.getClazz());
                 } else if (paramContext.item() != null) {
                     paramTypes.add(ITEM.getClazz());
                 } else if (paramContext.mparam() != null) {
@@ -266,6 +269,28 @@ public class CommonStatementListVisitorHelper {
         }
     }
 
+    void checkIfBreakHasLoopStatementParent(LoopBreakContext ctx) {
+        boolean loopFoundAsParent = isLoopStatementFoundAsParent(ctx);
+
+        if (!loopFoundAsParent) {
+            throw new CommonValidationException("Break must be within a for loop!");
+        }
+    }
+
+    private boolean isLoopStatementFoundAsParent(LoopBreakContext ctx) {
+        boolean loopFoundAsParent = false;
+        ParserRuleContext parentContex = ctx.getParent();
+
+        while (parentContex != null) {
+            parentContex = parentContex.getParent();
+            if (parentContex instanceof ForStatementContext) {
+                loopFoundAsParent = true;
+                break;
+            }
+        }
+        return loopFoundAsParent;
+    }
+
     private void checkIfOperatorSupported(String operatorText, SupportedOperator supportedOperator) {
         if (supportedOperator == null) {
             throw new CommonValidationException(operatorText + " operator is not supported! Supported operators: "
@@ -319,5 +344,9 @@ public class CommonStatementListVisitorHelper {
         }
 
         return StringUtils.removeEnd(availableMethods, ", ");
+    }
+
+    public Map<String, SupportedType> getDefinedVariablesTypeMap() {
+        return definedVariablesTypeMap;
     }
 }

@@ -1,1 +1,2 @@
-S1:src/main/resources/images/symbols/lightbulb.png
+S1:src/main/resources/images/symbols/dot.svg
+S2:src/main/resources/images/symbols/lightbulb.png

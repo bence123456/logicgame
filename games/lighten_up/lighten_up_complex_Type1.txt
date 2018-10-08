@@ -1,0 +1,35 @@
+Item symbolItem = getItem(1);
+
+if (map.isNull(symbolItem)) {
+    itemList.add([S1]);
+} else {
+    if (symbolItem.equals([S2])) {
+        itemList.remove(symbolItem);
+
+        List(TileBase) horizontalAndVerticalLineTiles = map.getTilesInHorizontalAndVerticalLine(this, true);
+
+        for (TileBase tile : horizontalAndVerticalLineTiles) {
+            List(TileBase) horizontalAndVerticalLineTilesForTile = map.getTilesInHorizontalAndVerticalLine(tile, false);
+            boolean shouldReplaceColor = true;
+
+            for (TileBase neighbourTile : horizontalAndVerticalLineTilesForTile) {
+                Item item = neighbourTile.getItem(1);
+                if (!tileHasSamePosition(neighbourTile) && !map.isNull(item) && item.equals([S2])) {
+                    shouldReplaceColor = false;
+                    break;
+                }
+            }
+
+            if (shouldReplaceColor) {
+                tile.replaceItem([#000000], 0);
+            }
+        }
+    } else {
+        replaceLastItem([S2]);
+        List(TileBase) tilesInHorizontalAndVerticalLine = map.getTilesInHorizontalAndVerticalLine(this, true);
+
+        for (TileBase tile : tilesInHorizontalAndVerticalLine) {
+            tile.replaceItem([#ffff00], 0);
+        }
+    }
+}

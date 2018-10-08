@@ -201,6 +201,39 @@ public abstract class LevelBase {
         return tiles;
     }
 
+    public List<TileBase> getTilesInHorizontalAndVerticalLine(TileBase tile, boolean shouldIncludeItself) {
+        List<TileBase> tiles = new ArrayList<>();
+        if (shouldIncludeItself) {
+            tiles.add(tile);
+        }
+
+        int rowNr = getRowNumber(tile);
+        int columnNr = getColumnNumber(tile);
+        int lastPlayableRowIndex = getLastPlayableRowIndex();
+        int lastPlayableColumnIndex = getLastPlayableColumnIndex();
+
+        addTilesInHorizontalOrVerticalLine(tiles, columnNr+1, lastPlayableColumnIndex, 1, true, rowNr);
+        addTilesInHorizontalOrVerticalLine(tiles, columnNr-1, 0, -1, true, rowNr);
+        addTilesInHorizontalOrVerticalLine(tiles, rowNr+1, lastPlayableRowIndex, 1, false, columnNr);
+        addTilesInHorizontalOrVerticalLine(tiles, rowNr-1, 0, -1, false, columnNr);
+
+        return tiles;
+    }
+
+    public void addTilesInHorizontalOrVerticalLine(List<TileBase> tiles, int startIndex, int endIndex, int increment,
+                                                   boolean isHorizontal, int rowOrColumnIndex) {
+
+        for (int i=startIndex; endIndex == 0 ? i>=endIndex : i<=endIndex; i=i+increment) {
+            TileBase tile = isHorizontal ? getTile(rowOrColumnIndex, i) : getTile(i, rowOrColumnIndex);
+
+            if (!tile.isUnmutableType()) {
+                tiles.add(tile);
+            } else {
+                break;
+            }
+        }
+    }
+
     public List<TileBase> getTilesWithGivenItem(Item item) {
         List<TileBase> tilesWithGivenItem = new ArrayList<>();
 

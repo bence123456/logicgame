@@ -1,4 +1,1 @@
 Type0:
-
-Type1:
-items(1): Loop(empty, S1)

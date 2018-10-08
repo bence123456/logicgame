@@ -37,7 +37,7 @@ multipleExpression: expression (operator expression)* ;
 
 operator: '==' | '>' | '<' | '<=' | '>=' | '!=' | '+' | '-' | '+=' | '-=' | '&&' | '||' ;
 
-expression: func | varName | NUMBER | STRING | BOOL ;
+expression: func | varName | item | loopBreak | NUMBER | STRING | BOOL ;
 
 ID: [a-zA-Z][a-zA-Z]* ;
 
@@ -53,9 +53,10 @@ func: NEG? (ID '.')? funcname LP params? RP ;
 funcname: ID ;
 params: param (COMMA param)* ;
 
-param: mparam | item | NUMBER ;
+param: mparam | item | NUMBER | BOOL;
 item: '[' (NUMBER | CHAR | COLOR | SYMBOL) ']' ;
 mparam: ID ;
+loopBreak: 'break' ;
 
 CHAR:   [A-Z] ;
 COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;

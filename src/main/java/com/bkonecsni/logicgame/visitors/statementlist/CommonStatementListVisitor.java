@@ -130,8 +130,12 @@ public class CommonStatementListVisitor extends statementListBaseVisitor<String>
 
         if (context.func() != null) {
             expressionText = visitFunc(context.func());
+        } else if (context.item() != null) {
+            expressionText = visitItem(context.item());
         } else if (context.varName() != null) {
             expressionText = visitVarName(context.varName());
+        } else if (context.loopBreak() != null) {
+            expressionText = visitLoopBreak(context.loopBreak());
         } else if (context.BOOL() != null || context.NUMBER() != null || context.STRING() != null) {
             expressionText = context.getChild(0).getText();
         }
@@ -184,10 +188,8 @@ public class CommonStatementListVisitor extends statementListBaseVisitor<String>
 
     @Override
     public String visitParam(ParamContext ctx) {
-        TerminalNode number = ctx.NUMBER();
-
-        if (number != null) {
-            return number.getText();
+        if (ctx.NUMBER() != null || ctx.BOOL() != null) {
+            return ctx.getText();
         }
 
         return visitChildren(ctx);
@@ -214,6 +216,13 @@ public class CommonStatementListVisitor extends statementListBaseVisitor<String>
         helper.checkIfVariableDeclared(varName);
 
         return " " + varName;
+    }
+
+    @Override
+    public String visitLoopBreak(LoopBreakContext ctx) {
+        helper.checkIfBreakHasLoopStatementParent(ctx);
+
+        return ctx.getText();
     }
 
     protected String visitStatements(StatementListContext context) {

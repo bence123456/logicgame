@@ -4,9 +4,11 @@ import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.InvalidReturnStatementUsageException;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
+import com.bkonecsni.logicgame.visitors.statementlist.SupportedType;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import statementlist.statementListParser.*;
 
+import java.util.Map;
 import java.util.Set;
 
 public class ComplexTypesVisitor extends CommonStatementListVisitor {
@@ -20,6 +22,7 @@ public class ComplexTypesVisitor extends CommonStatementListVisitor {
 
     public String createComplexTypeJavaCode(String typeName, StatementListContext statementListContext) {
         handleDefinedTypes(typeName);
+        putItemListAndThisAsDefinedVariable();
 
         String handleStateCode = visitStatementList(statementListContext);
         String complexTileClassCode = codeCreator.createComplexTileClassCode(typeName + "Tile", handleStateCode);
@@ -28,8 +31,21 @@ public class ComplexTypesVisitor extends CommonStatementListVisitor {
     }
 
     @Override
+    public String visitStatementList(StatementListContext statementListContext) {
+        putItemListAndThisAsDefinedVariable();
+
+        return visitStatements(statementListContext);
+    }
+
+    @Override
     public String visitReturnStatement(ReturnStatementContext ctx) {
         throw new InvalidReturnStatementUsageException();
+    }
+
+    private void putItemListAndThisAsDefinedVariable() {
+        Map<String, SupportedType> definedVariablesTypeMap = helper.getDefinedVariablesTypeMap();
+        definedVariablesTypeMap.put("itemList", SupportedType.LIST);
+        definedVariablesTypeMap.put("this", SupportedType.TILE);
     }
 
     private void handleDefinedTypes(String typeName) {

@@ -30,21 +30,23 @@ public class ButtonClickAction extends AbstractAction {
         JButton buttonSource = (JButton) e.getSource();
         TileBase actualTile = buttonTileMap.get(buttonSource);
 
-        handleActionEvent(buttonSource, actualTile);
+        handleActionEvent(actualTile);
 
         validate();
     }
 
-    private void handleActionEvent(JButton buttonSource, TileBase actualTile) {
+    private void handleActionEvent(TileBase actualTile) {
         actualTile.handleState();
 
-        List<Item> itemList = actualTile.getItemList();
-        if (itemList.size() == 2) {
-            Item item = itemList.get(1);
+        for (JButton button : buttonTileMap.keySet()) {
+            TileBase tileBase = buttonTileMap.get(button);
+            List<Item> itemList = tileBase.getItemList();
+            Color color = itemList.get(0).getColor();
+            button.setBackground(color);
+
+            Item item = tileBase.getItem(1);
             ImageIcon icon = gameDefinition.getIcon(item);
-            buttonSource.setIcon(icon);
-        } else if (itemList.size() == 1) {
-            buttonSource.setIcon(null);
+            button.setIcon(icon);
         }
     }
 

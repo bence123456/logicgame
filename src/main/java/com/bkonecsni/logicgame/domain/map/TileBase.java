@@ -30,6 +30,24 @@ public abstract class TileBase {
         return isUnmutableType() && itemList.size() > 1;
     }
 
+    public void replaceLastItem(Item newItem) {
+        int itemsSize = itemList.size();
+        replaceItem(newItem, itemsSize-1);
+    }
+
+    public void replaceItem(Item newItem, int itemIndex) {
+        if (itemIndex < itemList.size()) {
+            itemList.set(itemIndex, newItem);
+        }
+    }
+
+    public boolean tileHasSamePosition(TileBase otherTile) {
+        int otherPositionX = otherTile.getPosition().x;
+        int otherPositionY = otherTile.getPosition().y;
+
+        return position.x == otherPositionX && position.y == otherPositionY;
+    }
+
     public Character getCharValue(int itemIndex) {
         Item item = getItem(itemIndex);
         return item == null ? null : item.getCharValue();

@@ -25,6 +25,10 @@ public class GameDefinition {
     }
 
     public ImageIcon getIcon(Item item) {
+        if (item == null) {
+            return null;
+        }
+
         Integer intValue = item.getIntValue();
 
         if (intValue != null) {

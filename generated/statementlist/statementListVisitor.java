@@ -154,4 +154,10 @@ public interface statementListVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMparam(statementListParser.MparamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link statementListParser#loopBreak}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoopBreak(statementListParser.LoopBreakContext ctx);
 }
