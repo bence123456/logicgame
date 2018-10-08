@@ -27,4 +27,17 @@ for (TileBase tile : tiles) {
     }
 }
 
+List(TileBase) tilesWithBulbs = map.getTilesWithGivenItem([S2]);
+
+for (TileBase bulbTile : tilesWithBulbs) {
+    List(TileBase) neighbourTilesForBulbTile = map.getTilesInHorizontalAndVerticalLine(bulbTile, false);
+
+    for (TileBase neighbourTile : neighbourTilesForBulbTile) {
+        Item neighbourSymbolItem = neighbourTile.getItem(1);
+        if (!map.isNull(neighbourSymbolItem) && neighbourSymbolItem.equals([S2])) {
+            return false;
+        }
+    }
+}
+
 return true;
