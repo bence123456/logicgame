@@ -36,7 +36,7 @@ public abstract class TileBase {
     }
 
     public void replaceItem(Item newItem, int itemIndex) {
-        if (itemIndex < itemList.size()) {
+        if (itemIndex < itemList.size() && newItem != null && !newItem.equals(itemList.get(itemIndex))) {
             itemList.set(itemIndex, newItem);
         }
     }

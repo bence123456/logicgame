@@ -9,19 +9,22 @@ if (map.isNull(symbolItem)) {
         List(TileBase) horizontalAndVerticalLineTiles = map.getTilesInHorizontalAndVerticalLine(this, true);
 
         for (TileBase tile : horizontalAndVerticalLineTiles) {
-            List(TileBase) horizontalAndVerticalLineTilesForTile = map.getTilesInHorizontalAndVerticalLine(tile, false);
-            boolean shouldReplaceColor = true;
+            Item item = tile.getItem(1);
+            if (tileHasSamePosition(tile) || map.isNull(item) || !item.equals([S2])) {
+                List(TileBase) horizontalAndVerticalLineTilesForTile = map.getTilesInHorizontalAndVerticalLine(tile, false);
+                boolean shouldReplaceColor = true;
 
-            for (TileBase neighbourTile : horizontalAndVerticalLineTilesForTile) {
-                Item item = neighbourTile.getItem(1);
-                if (!tileHasSamePosition(neighbourTile) && !map.isNull(item) && item.equals([S2])) {
-                    shouldReplaceColor = false;
-                    break;
+                for (TileBase neighbourTile : horizontalAndVerticalLineTilesForTile) {
+                    Item neighbourTileItem = neighbourTile.getItem(1);
+                    if (!tileHasSamePosition(neighbourTile) && !map.isNull(neighbourTileItem) && neighbourTileItem.equals([S2])) {
+                        shouldReplaceColor = false;
+                        break;
+                    }
                 }
-            }
 
-            if (shouldReplaceColor) {
-                tile.replaceItem([#000000], 0);
+                if (shouldReplaceColor) {
+                    tile.replaceItem([#000000], 0);
+                }
             }
         }
     } else {
