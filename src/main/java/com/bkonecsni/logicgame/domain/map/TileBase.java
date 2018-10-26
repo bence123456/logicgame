@@ -1,6 +1,8 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.validation.ValidationBase;
+import com.bkonecsni.logicgame.listeners.ItemListChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,6 +27,10 @@ public abstract class TileBase {
     public abstract void handleState();
 
     public abstract boolean isUnmutableType();
+
+    public void addItemListListener(ValidationBase validationBase) {
+        itemList.addListener(new ItemListChangeListener(validationBase, this));
+    }
 
     public boolean isHelper() {
         return isUnmutableType() && itemList.size() > 1;
