@@ -19,30 +19,9 @@ public class ParserUtil {
             }
             itemCreationString = "Item.createWithSymbol(\"" + itemAsString + "\")";
         } else if(itemAsString.startsWith("#")) {
-            String colorCreationString = getColorCreationString(itemAsString);
-            itemCreationString = "Item.createWithColor(" + colorCreationString + ")";
+            itemCreationString = "Item.createWithColor(\"" + itemAsString + "\")";
         }
 
         return itemCreationString;
-    }
-
-    public static String getColorCreationString(String itemAsString) {
-        String stringColor;
-
-        if (itemAsString.length() == 4) {
-            char digit1 = itemAsString.charAt(1);
-            char digit2 = itemAsString.charAt(2);
-            char digit3 = itemAsString.charAt(3);
-
-            stringColor = "#" + digit1 + digit1 + digit2 + digit2 + digit3 + digit3;
-        } else {
-            stringColor = itemAsString;
-        }
-
-        Integer r = Integer.valueOf(stringColor.substring(1, 3), 16);
-        Integer g = Integer.valueOf(stringColor.substring(3, 5), 16);
-        Integer b = Integer.valueOf(stringColor.substring(5, 7), 16);
-
-        return "new Color(" + r + ", " + g + ", " + b + ")";
     }
 }

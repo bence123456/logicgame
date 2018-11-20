@@ -1,11 +1,11 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.common.Point;
 import com.bkonecsni.logicgame.domain.types.TypeStatement;
 import com.bkonecsni.logicgame.domain.types.equation.Condition;
 import com.bkonecsni.logicgame.domain.types.equation.Update;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

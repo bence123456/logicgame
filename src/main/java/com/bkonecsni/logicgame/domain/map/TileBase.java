@@ -1,12 +1,8 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
-import com.bkonecsni.logicgame.domain.validation.ValidationBase;
-import com.bkonecsni.logicgame.listeners.ItemListChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.bkonecsni.logicgame.domain.common.Point;
 
-import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,21 +12,17 @@ public abstract class TileBase {
 
     protected Point size;
 
-    protected ObservableList<Item> itemList;
+    protected List<Item> itemList;
 
     public TileBase(Point position, Point size, List<Item> itemList) {
         this.position = position;
         this.size = size;
-        this.itemList = FXCollections.observableArrayList(itemList);
+        this.itemList = itemList;
     }
 
     public abstract void handleState();
 
     public abstract boolean isUnmutableType();
-
-    public void addItemListListener(ValidationBase validationBase) {
-        itemList.addListener(new ItemListChangeListener(validationBase, this));
-    }
 
     public boolean isHelper() {
         return isUnmutableType() && itemList.size() > 1;
@@ -69,7 +61,7 @@ public abstract class TileBase {
         return item == null ? null : item.getSymbol();
     }
 
-    public Color getColor(int itemIndex) {
+    public String getColor(int itemIndex) {
         Item item = getItem(itemIndex);
         return item == null ? null : item.getColor();
     }
@@ -117,6 +109,6 @@ public abstract class TileBase {
     }
 
     public void setItemList(List<Item> itemList) {
-        this.itemList = (ObservableList<Item>) itemList;
+        this.itemList = itemList;
     }
 }

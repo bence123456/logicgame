@@ -1,9 +1,8 @@
 package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.common.Point;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UnMutableTile extends TileBase {

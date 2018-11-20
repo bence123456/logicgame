@@ -3,20 +3,19 @@ package com.bkonecsni.logicgame.domain.common;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 
-import javax.swing.*;
 import java.util.*;
 
 public class GameDefinition {
 
     private String gameName;
 
-    private Map<String, ImageIcon> symbolsMap = new HashMap<>();
+    private Map<String, String> symbolsMap = new HashMap<>();
 
     private Set<String> definedTypes = new HashSet<>();
 
     private Map<String, LevelBase> maps = new HashMap<>();
 
-    private Map<Integer, ImageIcon> numberIconMap = new HashMap<>();
+    private Map<Integer, String> numberIconMap = new HashMap<>();
 
     private ValidationBase validationHandler;
 
@@ -24,7 +23,7 @@ public class GameDefinition {
         this.gameName = gameName;
     }
 
-    public ImageIcon getIcon(Item item) {
+    public String getIcon(Item item) {
         if (item == null) {
             return null;
         }
@@ -42,7 +41,7 @@ public class GameDefinition {
         return gameName;
     }
 
-    public Map<String, ImageIcon> getSymbolsMap() {
+    public Map<String, String> getSymbolsMap() {
         return symbolsMap;
     }
 
@@ -54,7 +53,7 @@ public class GameDefinition {
         return maps;
     }
 
-    public Map<Integer, ImageIcon> getNumberIconMap() {
+    public Map<Integer, String> getNumberIconMap() {
         return numberIconMap;
     }
 

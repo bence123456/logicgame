@@ -5,7 +5,6 @@ import com.bkonecsni.logicgame.domain.map.CommonComplexTile;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 import com.bkonecsni.logicgame.domain.validation.ValidationBase;
-import com.bkonecsni.logicgame.exceptions.NoSuchImageException;
 import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
 import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
@@ -16,9 +15,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.filefilter.PrefixFileFilter;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -132,7 +128,6 @@ public class LogicGame {
             validationHandler.setMap(map);
 
             for (TileBase tile : map.getTileList()) {
-                tile.addItemListListener(validationHandler);
 
                 if (tile instanceof CommonComplexTile) {
                     ((CommonComplexTile) tile).setMap(map);
@@ -183,22 +178,8 @@ public class LogicGame {
 
     private void defineNumberIconMap(GameDefinition gameDefinition) {
         for (int i=0; i<10; i++) {
-            ImageIcon imageIcon = getImageScaledIcon(i);
-            gameDefinition.getNumberIconMap().put(i, imageIcon);
+            String path = "src/main/resources/images/numbers/"+ i + ".png";
+            gameDefinition.getNumberIconMap().put(i, path);
         }
-    }
-
-    private ImageIcon getImageScaledIcon(int number) {
-        Image image;
-        String path = "src/main/resources/images/numbers/"+ number + ".png";
-
-        try {
-            image = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            throw new NoSuchImageException(path);
-        }
-
-        Image scaledImage = image.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
-        return new ImageIcon(scaledImage);
     }
 }

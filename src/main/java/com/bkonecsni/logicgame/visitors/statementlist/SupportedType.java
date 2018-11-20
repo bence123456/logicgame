@@ -4,7 +4,6 @@ import com.bkonecsni.logicgame.domain.common.Item;
 import com.bkonecsni.logicgame.domain.map.LevelBase;
 import com.bkonecsni.logicgame.domain.map.TileBase;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +19,6 @@ public enum SupportedType {
     BOOL(boolean.class, Arrays.asList(EQUALS, NOTEQUALS, AND, OR)),
     CHAR(Character.class, Collections.EMPTY_LIST),
     INT(int.class, Arrays.asList(EQUALS, GREATER, LESS, GREATEREQUALS, LESSEQUALS, NOTEQUALS, PLUS, MINUS, PLUSEQUALS, MINUSEQUALS)),
-    COLOR(Color.class, Collections.EMPTY_LIST),
     LIST(List.class, Collections.EMPTY_LIST);
 
     private Class clazz;

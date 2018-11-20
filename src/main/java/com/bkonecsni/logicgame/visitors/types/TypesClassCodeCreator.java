@@ -66,22 +66,22 @@ public class TypesClassCodeCreator {
         if (TypeVariation.UNMUTABLE.equals(typeVariation)) {
             sb.append("import com.bkonecsni.logicgame.domain.map.UnMutableTile;" +
                     "import com.bkonecsni.logicgame.domain.common.Item;" +
-                    "import java.awt.Point;" + "import java.util.List;");
+                    "import com.bkonecsni.logicgame.domain.common.Point;" + "import java.util.List;");
 
         } else if (TypeVariation.COMMON.equals(typeVariation)){
             sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
+                    "import com.bkonecsni.logicgame.domain.common.Point;" +
                     "import com.bkonecsni.logicgame.domain.map.CommonTile;" +
                     "import com.bkonecsni.logicgame.domain.types.TypeStatement;" +
                     "import com.bkonecsni.logicgame.domain.types.equation.Condition;" +
                     "import com.bkonecsni.logicgame.domain.types.equation.Update;" +
-                    "import java.awt.Color;" + "import java.awt.Point;" +
                     "import java.util.Arrays;" + "import java.util.List;");
 
         } else if (TypeVariation.COMPLEX.equals(typeVariation)) {
             sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
+                    "import com.bkonecsni.logicgame.domain.common.Point;" +
                     "import com.bkonecsni.logicgame.domain.map.TileBase;" +
                     "import com.bkonecsni.logicgame.domain.map.CommonComplexTile;" +
-                    "import java.awt.Color;" + "import java.awt.Point;" +
                     "import java.util.ArrayList;" + "import java.util.List;");
         }
     }

@@ -2,8 +2,8 @@ package com.bkonecsni.logicgame.domain.map;
 
 import com.bkonecsni.logicgame.domain.common.HelperTileLocation;
 import com.bkonecsni.logicgame.domain.common.Item;
+import com.bkonecsni.logicgame.domain.common.Point;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -157,11 +157,11 @@ public abstract class LevelBase {
         return tilesInColumn;
     }
 
-    public List<Color> getColorList() {
-        List<Color> colors = new ArrayList<>();
+    public List<String> getColorList() {
+        List<String> colors = new ArrayList<>();
 
         for (TileBase tile : tileList) {
-            Color tileColor = tile.getItemList().get(0).getColor();
+            String tileColor = tile.getItemList().get(0).getColor();
             if (!colors.contains(tileColor) && !tile.isUnmutableType()) {
                 colors.add(tileColor);
             }
@@ -170,11 +170,11 @@ public abstract class LevelBase {
         return colors;
     }
 
-    public List<TileBase> getTilesForColor(Color color) {
+    public List<TileBase> getTilesForColor(String color) {
         List<TileBase> tiles = new ArrayList<>();
 
         for (TileBase tile : tileList) {
-            Color tileColor = tile.getItemList().get(0).getColor();
+            String tileColor = tile.getItemList().get(0).getColor();
             if (tileColor.equals(color) && !tile.isUnmutableType()) {
                 tiles.add(tile);
             }
@@ -277,9 +277,9 @@ public abstract class LevelBase {
     }
 
     public boolean numberOfItemsInAllAreaWithSameColor(Item item, int expectedNumber) {
-        Map<Color, List<TileBase>> colorAreaTilesMap = createColorAreaTilesMap();
+        Map<String, List<TileBase>> colorAreaTilesMap = createColorAreaTilesMap();
 
-        for (Color color : colorAreaTilesMap.keySet()) {
+        for (String color : colorAreaTilesMap.keySet()) {
             if (!isAreaValid(colorAreaTilesMap.get(color), item, expectedNumber)) {
                 return false;
             }
@@ -344,11 +344,11 @@ public abstract class LevelBase {
         return numberOfItems == expectedNumber;
     }
 
-    private Map<Color, List<TileBase>> createColorAreaTilesMap() {
-        Map<Color, List<TileBase>> colorAreaTilesMap = new HashMap<>();
-        List<Color> colorList = getColorList();
+    private Map<String, List<TileBase>> createColorAreaTilesMap() {
+        Map<String, List<TileBase>> colorAreaTilesMap = new HashMap<>();
+        List<String> colorList = getColorList();
 
-        for (Color color : colorList) {
+        for (String color : colorList) {
             List<TileBase> tilesForcolor = getTilesForColor(color);
             colorAreaTilesMap.put(color, tilesForcolor);
         }

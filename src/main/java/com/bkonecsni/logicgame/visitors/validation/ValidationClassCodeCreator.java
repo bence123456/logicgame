@@ -26,7 +26,6 @@ public class ValidationClassCodeCreator {
         sb.append("import com.bkonecsni.logicgame.domain.common.Item;" +
                 "import com.bkonecsni.logicgame.domain.map.TileBase;" +
                 "import com.bkonecsni.logicgame.domain.validation.ValidationBase;" +
-                "import java.awt.Color;" +
                 "import java.util.ArrayList;" +
                 "import java.util.List;"
         );

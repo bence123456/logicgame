@@ -1,7 +1,5 @@
 package com.bkonecsni.logicgame.domain.common;
 
-import java.awt.*;
-
 public class Item {
 
     private Character charValue;
@@ -10,9 +8,9 @@ public class Item {
 
     private String symbol;
 
-    private Color color;
+    private String color;
 
-    public Item(Character charValue, Integer intValue, String symbol, Color color) {
+    public Item(Character charValue, Integer intValue, String symbol, String color) {
         this.charValue = charValue;
         this.intValue = intValue;
         this.symbol = symbol;
@@ -31,7 +29,7 @@ public class Item {
         return new Item(null, null, symbol, null);
     }
 
-    public static Item createWithColor(Color color) {
+    public static Item createWithColor(String color) {
         return new Item(null, null, null, color);
     }
 
@@ -81,11 +79,11 @@ public class Item {
         this.symbol = symbol;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 }
