@@ -8,6 +8,9 @@ import java.io.ByteArrayInputStream;
 
 public class VisitorUtil {
 
+    public static final String BASE_DIR = "com.bkonecsni.logicgame.gamecode.";
+    public static final String BASE_PACKAGE = "package " + BASE_DIR;
+
     public static String formatJavaCode(String stringToFormat) {
         CompilationUnit compilationUnit = null;
 

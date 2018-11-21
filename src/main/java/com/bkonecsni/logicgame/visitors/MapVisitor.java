@@ -117,7 +117,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
     }
 
     private void appendImportsAndClassHeader(StringBuilder sb) {
-        sb.append("package gamecode." + gameDefinition.getGameName() + ".levels;");
+        sb.append(VisitorUtil.BASE_PACKAGE + gameDefinition.getGameName() + ".levels;");
         appendImports(sb);
         sb.append("public class " + className + " extends LevelBase {");
     }
@@ -128,7 +128,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
 
     private void appendImports(StringBuilder sb) {
         for (String type: gameDefinition.getDefinedTypes()) {
-            sb.append("import gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;");
+            sb.append("import com.bkonecsni.logicgame.game.gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;");
         }
 
         sb.append("import com.bkonecsni.logicgame.domain.map.LevelBase;" +

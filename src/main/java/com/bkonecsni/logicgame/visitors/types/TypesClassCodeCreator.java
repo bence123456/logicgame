@@ -2,6 +2,7 @@ package com.bkonecsni.logicgame.visitors.types;
 
 import com.bkonecsni.logicgame.domain.common.GameDefinition;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 
 public class TypesClassCodeCreator {
 
@@ -48,7 +49,7 @@ public class TypesClassCodeCreator {
     }
 
     private void appendImportsAndClassHeader(StringBuilder sb, String className, String parentClassName, TypeVariation typeVariation) {
-        sb.append("package gamecode." + gameDefinition.getGameName() + ".types;");
+        sb.append(VisitorUtil.BASE_PACKAGE + gameDefinition.getGameName() + ".types;");
         appendImports(sb, typeVariation);
         sb.append("public class " + className + " extends " + parentClassName + " {");
     }

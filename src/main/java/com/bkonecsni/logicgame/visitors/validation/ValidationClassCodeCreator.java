@@ -10,7 +10,7 @@ public class ValidationClassCodeCreator {
         StringBuilder sb = new StringBuilder();
 
         String gameName = gameDefinition.getGameName();
-        sb.append("package gamecode." + gameName + ".validation;");
+        sb.append(VisitorUtil.BASE_PACKAGE + gameName + ".validation;");
         appendImport(sb);
         sb.append("public class " + StringUtils.capitalize(gameName) + "Validation extends ValidationBase {");
 

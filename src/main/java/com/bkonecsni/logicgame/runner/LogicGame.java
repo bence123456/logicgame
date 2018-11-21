@@ -9,6 +9,7 @@ import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
 import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
 import com.bkonecsni.logicgame.parsers.validation.ValidationParserImpl;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import net.openhft.compiler.CompilerUtils;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -25,6 +26,7 @@ public class LogicGame {
     private TypesParserImpl typesParser = new TypesParserImpl();
     private MapParserImpl mapParserImpl = new MapParserImpl();
     private ValidationParserImpl validationParser = new ValidationParserImpl();
+    private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/game/gamecode/"; //"src/main/java/gamecode/";
 
     public List<GameDefinition> createGameDefinitionList() throws Exception {
         List<GameDefinition> gameDefinitions = new ArrayList<>();
@@ -57,7 +59,7 @@ public class LogicGame {
     }
 
     private void parseTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
-        String directoryName = "src/main/java/gamecode/" + gameName + "/types";
+        String directoryName = COMMON_DIR_PATH + gameName + "/types";
 
         parseCommonTypes(directoryName, gameDefinition, fileUrlPrefixForGame);
         parseComplexTypes(gameName, gameDefinition, fileUrlPrefixForGame, directoryName);
@@ -92,12 +94,12 @@ public class LogicGame {
     private void parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
         String validationCode = validationParser.parse(validationInput, gameDefinition);
-        String directoryName = "src/main/java/gamecode/" + gameName + "/validation";
+        String directoryName = COMMON_DIR_PATH + gameName + "/validation";
         String className = StringUtils.capitalize(gameName) + "Validation";
         String fileName = className + ".java";
         writeFile(validationCode, directoryName, fileName);
 
-        Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".validation." + className, validationCode);
+        Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava(VisitorUtil.BASE_DIR + gameName + ".validation." + className, validationCode);
         ValidationBase validationHandler = (ValidationBase) validationClass.newInstance();
         gameDefinition.setValidationHandler(validationHandler);
     }
@@ -111,10 +113,10 @@ public class LogicGame {
             CharStream mapInput = CharStreams.fromFileName("games/" + gameName + "/maps/" + gameName + "_" + actualLevel + ".txt");
 
             String levelCode = mapParserImpl.parse(mapInput, gameDefinition, className);
-            String directoryName = "src/main/java/gamecode/" + gameName + "/levels";
+            String directoryName = COMMON_DIR_PATH + gameName + "/levels";
             writeFile(levelCode, directoryName, className + ".java");
 
-            Class levelClass = CompilerUtils.CACHED_COMPILER.loadFromJava("gamecode." + gameName + ".levels." + className, levelCode);
+            Class levelClass = CompilerUtils.CACHED_COMPILER.loadFromJava(VisitorUtil.BASE_DIR + gameName + ".levels." + className, levelCode);
             LevelBase level = (LevelBase) levelClass.newInstance();
             level.init();
 
