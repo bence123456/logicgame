@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.parsers.util;
 
-import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.runner.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.NoSuchSymbolException;
 import org.apache.commons.lang3.StringUtils;
 

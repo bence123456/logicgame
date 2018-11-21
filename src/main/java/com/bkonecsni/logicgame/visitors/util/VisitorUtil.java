@@ -10,6 +10,7 @@ public class VisitorUtil {
 
     public static final String BASE_DIR = "com.bkonecsni.logicgame.gamecode.";
     public static final String BASE_PACKAGE = "package " + BASE_DIR;
+    public static final String BASE_IMPORT = "import " + BASE_DIR;
 
     public static String formatJavaCode(String stringToFormat) {
         CompilationUnit compilationUnit = null;

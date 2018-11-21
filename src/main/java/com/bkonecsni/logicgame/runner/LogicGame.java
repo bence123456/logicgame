@@ -1,16 +1,10 @@
 package com.bkonecsni.logicgame.runner;
 
-import com.bkonecsni.logicgame.domain.common.GameDefinition;
-import com.bkonecsni.logicgame.domain.map.CommonComplexTile;
-import com.bkonecsni.logicgame.domain.map.LevelBase;
-import com.bkonecsni.logicgame.domain.map.TileBase;
-import com.bkonecsni.logicgame.domain.validation.ValidationBase;
 import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
 import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
 import com.bkonecsni.logicgame.parsers.validation.ValidationParserImpl;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
-import net.openhft.compiler.CompilerUtils;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.lang3.StringUtils;
@@ -26,36 +20,44 @@ public class LogicGame {
     private TypesParserImpl typesParser = new TypesParserImpl();
     private MapParserImpl mapParserImpl = new MapParserImpl();
     private ValidationParserImpl validationParser = new ValidationParserImpl();
-    private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/game/gamecode/"; //"src/main/java/gamecode/";
+    private GameInfoClassCodeCreator gameInfoClassCodeCreator = new GameInfoClassCodeCreator();
 
-    public List<GameDefinition> createGameDefinitionList() throws Exception {
-        List<GameDefinition> gameDefinitions = new ArrayList<>();
+    private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/gamecode/";
+
+    public void createGameDefinitionList() throws Exception {
         Map<String, Integer> gameLevelNumberMap = createGameLevelNumberMapFromProperty();
 
         for (String gameName : gameLevelNumberMap.keySet()) {
+            StringBuilder initCodeBuilder = new StringBuilder();
+            StringBuilder importCodeBuilder = new StringBuilder();
+
             GameDefinition gameDefinition = new GameDefinition(gameName);
             String fileUrlPrefixForGame = "games/" + gameName + "/" + gameName;
 
-            parseGame(gameLevelNumberMap, gameName, gameDefinition, fileUrlPrefixForGame);
-            defineNumberIconMap(gameDefinition);
-            postProcessGameDefinition(gameDefinition);
-
-            gameDefinitions.add(gameDefinition);
+            parseGame(gameLevelNumberMap, gameName, gameDefinition, fileUrlPrefixForGame, initCodeBuilder, importCodeBuilder);
+            writeGameInfoJavaFile(gameName, initCodeBuilder, importCodeBuilder);
         }
-
-        return gameDefinitions;
     }
 
-    private void parseGame(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws Exception {
-        parseSymbols(gameDefinition, fileUrlPrefixForGame);
+    private void writeGameInfoJavaFile(String gameName, StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) {
+        String directoryName = COMMON_DIR_PATH + gameName;
+        String className = StringUtils.capitalize(gameName) + "GameInfo";
+        String fileName = className + ".java";
+        String gameInfoCode = gameInfoClassCodeCreator.createClassCode(gameName, initCodeBuilder.toString(), importCodeBuilder.toString());
+
+        writeFile(gameInfoCode, directoryName, fileName);
+    }
+
+    private void parseGame(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
+        parseSymbols(gameDefinition, fileUrlPrefixForGame, initCodeBuilder);
         parseTypes(gameName, gameDefinition, fileUrlPrefixForGame);
-        parseAndLoadValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame);
-        parseMaps(gameLevelNumberMap, gameName, gameDefinition);
+        parseValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame, initCodeBuilder, importCodeBuilder);
+        parseMaps(gameLevelNumberMap, gameName, gameDefinition, initCodeBuilder, importCodeBuilder);
     }
 
-    private void parseSymbols(GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
+    private void parseSymbols(GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder) throws IOException {
         CharStream symbolsInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_symbols.txt");
-        symbolsParser.parse(symbolsInput, gameDefinition);
+        symbolsParser.parse(symbolsInput, gameDefinition, initCodeBuilder);
     }
 
     private void parseTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
@@ -91,7 +93,9 @@ public class LogicGame {
         }
     }
 
-    private void parseAndLoadValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private void parseValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame,
+                                        StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws IOException {
+
         CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
         String validationCode = validationParser.parse(validationInput, gameDefinition);
         String directoryName = COMMON_DIR_PATH + gameName + "/validation";
@@ -99,13 +103,14 @@ public class LogicGame {
         String fileName = className + ".java";
         writeFile(validationCode, directoryName, fileName);
 
-        Class validationClass = CompilerUtils.CACHED_COMPILER.loadFromJava(VisitorUtil.BASE_DIR + gameName + ".validation." + className, validationCode);
-        ValidationBase validationHandler = (ValidationBase) validationClass.newInstance();
-        gameDefinition.setValidationHandler(validationHandler);
+        importCodeBuilder.append(VisitorUtil.BASE_IMPORT + gameName + ".validation." + className + ";");
+        initCodeBuilder.append("validationHandler = new " + className + "();");
     }
 
-    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition) throws Exception {
+    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition,
+                           StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
         Integer numberOfMaps = gameLevelNumberMap.get(gameName);
+        initCodeBuilder.append("maps = Arrays.asList(");
 
         for (int i=1; i <= numberOfMaps; i++) {
             String actualLevel = "level" + i;
@@ -116,26 +121,12 @@ public class LogicGame {
             String directoryName = COMMON_DIR_PATH + gameName + "/levels";
             writeFile(levelCode, directoryName, className + ".java");
 
-            Class levelClass = CompilerUtils.CACHED_COMPILER.loadFromJava(VisitorUtil.BASE_DIR + gameName + ".levels." + className, levelCode);
-            LevelBase level = (LevelBase) levelClass.newInstance();
-            level.init();
-
-            gameDefinition.getMaps().put(actualLevel, level);
+            importCodeBuilder.append(VisitorUtil.BASE_IMPORT + gameName + ".levels." + className + ";");
+            String comma = i == numberOfMaps ? "" : ",";
+            initCodeBuilder.append("new " + className + "()" + comma );
         }
-    }
 
-    private void postProcessGameDefinition(GameDefinition gameDefinition) {
-        for (LevelBase map : gameDefinition.getMaps().values()) {
-            ValidationBase validationHandler = gameDefinition.getValidationHandler();
-            validationHandler.setMap(map);
-
-            for (TileBase tile : map.getTileList()) {
-
-                if (tile instanceof CommonComplexTile) {
-                    ((CommonComplexTile) tile).setMap(map);
-                }
-            }
-        }
+        initCodeBuilder.append(");");
     }
 
     private Map<String, Integer> createGameLevelNumberMapFromProperty() throws IOException {
@@ -175,13 +166,6 @@ public class LogicGame {
         }
         catch (IOException e){
             e.printStackTrace();
-        }
-    }
-
-    private void defineNumberIconMap(GameDefinition gameDefinition) {
-        for (int i=0; i<10; i++) {
-            String path = "src/main/resources/images/numbers/"+ i + ".png";
-            gameDefinition.getNumberIconMap().put(i, path);
         }
     }
 }

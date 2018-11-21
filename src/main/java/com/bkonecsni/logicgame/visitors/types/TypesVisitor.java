@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors.types;
 
-import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.runner.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;

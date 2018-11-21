@@ -1,8 +1,7 @@
 package com.bkonecsni.logicgame.visitors.statementlist;
 
-import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.runner.GameDefinition;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import statementlist.statementListBaseVisitor;
 import statementlist.statementListParser.*;
 

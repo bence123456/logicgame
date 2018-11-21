@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors;
 
-import com.bkonecsni.logicgame.domain.common.GameDefinition;
+import com.bkonecsni.logicgame.runner.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
 import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
 import com.bkonecsni.logicgame.parsers.util.ParserUtil;
@@ -128,7 +128,7 @@ public class MapVisitor extends mapBaseVisitor<String> {
 
     private void appendImports(StringBuilder sb) {
         for (String type: gameDefinition.getDefinedTypes()) {
-            sb.append("import com.bkonecsni.logicgame.game.gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;");
+            sb.append("import com.bkonecsni.logicgame.gamecode." + gameDefinition.getGameName() + ".types." + type + "Tile;");
         }
 
         sb.append("import com.bkonecsni.logicgame.domain.map.LevelBase;" +
