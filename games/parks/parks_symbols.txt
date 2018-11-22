@@ -1,2 +1,2 @@
-S1:dotwhite.png
-S2:tree.png
+S1:dotwhite
+S2:tree
