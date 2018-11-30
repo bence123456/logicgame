@@ -1,2 +1,2 @@
-S1:dotwhite
+S1:dot
 S2:lightbulb
