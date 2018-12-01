@@ -1,0 +1,14 @@
+List(TileBase) tiles = map.getTileList();
+
+int lastSnakePartPos = map.getPlayableRowNumber()-1;
+TileBase firstSnakeTile = map.getTile(0,0);
+TileBase lastSnakeTile = map.getTile(lastSnakePartPos, lastSnakePartPos);
+
+Item firstSnakeItem = firstSnakeTile.getItem(0);
+Item lastSnakeItem = lastSnakeTile.getItem(0);
+
+if (!firstSnakeItem.equals([#FFFFFF]) || !lastSnakeItem.equals([#FFFFFF])) {
+    return false;
+}
+
+return map.rightAndBottomHelperTilesAreValid([#FFFFFF]);

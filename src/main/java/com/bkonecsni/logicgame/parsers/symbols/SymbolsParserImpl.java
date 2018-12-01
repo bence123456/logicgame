@@ -11,7 +11,7 @@ public class SymbolsParserImpl implements SymbolsParser {
 
     @Override
     public void parse(CharStream input, GameDefinition gameDefinition, StringBuilder initCodeBuilder) {
-        if (input.size() > 10) {
+        if (input.size() > 3) {
             SymbolsContext symbolsContext = getSymbolsContext(input);
             parseSymbols(initCodeBuilder, gameDefinition, symbolsContext);
         }
