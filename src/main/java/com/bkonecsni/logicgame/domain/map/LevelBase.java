@@ -11,6 +11,8 @@ public abstract class LevelBase {
 
     protected List<TileBase> tileList;
 
+    protected boolean considerUnMutable = false;
+
     public abstract void init();
 
     public boolean isNull(Object object) {
@@ -247,16 +249,20 @@ public abstract class LevelBase {
         }
     }
 
-    public List<TileBase> getTilesWithGivenItem(Item item) {
+    public List<TileBase> getTilesWithGivenItem(List<TileBase> tileList, Item item) {
         List<TileBase> tilesWithGivenItem = new ArrayList<>();
 
         for (TileBase tile : tileList) {
-            if (tile.getItemList().contains(item) && !tile.isUnmutableType()) {
+            if (tile.getItemList().contains(item) && (considerUnMutable || !tile.isUnmutableType())) {
                 tilesWithGivenItem.add(tile);
             }
         }
 
         return tilesWithGivenItem;
+    }
+
+    public List<TileBase> getTilesWithGivenItem(Item item) {
+        return getTilesWithGivenItem(tileList, item);
     }
 
     public boolean numberOfItemsInAllRow(Item item, int expectedNumber) {
@@ -392,7 +398,7 @@ public abstract class LevelBase {
     private void addNeighbourToListIfExists(int row, int column, List<TileBase> tiles) {
         TileBase tile = getTile(row, column);
 
-        if (tile != null && !tile.isUnmutableType()) {
+        if (tile != null && (considerUnMutable || !tile.isUnmutableType())) {
             tiles.add(tile);
         }
     }
@@ -442,5 +448,9 @@ public abstract class LevelBase {
 
     public List<TileBase> getTileList() {
         return tileList;
+    }
+
+    public void setConsiderUnMutable(boolean considerUnMutable) {
+        this.considerUnMutable = considerUnMutable;
     }
 }
