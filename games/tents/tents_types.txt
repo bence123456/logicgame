@@ -1,0 +1,4 @@
+Type0:
+
+Type2:
+items(1): Loop(empty, S1, S3)

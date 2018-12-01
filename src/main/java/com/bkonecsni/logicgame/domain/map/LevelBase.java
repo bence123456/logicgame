@@ -183,22 +183,25 @@ public abstract class LevelBase {
         return tiles;
     }
 
-    public List<String> getTileListColor() {
-        List<String> tileColors = new ArrayList<>();
-
-        for (TileBase tile : tileList) {
-            tileColors.add(tile.getItemList().get(0).getColor());
-        }
-
-        return tileColors;
-    }
-
     public List<TileBase> getNeighboursForTile(TileBase tile) {
         List<TileBase> tiles = new ArrayList<>();
 
         addNeighboursToListIfExists(tile, tiles);
 
         return tiles;
+    }
+
+    public boolean hasHorizontalOrVerticalNeighbourWithItem(TileBase tile, Item item) {
+        List<TileBase> horizontalVerticalNeighbourTiles = getHorizontalAndVerticalNeighboursForTile(tile);
+
+        for (TileBase horizontalVerticalNeighbourTile : horizontalVerticalNeighbourTiles) {
+            Item neighbourItem = horizontalVerticalNeighbourTile.getItem(1);
+            if (neighbourItem != null && neighbourItem.equals(item)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<TileBase> getHorizontalAndVerticalNeighboursForTile(TileBase tile) {

@@ -1,0 +1,3 @@
+S1:dot
+S2:tree
+S3:tent
