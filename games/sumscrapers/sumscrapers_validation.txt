@@ -23,12 +23,10 @@ for (TileBase tile : tiles) {
     }
 }
 
-boolean valid = map.numberOfItemsInAllRow([1],1) &&
-            map.numberOfItemsInAllRow([2],1) &&
-            map.numberOfItemsInAllRow([3],1) &&
-            map.numberOfItemsInAllRow([4],1) &&
-            map.numberOfItemsInAllColumn([1],1) &&
-            map.numberOfItemsInAllColumn([2],1) &&
-            map.numberOfItemsInAllColumn([3],1) &&
-            map.numberOfItemsInAllColumn([4],1);
-return valid;
+List(Item) checkedItems;
+checkedItems.add([1]);
+checkedItems.add([2]);
+checkedItems.add([3]);
+checkedItems.add([4]);
+
+return map.numberOfItemsInAllRowAndColumn(1, checkedItems);

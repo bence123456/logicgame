@@ -162,7 +162,7 @@ public class CommonStatementListVisitorHelper {
                 }
                 return "List<" + context.typeName().listType().type().getText() + "> " + varName;
             } else {
-                return "List<" + context.typeName().listType().type().getText() + "> " + varName + " = new ArrayList();";
+                return "List<" + context.typeName().listType().type().getText() + "> " + varName + " = new ArrayList()";
             }
         }
 
