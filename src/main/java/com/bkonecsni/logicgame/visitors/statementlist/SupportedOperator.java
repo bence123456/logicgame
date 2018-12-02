@@ -13,7 +13,9 @@ public enum SupportedOperator {
     PLUSEQUALS("+="),
     MINUSEQUALS("-="),
     AND("&&"),
-    OR("||");
+    OR("||"),
+    DIV("/"),
+    MUL("*");
 
     private String stringValue;
 

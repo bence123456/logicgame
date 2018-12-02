@@ -18,7 +18,7 @@ public enum SupportedType {
     STRING(String.class, Arrays.asList(PLUS, PLUSEQUALS)),
     BOOL(boolean.class, Arrays.asList(EQUALS, NOTEQUALS, AND, OR)),
     CHAR(Character.class, Collections.EMPTY_LIST),
-    INT(int.class, Arrays.asList(EQUALS, GREATER, LESS, GREATEREQUALS, LESSEQUALS, NOTEQUALS, PLUS, MINUS, PLUSEQUALS, MINUSEQUALS)),
+    INT(int.class, Arrays.asList(EQUALS, GREATER, LESS, GREATEREQUALS, LESSEQUALS, NOTEQUALS, PLUS, MINUS, PLUSEQUALS, MINUSEQUALS, DIV, MUL)),
     LIST(List.class, Collections.EMPTY_LIST);
 
     private Class clazz;

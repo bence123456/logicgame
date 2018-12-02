@@ -35,7 +35,7 @@ BOOL: 'true' | 'false' ;
 
 multipleExpression: expression (operator expression)* ;
 
-operator: '==' | '>' | '<' | '<=' | '>=' | '!=' | '+' | '-' | '+=' | '-=' | '&&' | '||' ;
+operator: '==' | '>' | '<' | '<=' | '>=' | '!=' | '+' | '-' | '+=' | '-=' | '&&' | '||' | '/' | '*' ;
 
 expression: func | varName | item | loopBreak | NUMBER | STRING | BOOL ;
 
