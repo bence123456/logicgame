@@ -11,9 +11,9 @@ public class ParserUtil {
 
         if (StringUtils.isNumeric(itemAsString)) {
             itemCreationString = "Item.createWithIntValue(" + Integer.valueOf(itemAsString) + ")";
-        } else if(itemAsString.length() == 1) {
-            itemCreationString = "Item.createWithCharValue('" + itemAsString.charAt(0) + "')";
-        } else if(itemAsString.startsWith("S")) {
+        } else if(itemAsString.startsWith("&") || itemAsString.length() == 1) {
+            Character charItem = StringUtils.removeFirst(itemAsString, "&").charAt(0);
+            itemCreationString = "Item.createWithCharValue('" + charItem + "')";        } else if(itemAsString.startsWith("S")) {
             if (!gameDefinition.getSymbolsMap().containsKey(itemAsString)) {
                 throw new NoSuchSymbolException(itemAsString);
             }
