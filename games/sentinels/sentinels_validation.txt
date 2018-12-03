@@ -1,0 +1,19 @@
+if (map.twoNeighbouringSymbolsExists([S2], false)) {
+    return false;
+}
+
+map.setConsiderUnMutable(true);
+List(TileBase) tiles = map.getTileList();
+
+for (TileBase tile : tiles) {
+    if(tile.isHelper()) {
+        int expectedVisibleTilesNr = tile.getIntValue(1);
+        List(TileBase) neighbourTilesForSentinel = map.getTilesInHorizontalAndVerticalLine(tile, true, [S2]);
+
+        if (neighbourTilesForSentinel.size() != expectedVisibleTilesNr) {
+            return false;
+        }
+    }
+}
+
+return true;
