@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.visitors.statementlist;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
-import com.bkonecsni.logicgame.parsers.util.ParserUtil;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
+import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import statementlist.statementListBaseVisitor;
 import statementlist.statementListParser.*;
 
@@ -196,7 +196,7 @@ public class CommonStatementListVisitor extends statementListBaseVisitor<String>
 
     @Override
     public String visitItem(ItemContext ctx) {
-        return ParserUtil.getItemCreationString(ctx.getChild(1).getText(), gameDefinition);
+        return VisitorUtil.getItemCreationString(ctx.getChild(1).getText(), gameDefinition);
     }
 
     @Override

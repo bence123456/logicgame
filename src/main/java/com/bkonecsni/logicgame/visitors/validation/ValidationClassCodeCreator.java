@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import org.apache.commons.lang3.StringUtils;
 

@@ -4,6 +4,7 @@ import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
 import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
 import com.bkonecsni.logicgame.parsers.validation.ValidationParserImpl;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -24,7 +25,7 @@ public class LogicGame {
 
     private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/gamecode/";
 
-    public void createGameDefinitionList() throws Exception {
+    public void createGameInfoList() throws Exception {
         Map<String, Integer> gameLevelNumberMap = createGameLevelNumberMapFromProperty();
 
         for (String gameName : gameLevelNumberMap.keySet()) {

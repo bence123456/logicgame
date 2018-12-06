@@ -1,9 +1,8 @@
-package com.bkonecsni.logicgame.visitors;
+package com.bkonecsni.logicgame.visitors.map;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.NoSuchTypeException;
 import com.bkonecsni.logicgame.exceptions.SizeNotValidException;
-import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import map.mapBaseVisitor;
 import map.mapParser;
@@ -80,9 +79,9 @@ public class MapVisitor extends mapBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
         sb.append("new ArrayList(Arrays.asList(");
 
-        sb.append(ParserUtil.getItemCreationString(itemListContext.color().COLOR().getText(), gameDefinition));
+        sb.append(VisitorUtil.getItemCreationString(itemListContext.color().COLOR().getText(), gameDefinition));
         for (mapParser.ItemContext itemContext : itemListContext.item()) {
-            String itemCreationString = ParserUtil.getItemCreationString(itemContext.getChild(1).getText(), gameDefinition);
+            String itemCreationString = VisitorUtil.getItemCreationString(itemContext.getChild(1).getText(), gameDefinition);
             sb.append(", " + itemCreationString);
         }
         sb.append("))");

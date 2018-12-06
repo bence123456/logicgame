@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors.validation;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.CommonValidationException;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
 import com.bkonecsni.logicgame.visitors.statementlist.SupportedType;

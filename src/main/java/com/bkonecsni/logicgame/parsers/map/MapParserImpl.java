@@ -1,7 +1,7 @@
 package com.bkonecsni.logicgame.parsers.map;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
-import com.bkonecsni.logicgame.visitors.MapVisitor;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
+import com.bkonecsni.logicgame.visitors.map.MapVisitor;
 import map.mapLexer;
 import map.mapParser;
 import map.mapParser.MapContext;

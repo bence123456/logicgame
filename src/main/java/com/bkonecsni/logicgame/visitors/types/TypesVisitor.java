@@ -1,8 +1,7 @@
 package com.bkonecsni.logicgame.visitors.types;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
-import com.bkonecsni.logicgame.parsers.util.ParserUtil;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import types.typesBaseVisitor;
 import types.typesParser.*;
@@ -80,7 +79,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         List<String> itemCreationStringList = new ArrayList<>();
 
         for (ItemContext itemContext : loopContext.params().item()) {
-            String itemCreationString = ParserUtil.getItemCreationString(itemContext.getText(), gameDefinition);
+            String itemCreationString = VisitorUtil.getItemCreationString(itemContext.getText(), gameDefinition);
             itemCreationStringList.add(itemCreationString);
         }
 
@@ -174,7 +173,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer itemToUpdateIndex = Integer.parseInt(updatestatementContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(updatestatementContext.item().getText(), gameDefinition);
+        String itemCreationString = VisitorUtil.getItemCreationString(updatestatementContext.item().getText(), gameDefinition);
         sb.append(parseUpdate(itemToUpdateIndex, itemCreationString));
 
         return sb.toString();
@@ -187,7 +186,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         Integer comparableItemIndex = Integer.parseInt(conditionContext.parens_nr().NUMBER().getText());
-        String itemCreationString = ParserUtil.getItemCreationString(conditionContext.item().getText(), gameDefinition);
+        String itemCreationString = VisitorUtil.getItemCreationString(conditionContext.item().getText(), gameDefinition);
         sb.append(parseCondition(comparableItemIndex, itemCreationString));
 
         return sb.toString();

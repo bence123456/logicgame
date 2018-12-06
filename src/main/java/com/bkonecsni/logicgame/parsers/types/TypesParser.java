@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.parsers.types;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import org.antlr.v4.runtime.CharStream;
 
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.parsers.types;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.parsers.util.StatementListParserUtil;
 import com.bkonecsni.logicgame.visitors.types.ComplexTypesVisitor;
 import com.bkonecsni.logicgame.visitors.types.TypesVisitor;

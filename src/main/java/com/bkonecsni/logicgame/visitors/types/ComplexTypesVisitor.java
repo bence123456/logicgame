@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors.types;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.exceptions.InvalidReturnStatementUsageException;
 import com.bkonecsni.logicgame.exceptions.TypeAlreadyDefinedException;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;

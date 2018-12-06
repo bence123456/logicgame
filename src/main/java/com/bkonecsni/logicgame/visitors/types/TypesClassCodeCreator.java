@@ -1,6 +1,6 @@
 package com.bkonecsni.logicgame.visitors.types;
 
-import com.bkonecsni.logicgame.runner.GameDefinition;
+import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 
