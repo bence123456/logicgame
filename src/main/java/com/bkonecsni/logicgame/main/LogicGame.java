@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.runner;
+package com.bkonecsni.logicgame.main;
 
 import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
 import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;

@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.runner;
+package com.bkonecsni.logicgame.main;
 
 public class Main {
 

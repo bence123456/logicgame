@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.runner;
+package com.bkonecsni.logicgame.main;
 
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import org.apache.commons.lang3.StringUtils;
