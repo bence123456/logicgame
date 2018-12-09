@@ -26,11 +26,11 @@ public class SymbolsParserImpl implements SymbolsParser {
 
     private void parseSymbols(StringBuilder initCodeBuilder, GameDefinition gameDefinition, SymbolsContext symbolsContext) {
         for (SymbolContext symbolContext : symbolsContext.symbol()) {
-            String symbolName = symbolContext.SYMBOL().getText();
-            String symbolPath = symbolContext.PATH().getText();
+            String symbolID = symbolContext.SYMBOL_ID().getText();
+            String symbolName = symbolContext.NAME().getText();
 
-            initCodeBuilder.append("symbolsMap.put(\"" + symbolName + "\", \"" + symbolPath + "\");");
-            gameDefinition.getSymbolsMap().put(symbolName, symbolPath);
+            initCodeBuilder.append("symbolsMap.put(\"" + symbolID + "\", \"" + symbolName + "\");");
+            gameDefinition.getSymbolsMap().put(symbolID, symbolName);
         }
     }
 }

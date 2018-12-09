@@ -17,7 +17,7 @@ public class symbolsParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		PATH=1, NUMBER=2, SYMBOL=3, COL=4, WS=5;
+		NAME=1, NUMBER=2, SYMBOL_ID=3, COL=4, WS=5;
 	public static final int
 		RULE_symbols = 0, RULE_symbol = 1;
 	public static final String[] ruleNames = {
@@ -28,7 +28,7 @@ public class symbolsParser extends Parser {
 		null, null, null, null, "':'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "PATH", "NUMBER", "SYMBOL", "COL", "WS"
+		null, "NAME", "NUMBER", "SYMBOL_ID", "COL", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -115,7 +115,7 @@ public class symbolsParser extends Parser {
 			setState(7);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==SYMBOL) {
+			while (_la==SYMBOL_ID) {
 				{
 				{
 				setState(4);
@@ -140,9 +140,8 @@ public class symbolsParser extends Parser {
 	}
 
 	public static class SymbolContext extends ParserRuleContext {
-		public TerminalNode SYMBOL() { return getToken(symbolsParser.SYMBOL, 0); }
-		public TerminalNode COL() { return getToken(symbolsParser.COL, 0); }
-		public TerminalNode PATH() { return getToken(symbolsParser.PATH, 0); }
+		public TerminalNode SYMBOL_ID() { return getToken(symbolsParser.SYMBOL_ID, 0); }
+		public TerminalNode NAME() { return getToken(symbolsParser.NAME, 0); }
 		public SymbolContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -169,11 +168,11 @@ public class symbolsParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(10);
-			match(SYMBOL);
+			match(SYMBOL_ID);
 			setState(11);
 			match(COL);
 			setState(12);
-			match(PATH);
+			match(NAME);
 			}
 		}
 		catch (RecognitionException re) {

@@ -1,4 +1,2 @@
 Type2:
-items(1) == empty -> items(1) = S1
-items(1) == S1 ->  items(1) = S2
-items(1) == S2 -> items(1) = empty
+items(1): Loop(empty, S1, S2)

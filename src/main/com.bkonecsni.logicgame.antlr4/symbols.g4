@@ -2,11 +2,11 @@ grammar symbols;
 
 symbols: symbol* ;
 
-symbol: SYMBOL COL PATH ;
-PATH: [A-Za-z // \\ //_ /.]+ ;
+symbol: SYMBOL_ID ':' NAME ;
+NAME: [A-Za-z]+ ;
 
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
-SYMBOL: 'S' NUMBER ;
+SYMBOL_ID: 'S' NUMBER ;
 
 COL: ':' ;
 
