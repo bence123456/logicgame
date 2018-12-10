@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ValidationClassCodeCreator {
 
-    String createValidationClassCode(String statements, GameDefinition gameDefinition) {
+    String createJavaClassCode(String statements, GameDefinition gameDefinition) {
         StringBuilder sb = new StringBuilder();
 
         String gameName = gameDefinition.getGameName();

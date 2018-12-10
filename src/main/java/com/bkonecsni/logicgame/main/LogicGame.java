@@ -1,9 +1,13 @@
 package com.bkonecsni.logicgame.main;
 
-import com.bkonecsni.logicgame.parsers.map.MapParserImpl;
-import com.bkonecsni.logicgame.parsers.symbols.SymbolsParserImpl;
-import com.bkonecsni.logicgame.parsers.types.TypesParserImpl;
-import com.bkonecsni.logicgame.parsers.validation.ValidationParserImpl;
+import com.bkonecsni.logicgame.compilers.map.MapCompiler;
+import com.bkonecsni.logicgame.compilers.map.MapCompilerImpl;
+import com.bkonecsni.logicgame.compilers.symbols.SymbolsCompiler;
+import com.bkonecsni.logicgame.compilers.symbols.SymbolsCompilerImpl;
+import com.bkonecsni.logicgame.compilers.types.TypesCompiler;
+import com.bkonecsni.logicgame.compilers.types.TypesCompilerImpl;
+import com.bkonecsni.logicgame.compilers.validation.ValidationCompiler;
+import com.bkonecsni.logicgame.compilers.validation.ValidationCompilerImpl;
 import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 import org.antlr.v4.runtime.CharStream;
@@ -17,10 +21,10 @@ import java.util.List;
 
 public class LogicGame {
 
-    private SymbolsParserImpl symbolsParser = new SymbolsParserImpl();
-    private TypesParserImpl typesParser = new TypesParserImpl();
-    private MapParserImpl mapParserImpl = new MapParserImpl();
-    private ValidationParserImpl validationParser = new ValidationParserImpl();
+    private SymbolsCompiler symbolsCompiler = new SymbolsCompilerImpl();
+    private TypesCompiler typesCompiler = new TypesCompilerImpl();
+    private MapCompiler mapCompiler = new MapCompilerImpl();
+    private ValidationCompiler validationCompiler = new ValidationCompilerImpl();
     private GameInfoClassCodeCreator gameInfoClassCodeCreator = new GameInfoClassCodeCreator();
 
     private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/gamecode/";
@@ -58,7 +62,7 @@ public class LogicGame {
 
     private void compileSymbols(GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder) throws IOException {
         CharStream symbolsInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_symbols.txt");
-        symbolsParser.parse(symbolsInput, gameDefinition, initCodeBuilder);
+        symbolsCompiler.compile(symbolsInput, gameDefinition, initCodeBuilder);
     }
 
     private void compileTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
@@ -76,7 +80,7 @@ public class LogicGame {
         for (File complexTypeFile : complexTypeFiles) {
             CharStream complexTypesInput = CharStreams.fromFileName(complexTypeFile.getAbsolutePath());
             String typeName = StringUtils.substringAfterLast(StringUtils.removeEnd(complexTypeFile.getName(), ".txt"), "_");
-            String typeCode = typesParser.parse(complexTypesInput, gameDefinition, typeName);
+            String typeCode = typesCompiler.compile(complexTypesInput, gameDefinition, typeName);
 
             writeFile(typeCode, directoryName, typeName + "Tile.java");
         }
@@ -84,7 +88,7 @@ public class LogicGame {
 
     private void parseCommonTypes(String directoryName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
         CharStream typesInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_types.txt");
-        Map<String, String> typeNameCodeMap = typesParser.parse(typesInput, gameDefinition);
+        Map<String, String> typeNameCodeMap = typesCompiler.compile(typesInput, gameDefinition);
 
         for (String typeName : typeNameCodeMap.keySet()) {
             String typeCode = typeNameCodeMap.get(typeName);
@@ -98,7 +102,7 @@ public class LogicGame {
                                           StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws IOException {
 
         CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
-        String validationCode = validationParser.parse(validationInput, gameDefinition);
+        String validationCode = validationCompiler.compile(validationInput, gameDefinition);
         String directoryName = COMMON_DIR_PATH + gameName + "/validation";
         String className = StringUtils.capitalize(gameName) + "Validation";
         String fileName = className + ".java";
@@ -118,7 +122,7 @@ public class LogicGame {
             String className = "Level" + i;
             CharStream mapInput = CharStreams.fromFileName("games/" + gameName + "/maps/" + gameName + "_" + actualLevel + ".txt");
 
-            String levelCode = mapParserImpl.parse(mapInput, gameDefinition, className);
+            String levelCode = mapCompiler.compile(mapInput, gameDefinition, className);
             String directoryName = COMMON_DIR_PATH + gameName + "/levels";
             writeFile(levelCode, directoryName, className + ".java");
 

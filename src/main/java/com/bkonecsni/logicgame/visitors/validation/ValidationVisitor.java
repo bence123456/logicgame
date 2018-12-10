@@ -18,14 +18,14 @@ public class ValidationVisitor extends CommonStatementListVisitor {
     }
 
     @Override
-    public String visitStatementList(StatementListContext statementListContext) {
-        ReturnStatementContext returnStatementContext = getReturnStatement(statementListContext);
-        checkIfLastStatementIsReturn(returnStatementContext);
+    public String visitStatementList(StatementListContext statementListCtx) {
+        ReturnStatementContext returnCtx = getReturnStatement(statementListCtx);
+        checkIfLastStatementIsReturn(returnCtx);
 
-        String validationCode = visitStatements(statementListContext);
-        checkIfReturnStatementTypeIsBool(returnStatementContext);
+        String validationCode = visitStatements(statementListCtx);
+        checkIfReturnStatementTypeIsBool(returnCtx);
 
-        return codeCreator.createValidationClassCode(validationCode, gameDefinition);
+        return codeCreator.createJavaClassCode(validationCode, gameDefinition);
     }
 
     private ReturnStatementContext getReturnStatement(StatementListContext statementListContext) {

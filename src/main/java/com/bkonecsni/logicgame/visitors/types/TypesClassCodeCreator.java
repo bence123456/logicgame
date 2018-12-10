@@ -1,18 +1,14 @@
 package com.bkonecsni.logicgame.visitors.types;
 
 import com.bkonecsni.logicgame.visitors.GameDefinition;
-import com.bkonecsni.logicgame.visitors.statementlist.CommonStatementListVisitor;
 import com.bkonecsni.logicgame.visitors.util.VisitorUtil;
 
 public class TypesClassCodeCreator {
 
     private GameDefinition gameDefinition;
 
-    private CommonStatementListVisitor statementListVisitor;
-
     public TypesClassCodeCreator(GameDefinition gameDefinition) {
         this.gameDefinition = gameDefinition;
-        statementListVisitor = new CommonStatementListVisitor(gameDefinition);
     }
 
     public String createTileCodeForCommonPlayableType(String className, String initCode) {

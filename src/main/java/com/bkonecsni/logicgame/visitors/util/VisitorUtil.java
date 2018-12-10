@@ -22,7 +22,8 @@ public class VisitorUtil {
             itemCreationString = "Item.createWithIntValue(" + Integer.valueOf(itemAsString) + ")";
         } else if(itemAsString.startsWith("&") || itemAsString.length() == 1) {
             Character charItem = StringUtils.removeFirst(itemAsString, "&").charAt(0);
-            itemCreationString = "Item.createWithCharValue('" + charItem + "')";        } else if(itemAsString.startsWith("S")) {
+            itemCreationString = "Item.createWithCharValue('" + charItem + "')";
+        } else if(itemAsString.startsWith("S")) {
             if (!gameDefinition.getSymbolsMap().containsKey(itemAsString)) {
                 throw new NoSuchSymbolException(itemAsString);
             }

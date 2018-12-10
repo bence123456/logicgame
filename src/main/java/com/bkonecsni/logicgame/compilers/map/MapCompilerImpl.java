@@ -1,4 +1,4 @@
-package com.bkonecsni.logicgame.parsers.map;
+package com.bkonecsni.logicgame.compilers.map;
 
 import com.bkonecsni.logicgame.visitors.GameDefinition;
 import com.bkonecsni.logicgame.visitors.map.MapVisitor;
@@ -8,17 +8,17 @@ import map.mapParser.MapContext;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-public class MapParserImpl implements MapParser {
+public class MapCompilerImpl implements MapCompiler {
 
     @Override
-    public String parse(CharStream input, GameDefinition gameDefinition, String className) {
-        MapContext mapContext = getMapContext(input);
+    public String compile(CharStream input, GameDefinition gameDefinition, String className) {
+        MapContext mapContext = parseMap(input);
         MapVisitor visitor = new MapVisitor(gameDefinition, className);
 
         return visitor.visitMap(mapContext);
     }
 
-    private MapContext getMapContext(CharStream mapInput) {
+    private MapContext parseMap(CharStream mapInput) {
         mapLexer mapLexer = new mapLexer(mapInput);
         CommonTokenStream mapTokens = new CommonTokenStream(mapLexer);
         mapParser mapParser = new mapParser(mapTokens);
