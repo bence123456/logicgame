@@ -26,17 +26,17 @@ public class LogicGame {
     private static final String COMMON_DIR_PATH = "src/main/java/com/bkonecsni/logicgame/gamecode/";
 
     public void createGameInfoList() throws Exception {
-        Map<String, Integer> gameLevelNumberMap = createGameLevelNumberMapFromProperty();
+        Map<String, Integer> gameLevelNrMap = createGameLevelNrMapFromProperty();
 
-        for (String gameName : gameLevelNumberMap.keySet()) {
-            StringBuilder initCodeBuilder = new StringBuilder();
-            StringBuilder importCodeBuilder = new StringBuilder();
+        for (String gameName : gameLevelNrMap.keySet()) {
+            StringBuilder initCodeSb = new StringBuilder();
+            StringBuilder importCodeSb = new StringBuilder();
 
             GameDefinition gameDefinition = new GameDefinition(gameName);
-            String fileUrlPrefixForGame = "games/" + gameName + "/" + gameName;
+            String urlPrefix = "games/" + gameName + "/" + gameName;
 
-            parseGame(gameLevelNumberMap, gameName, gameDefinition, fileUrlPrefixForGame, initCodeBuilder, importCodeBuilder);
-            writeGameInfoJavaFile(gameName, initCodeBuilder, importCodeBuilder);
+            compileGame(gameLevelNrMap, gameName, gameDefinition, urlPrefix, initCodeSb, importCodeSb);
+            writeGameInfoJavaFile(gameName, initCodeSb, importCodeSb);
         }
     }
 
@@ -49,19 +49,19 @@ public class LogicGame {
         writeFile(gameInfoCode, directoryName, fileName);
     }
 
-    private void parseGame(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
-        parseSymbols(gameDefinition, fileUrlPrefixForGame, initCodeBuilder);
-        parseTypes(gameName, gameDefinition, fileUrlPrefixForGame);
-        parseValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame, initCodeBuilder, importCodeBuilder);
-        parseMaps(gameLevelNumberMap, gameName, gameDefinition, initCodeBuilder, importCodeBuilder);
+    private void compileGame(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
+        compileSymbols(gameDefinition, fileUrlPrefixForGame, initCodeBuilder);
+        compileTypes(gameName, gameDefinition, fileUrlPrefixForGame);
+        compileValidationHandler(gameName, gameDefinition, fileUrlPrefixForGame, initCodeBuilder, importCodeBuilder);
+        compileMaps(gameLevelNumberMap, gameName, gameDefinition, initCodeBuilder, importCodeBuilder);
     }
 
-    private void parseSymbols(GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder) throws IOException {
+    private void compileSymbols(GameDefinition gameDefinition, String fileUrlPrefixForGame, StringBuilder initCodeBuilder) throws IOException {
         CharStream symbolsInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_symbols.txt");
         symbolsParser.parse(symbolsInput, gameDefinition, initCodeBuilder);
     }
 
-    private void parseTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
+    private void compileTypes(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame) throws IOException {
         String directoryName = COMMON_DIR_PATH + gameName + "/types";
 
         parseCommonTypes(directoryName, gameDefinition, fileUrlPrefixForGame);
@@ -94,8 +94,8 @@ public class LogicGame {
         }
     }
 
-    private void parseValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame,
-                                        StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws IOException {
+    private void compileValidationHandler(String gameName, GameDefinition gameDefinition, String fileUrlPrefixForGame,
+                                          StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws IOException {
 
         CharStream validationInput = CharStreams.fromFileName(fileUrlPrefixForGame + "_validation.txt");
         String validationCode = validationParser.parse(validationInput, gameDefinition);
@@ -108,8 +108,8 @@ public class LogicGame {
         initCodeBuilder.append("validationHandler = new " + className + "();");
     }
 
-    private void parseMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition,
-                           StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
+    private void compileMaps(Map<String, Integer> gameLevelNumberMap, String gameName, GameDefinition gameDefinition,
+                             StringBuilder initCodeBuilder, StringBuilder importCodeBuilder) throws Exception {
         Integer numberOfMaps = gameLevelNumberMap.get(gameName);
         initCodeBuilder.append("maps = Arrays.asList(");
 
@@ -130,7 +130,7 @@ public class LogicGame {
         initCodeBuilder.append(");");
     }
 
-    private Map<String, Integer> createGameLevelNumberMapFromProperty() throws IOException {
+    private Map<String, Integer> createGameLevelNrMapFromProperty() throws IOException {
         Map<String, Integer> gameLevelNumberMap = new HashMap<>();
         Properties properties = getLoadedProperties();
         String games = properties.getProperty("games");
