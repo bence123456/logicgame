@@ -79,14 +79,27 @@ public class MapVisitor extends mapBaseVisitor<String> {
         StringBuilder sb = new StringBuilder();
         sb.append("new ArrayList(Arrays.asList(");
 
-        sb.append(VisitorUtil.getItemCreationString(itemListContext.color().COLOR().getText(), gameDefinition));
+        sb.append(visitColor(itemListContext.color()));
         for (mapParser.ItemContext itemContext : itemListContext.item()) {
-            String itemCreationString = VisitorUtil.getItemCreationString(itemContext.getChild(1).getText(), gameDefinition);
-            sb.append(", " + itemCreationString);
+            sb.append(visitItem(itemContext));
         }
         sb.append("))");
 
         return sb.toString();
+    }
+
+    @Override
+    public String visitColor(ColorContext colorContext) {
+        String colorItemString = colorContext.COLOR().getText();
+        return VisitorUtil.getItemCreationString(colorItemString, gameDefinition);
+    }
+
+    @Override
+    public String visitItem(ItemContext itemContext) {
+        String itemAsString = itemContext.getChild(1).getText();
+        String itemCreationString = VisitorUtil.getItemCreationString(itemAsString, gameDefinition);
+
+        return ", " + itemCreationString;
     }
 
     private String getSize(SizeContext sizeContext) {
