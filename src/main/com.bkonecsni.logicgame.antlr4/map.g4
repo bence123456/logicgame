@@ -14,7 +14,7 @@ color: LBR COLOR RBR ;
 item: LBR (NUMBER | CHAR | SYMBOL) RBR;
 
 NUMBER: [0-9]+ | ([1-9] [0-9]*) ;
-CHAR:   [A-E] ;
+CHAR:   [A-Z] ;
 COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;
 HDN: [A-F] | [a-f] | [0-9] ;
 SYMBOL: 'S' NUMBER ;

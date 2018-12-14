@@ -18,7 +18,7 @@ item: NUMBER | CHAR | COLOR | SYMBOL | EMPTY_STRING ;
 EMPTY_STRING: EMPTY ;
 
 NUMBER: [0-9] | ([1-9] [0-9]*) ;
-CHAR:   [A-E] ;
+CHAR:   [A-Z] ;
 COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;
 HDN: [A-F] | [a-f] | [0-9] ;
 SYMBOL: 'S' NUMBER ;

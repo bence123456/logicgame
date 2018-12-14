@@ -58,7 +58,7 @@ item: '[' (NUMBER | CHAR | COLOR | SYMBOL) ']' ;
 mparam: ID ;
 loopBreak: 'break' ;
 
-CHAR:  '&' [A-E] ;
+CHAR:  '&' [A-Z] ;
 COLOR:  '#' ((HDN HDN HDN HDN HDN HDN) | (HDN HDN HDN)) ;
 HDN: [A-F] | [a-f] | [0-9] ;
 SYMBOL: 'S' NUMBER ;
