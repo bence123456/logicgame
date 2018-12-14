@@ -1,17 +1,17 @@
 grammar types;
 
-types: typedecl+ ;
+types: typeDeclaration+ ;
 
-typedecl: typehead typedef? ;
-typedef: loop | typestatement+ ;
-typehead: T NUMBER COL ;
+typeDeclaration: typeHeader typeDefinition? ;
+typeDefinition: loop | typeStatement+ ;
+typeHeader: T NUMBER COL ;
 loop: ITEMS parens_nr COL LOOP LP params RP;
 params: (item COMMA)* item ;
 
-typestatement: condition (COMMA condition)* ARR updatestatement (COMMA updatestatement)* ;
+typeStatement: condition (COMMA condition)* ARR updateStatement (COMMA updateStatement)* ;
 
 condition: ITEMS parens_nr ISEQ item ;
-updatestatement: ITEMS parens_nr EQ item ;
+updateStatement: ITEMS parens_nr EQ item ;
 
 parens_nr: LP NUMBER RP ;
 item: NUMBER | CHAR | COLOR | SYMBOL | EMPTY_STRING ;

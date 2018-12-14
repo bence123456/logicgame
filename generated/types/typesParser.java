@@ -21,12 +21,12 @@ public class typesParser extends Parser {
 		EMPTY=9, LOOP=10, ISEQ=11, EQ=12, LP=13, RP=14, COMMA=15, ARR=16, COL=17, 
 		WS=18;
 	public static final int
-		RULE_types = 0, RULE_typedecl = 1, RULE_typedef = 2, RULE_typehead = 3, 
-		RULE_loop = 4, RULE_params = 5, RULE_typestatement = 6, RULE_condition = 7, 
-		RULE_updatestatement = 8, RULE_parens_nr = 9, RULE_item = 10;
+		RULE_types = 0, RULE_typeDeclaration = 1, RULE_typeDefinition = 2, RULE_typeHeader = 3, 
+		RULE_loop = 4, RULE_params = 5, RULE_typeStatement = 6, RULE_condition = 7, 
+		RULE_updateStatement = 8, RULE_parens_nr = 9, RULE_item = 10;
 	public static final String[] ruleNames = {
-		"types", "typedecl", "typedef", "typehead", "loop", "params", "typestatement", 
-		"condition", "updatestatement", "parens_nr", "item"
+		"types", "typeDeclaration", "typeDefinition", "typeHeader", "loop", "params", 
+		"typeStatement", "condition", "updateStatement", "parens_nr", "item"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -88,11 +88,11 @@ public class typesParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class TypesContext extends ParserRuleContext {
-		public List<TypedeclContext> typedecl() {
-			return getRuleContexts(TypedeclContext.class);
+		public List<TypeDeclarationContext> typeDeclaration() {
+			return getRuleContexts(TypeDeclarationContext.class);
 		}
-		public TypedeclContext typedecl(int i) {
-			return getRuleContext(TypedeclContext.class,i);
+		public TypeDeclarationContext typeDeclaration(int i) {
+			return getRuleContext(TypeDeclarationContext.class,i);
 		}
 		public TypesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -127,7 +127,7 @@ public class typesParser extends Parser {
 				{
 				{
 				setState(22);
-				typedecl();
+				typeDeclaration();
 				}
 				}
 				setState(25); 
@@ -147,48 +147,48 @@ public class typesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypedeclContext extends ParserRuleContext {
-		public TypeheadContext typehead() {
-			return getRuleContext(TypeheadContext.class,0);
+	public static class TypeDeclarationContext extends ParserRuleContext {
+		public TypeHeaderContext typeHeader() {
+			return getRuleContext(TypeHeaderContext.class,0);
 		}
-		public TypedefContext typedef() {
-			return getRuleContext(TypedefContext.class,0);
+		public TypeDefinitionContext typeDefinition() {
+			return getRuleContext(TypeDefinitionContext.class,0);
 		}
-		public TypedeclContext(ParserRuleContext parent, int invokingState) {
+		public TypeDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_typedecl; }
+		@Override public int getRuleIndex() { return RULE_typeDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypedecl(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypeDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypedecl(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypeDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypedecl(this);
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypeDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TypedeclContext typedecl() throws RecognitionException {
-		TypedeclContext _localctx = new TypedeclContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_typedecl);
+	public final TypeDeclarationContext typeDeclaration() throws RecognitionException {
+		TypeDeclarationContext _localctx = new TypeDeclarationContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_typeDeclaration);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(27);
-			typehead();
+			typeHeader();
 			setState(29);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ITEMS) {
 				{
 				setState(28);
-				typedef();
+				typeDefinition();
 				}
 			}
 
@@ -205,38 +205,38 @@ public class typesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypedefContext extends ParserRuleContext {
+	public static class TypeDefinitionContext extends ParserRuleContext {
 		public LoopContext loop() {
 			return getRuleContext(LoopContext.class,0);
 		}
-		public List<TypestatementContext> typestatement() {
-			return getRuleContexts(TypestatementContext.class);
+		public List<TypeStatementContext> typeStatement() {
+			return getRuleContexts(TypeStatementContext.class);
 		}
-		public TypestatementContext typestatement(int i) {
-			return getRuleContext(TypestatementContext.class,i);
+		public TypeStatementContext typeStatement(int i) {
+			return getRuleContext(TypeStatementContext.class,i);
 		}
-		public TypedefContext(ParserRuleContext parent, int invokingState) {
+		public TypeDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_typedef; }
+		@Override public int getRuleIndex() { return RULE_typeDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypedef(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypeDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypedef(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypeDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypedef(this);
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypeDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TypedefContext typedef() throws RecognitionException {
-		TypedefContext _localctx = new TypedefContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_typedef);
+	public final TypeDefinitionContext typeDefinition() throws RecognitionException {
+		TypeDefinitionContext _localctx = new TypeDefinitionContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_typeDefinition);
 		int _la;
 		try {
 			setState(37);
@@ -259,7 +259,7 @@ public class typesParser extends Parser {
 					{
 					{
 					setState(32);
-					typestatement();
+					typeStatement();
 					}
 					}
 					setState(35); 
@@ -281,32 +281,32 @@ public class typesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypeheadContext extends ParserRuleContext {
+	public static class TypeHeaderContext extends ParserRuleContext {
 		public TerminalNode T() { return getToken(typesParser.T, 0); }
 		public TerminalNode NUMBER() { return getToken(typesParser.NUMBER, 0); }
 		public TerminalNode COL() { return getToken(typesParser.COL, 0); }
-		public TypeheadContext(ParserRuleContext parent, int invokingState) {
+		public TypeHeaderContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_typehead; }
+		@Override public int getRuleIndex() { return RULE_typeHeader; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypehead(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypeHeader(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypehead(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypeHeader(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypehead(this);
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypeHeader(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TypeheadContext typehead() throws RecognitionException {
-		TypeheadContext _localctx = new TypeheadContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_typehead);
+	public final TypeHeaderContext typeHeader() throws RecognitionException {
+		TypeHeaderContext _localctx = new TypeHeaderContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_typeHeader);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -463,7 +463,7 @@ public class typesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypestatementContext extends ParserRuleContext {
+	public static class TypeStatementContext extends ParserRuleContext {
 		public List<ConditionContext> condition() {
 			return getRuleContexts(ConditionContext.class);
 		}
@@ -471,38 +471,38 @@ public class typesParser extends Parser {
 			return getRuleContext(ConditionContext.class,i);
 		}
 		public TerminalNode ARR() { return getToken(typesParser.ARR, 0); }
-		public List<UpdatestatementContext> updatestatement() {
-			return getRuleContexts(UpdatestatementContext.class);
+		public List<UpdateStatementContext> updateStatement() {
+			return getRuleContexts(UpdateStatementContext.class);
 		}
-		public UpdatestatementContext updatestatement(int i) {
-			return getRuleContext(UpdatestatementContext.class,i);
+		public UpdateStatementContext updateStatement(int i) {
+			return getRuleContext(UpdateStatementContext.class,i);
 		}
 		public List<TerminalNode> COMMA() { return getTokens(typesParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(typesParser.COMMA, i);
 		}
-		public TypestatementContext(ParserRuleContext parent, int invokingState) {
+		public TypeStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_typestatement; }
+		@Override public int getRuleIndex() { return RULE_typeStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypestatement(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterTypeStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypestatement(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitTypeStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypestatement(this);
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitTypeStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TypestatementContext typestatement() throws RecognitionException {
-		TypestatementContext _localctx = new TypestatementContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_typestatement);
+	public final TypeStatementContext typeStatement() throws RecognitionException {
+		TypeStatementContext _localctx = new TypeStatementContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_typeStatement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -528,7 +528,7 @@ public class typesParser extends Parser {
 			setState(69);
 			match(ARR);
 			setState(70);
-			updatestatement();
+			updateStatement();
 			setState(75);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -538,7 +538,7 @@ public class typesParser extends Parser {
 				setState(71);
 				match(COMMA);
 				setState(72);
-				updatestatement();
+				updateStatement();
 				}
 				}
 				setState(77);
@@ -613,7 +613,7 @@ public class typesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class UpdatestatementContext extends ParserRuleContext {
+	public static class UpdateStatementContext extends ParserRuleContext {
 		public TerminalNode ITEMS() { return getToken(typesParser.ITEMS, 0); }
 		public Parens_nrContext parens_nr() {
 			return getRuleContext(Parens_nrContext.class,0);
@@ -622,28 +622,28 @@ public class typesParser extends Parser {
 		public ItemContext item() {
 			return getRuleContext(ItemContext.class,0);
 		}
-		public UpdatestatementContext(ParserRuleContext parent, int invokingState) {
+		public UpdateStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_updatestatement; }
+		@Override public int getRuleIndex() { return RULE_updateStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).enterUpdatestatement(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).enterUpdateStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof typesListener ) ((typesListener)listener).exitUpdatestatement(this);
+			if ( listener instanceof typesListener ) ((typesListener)listener).exitUpdateStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitUpdatestatement(this);
+			if ( visitor instanceof typesVisitor ) return ((typesVisitor<? extends T>)visitor).visitUpdateStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final UpdatestatementContext updatestatement() throws RecognitionException {
-		UpdatestatementContext _localctx = new UpdatestatementContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_updatestatement);
+	public final UpdateStatementContext updateStatement() throws RecognitionException {
+		UpdateStatementContext _localctx = new UpdateStatementContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_updateStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

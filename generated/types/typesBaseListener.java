@@ -28,37 +28,37 @@ public class typesBaseListener implements typesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypedecl(typesParser.TypedeclContext ctx) { }
+	@Override public void enterTypeDeclaration(typesParser.TypeDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypedecl(typesParser.TypedeclContext ctx) { }
+	@Override public void exitTypeDeclaration(typesParser.TypeDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypedef(typesParser.TypedefContext ctx) { }
+	@Override public void enterTypeDefinition(typesParser.TypeDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypedef(typesParser.TypedefContext ctx) { }
+	@Override public void exitTypeDefinition(typesParser.TypeDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypehead(typesParser.TypeheadContext ctx) { }
+	@Override public void enterTypeHeader(typesParser.TypeHeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypehead(typesParser.TypeheadContext ctx) { }
+	@Override public void exitTypeHeader(typesParser.TypeHeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -88,13 +88,13 @@ public class typesBaseListener implements typesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypestatement(typesParser.TypestatementContext ctx) { }
+	@Override public void enterTypeStatement(typesParser.TypeStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypestatement(typesParser.TypestatementContext ctx) { }
+	@Override public void exitTypeStatement(typesParser.TypeStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -112,13 +112,13 @@ public class typesBaseListener implements typesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUpdatestatement(typesParser.UpdatestatementContext ctx) { }
+	@Override public void enterUpdateStatement(typesParser.UpdateStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUpdatestatement(typesParser.UpdatestatementContext ctx) { }
+	@Override public void exitUpdateStatement(typesParser.UpdateStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

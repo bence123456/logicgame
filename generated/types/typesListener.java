@@ -18,35 +18,35 @@ public interface typesListener extends ParseTreeListener {
 	 */
 	void exitTypes(typesParser.TypesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link typesParser#typedecl}.
+	 * Enter a parse tree produced by {@link typesParser#typeDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypedecl(typesParser.TypedeclContext ctx);
+	void enterTypeDeclaration(typesParser.TypeDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link typesParser#typedecl}.
+	 * Exit a parse tree produced by {@link typesParser#typeDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypedecl(typesParser.TypedeclContext ctx);
+	void exitTypeDeclaration(typesParser.TypeDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link typesParser#typedef}.
+	 * Enter a parse tree produced by {@link typesParser#typeDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypedef(typesParser.TypedefContext ctx);
+	void enterTypeDefinition(typesParser.TypeDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link typesParser#typedef}.
+	 * Exit a parse tree produced by {@link typesParser#typeDefinition}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypedef(typesParser.TypedefContext ctx);
+	void exitTypeDefinition(typesParser.TypeDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link typesParser#typehead}.
+	 * Enter a parse tree produced by {@link typesParser#typeHeader}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypehead(typesParser.TypeheadContext ctx);
+	void enterTypeHeader(typesParser.TypeHeaderContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link typesParser#typehead}.
+	 * Exit a parse tree produced by {@link typesParser#typeHeader}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypehead(typesParser.TypeheadContext ctx);
+	void exitTypeHeader(typesParser.TypeHeaderContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link typesParser#loop}.
 	 * @param ctx the parse tree
@@ -68,15 +68,15 @@ public interface typesListener extends ParseTreeListener {
 	 */
 	void exitParams(typesParser.ParamsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link typesParser#typestatement}.
+	 * Enter a parse tree produced by {@link typesParser#typeStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypestatement(typesParser.TypestatementContext ctx);
+	void enterTypeStatement(typesParser.TypeStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link typesParser#typestatement}.
+	 * Exit a parse tree produced by {@link typesParser#typeStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypestatement(typesParser.TypestatementContext ctx);
+	void exitTypeStatement(typesParser.TypeStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link typesParser#condition}.
 	 * @param ctx the parse tree
@@ -88,15 +88,15 @@ public interface typesListener extends ParseTreeListener {
 	 */
 	void exitCondition(typesParser.ConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link typesParser#updatestatement}.
+	 * Enter a parse tree produced by {@link typesParser#updateStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterUpdatestatement(typesParser.UpdatestatementContext ctx);
+	void enterUpdateStatement(typesParser.UpdateStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link typesParser#updatestatement}.
+	 * Exit a parse tree produced by {@link typesParser#updateStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitUpdatestatement(typesParser.UpdatestatementContext ctx);
+	void exitUpdateStatement(typesParser.UpdateStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link typesParser#parens_nr}.
 	 * @param ctx the parse tree

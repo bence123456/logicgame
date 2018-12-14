@@ -24,8 +24,8 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         Map<String, String> typeCodeList = new HashMap<>();
         Set<String> definedTypes = gameDefinition.getDefinedTypes();
 
-        for (TypedeclContext typedeclContext : typesContext.typedecl()) {
-            String typeName = "Type" + typedeclContext.typehead().NUMBER().getText();
+        for (TypeDeclarationContext typedeclContext : typesContext.typeDeclaration()) {
+            String typeName = "Type" + typedeclContext.typeHeader().NUMBER().getText();
             if (definedTypes.contains(typeName)) {
                 throw new TypeAlreadyDefinedException(typeName);
             }
@@ -39,8 +39,8 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return typeCodeList;
     }
 
-    private String createTileCode(TypedeclContext typedeclContext, String typeName) {
-        TypedefContext typedefContext = typedeclContext.typedef();
+    private String createTileCode(TypeDeclarationContext typedeclContext, String typeName) {
+        TypeDefinitionContext typedefContext = typedeclContext.typeDefinition();
         String className = typeName + "Tile";
         String tileJavaCode;
 
@@ -53,12 +53,12 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return VisitorUtil.formatJavaCode(tileJavaCode);
     }
 
-    private String createPlayableTileCode(TypedefContext typedefContext, String className) {
+    private String createPlayableTileCode(TypeDefinitionContext typedefContext, String className) {
         String initCode = createInitCode(typedefContext);
         return typesClassCodeCreator.createTileCodeForCommonPlayableType(className, initCode);
     }
 
-    private String createInitCode(TypedefContext typedefContext) {
+    private String createInitCode(TypeDefinitionContext typedefContext) {
         LoopContext loopContext = typedefContext.loop();
         return (loopContext != null) ? visitLoopDeclaration(loopContext) : visitTypedefDeclaration(typedefContext);
     }
@@ -102,9 +102,9 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String visitTypedefDeclaration(TypedefContext typedefContext) {
+    private String visitTypedefDeclaration(TypeDefinitionContext typedefContext) {
         String typeDefString = null;
-        List<TypestatementContext> typestatementContextList = typedefContext.typestatement();
+        List<TypeStatementContext> typestatementContextList = typedefContext.typeStatement();
 
         StringBuilder sb = new StringBuilder();
         sb.append("this.typeStatementList = Arrays.asList(");
@@ -115,11 +115,11 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return typeDefString;
     }
 
-    private String visitTypeStatements(List<TypestatementContext> typestatementContextList) {
+    private String visitTypeStatements(List<TypeStatementContext> typestatementContextList) {
         StringBuilder sb = new StringBuilder();
 
         boolean isFirst = true;
-        for (TypestatementContext typestatementContext : typestatementContextList) {
+        for (TypeStatementContext typestatementContext : typestatementContextList) {
             if (isFirst) {
                 sb.append(createTypeStatement(gameDefinition, typestatementContext));
                 isFirst = false;
@@ -144,7 +144,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String createTypeStatement(GameDefinition gameDefinition, TypestatementContext typestatementContext) {
+    private String createTypeStatement(GameDefinition gameDefinition, TypeStatementContext typestatementContext) {
         StringBuilder sb = new StringBuilder();
         sb.append("new TypeStatement(");
         boolean firstCondition = true;
@@ -157,7 +157,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         }
 
         sb.append("), Arrays.asList(");
-        for (UpdatestatementContext updatestatementContext : typestatementContext.updatestatement()) {
+        for (UpdateStatementContext updatestatementContext : typestatementContext.updateStatement()) {
             sb.append(parseUpdate(gameDefinition, updatestatementContext, firstUpdate));
             firstUpdate =false;
         }
@@ -166,7 +166,7 @@ public class TypesVisitor extends typesBaseVisitor<Map<String, String>> {
         return sb.toString();
     }
 
-    private String parseUpdate(GameDefinition gameDefinition, UpdatestatementContext updatestatementContext, boolean firstUpdate) {
+    private String parseUpdate(GameDefinition gameDefinition, UpdateStatementContext updatestatementContext, boolean firstUpdate) {
         StringBuilder sb = new StringBuilder();
         if (!firstUpdate) {
             sb.append(", ");

@@ -24,21 +24,21 @@ public class typesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypedecl(typesParser.TypedeclContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeDeclaration(typesParser.TypeDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypedef(typesParser.TypedefContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeDefinition(typesParser.TypeDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypehead(typesParser.TypeheadContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeHeader(typesParser.TypeHeaderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -59,7 +59,7 @@ public class typesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypestatement(typesParser.TypestatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeStatement(typesParser.TypeStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -73,7 +73,7 @@ public class typesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUpdatestatement(typesParser.UpdatestatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUpdateStatement(typesParser.UpdateStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

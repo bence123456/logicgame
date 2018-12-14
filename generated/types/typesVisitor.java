@@ -17,23 +17,23 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypes(typesParser.TypesContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#typedecl}.
+	 * Visit a parse tree produced by {@link typesParser#typeDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypedecl(typesParser.TypedeclContext ctx);
+	T visitTypeDeclaration(typesParser.TypeDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#typedef}.
+	 * Visit a parse tree produced by {@link typesParser#typeDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypedef(typesParser.TypedefContext ctx);
+	T visitTypeDefinition(typesParser.TypeDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#typehead}.
+	 * Visit a parse tree produced by {@link typesParser#typeHeader}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypehead(typesParser.TypeheadContext ctx);
+	T visitTypeHeader(typesParser.TypeHeaderContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link typesParser#loop}.
 	 * @param ctx the parse tree
@@ -47,11 +47,11 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParams(typesParser.ParamsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#typestatement}.
+	 * Visit a parse tree produced by {@link typesParser#typeStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypestatement(typesParser.TypestatementContext ctx);
+	T visitTypeStatement(typesParser.TypeStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link typesParser#condition}.
 	 * @param ctx the parse tree
@@ -59,11 +59,11 @@ public interface typesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCondition(typesParser.ConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link typesParser#updatestatement}.
+	 * Visit a parse tree produced by {@link typesParser#updateStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitUpdatestatement(typesParser.UpdatestatementContext ctx);
+	T visitUpdateStatement(typesParser.UpdateStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link typesParser#parens_nr}.
 	 * @param ctx the parse tree
