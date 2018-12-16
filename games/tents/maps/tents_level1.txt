@@ -6,7 +6,7 @@ tile: Type0@(0,4), items: { [#808080] [S2] }
 tile: Type2@(0,5), items: { [#808080] }
 tile: Type2@(0,6), items: { [#808080] }
 tile: Type2@(0,7), items: { [#808080] }
-tile: Type0@(0,8), items: { [#808080] [4] }
+tile: Type0@(0,8), items: { [#FFFFFF] [4] }
 
 tile: Type2@(1,0), items: { [#808080] }
 tile: Type0@(1,1), items: { [#808080] [S2] }
@@ -16,7 +16,7 @@ tile: Type2@(1,4), items: { [#808080] }
 tile: Type0@(1,5), items: { [#808080] [S2] }
 tile: Type2@(1,6), items: { [#808080] }
 tile: Type0@(1,7), items: { [#808080] [S2] }
-tile: Type0@(1,8), items: { [#808080] [0] }
+tile: Type0@(1,8), items: { [#FFFFFF] [0] }
 
 tile: Type2@(2,0), items: { [#808080] }
 tile: Type2@(2,1), items: { [#808080] }
@@ -26,7 +26,7 @@ tile: Type2@(2,4), items: { [#808080] }
 tile: Type0@(2,5), items: { [#808080] [S2] }
 tile: Type2@(2,6), items: { [#808080] }
 tile: Type2@(2,7), items: { [#808080] }
-tile: Type0@(2,8), items: { [#808080] [2] }
+tile: Type0@(2,8), items: { [#FFFFFF] [2] }
 
 tile: Type0@(3,0), items: { [#808080] [S2] }
 tile: Type2@(3,1), items: { [#808080] }
@@ -36,7 +36,7 @@ tile: Type2@(3,4), items: { [#808080] }
 tile: Type2@(3,5), items: { [#808080] }
 tile: Type0@(3,6), items: { [#808080] [S2] }
 tile: Type2@(3,7), items: { [#808080] }
-tile: Type0@(3,8), items: { [#808080] [0] }
+tile: Type0@(3,8), items: { [#FFFFFF] [0] }
 
 tile: Type2@(4,0), items: { [#808080] }
 tile: Type2@(4,1), items: { [#808080] }
@@ -46,7 +46,7 @@ tile: Type2@(4,4), items: { [#808080] }
 tile: Type2@(4,5), items: { [#808080] }
 tile: Type2@(4,6), items: { [#808080] }
 tile: Type2@(4,7), items: { [#808080] }
-tile: Type0@(4,8), items: { [#808080] [2] }
+tile: Type0@(4,8), items: { [#FFFFFF] [2] }
 
 tile: Type2@(5,0), items: { [#808080] }
 tile: Type2@(5,1), items: { [#808080] }
@@ -56,7 +56,7 @@ tile: Type2@(5,4), items: { [#808080] }
 tile: Type2@(5,5), items: { [#808080] }
 tile: Type2@(5,6), items: { [#808080] }
 tile: Type2@(5,7), items: { [#808080] }
-tile: Type0@(5,8), items: { [#808080] [1] }
+tile: Type0@(5,8), items: { [#FFFFFF] [1] }
 
 tile: Type2@(6,0), items: { [#808080] }
 tile: Type2@(6,1), items: { [#808080] }
@@ -66,7 +66,7 @@ tile: Type2@(6,4), items: { [#808080] }
 tile: Type2@(6,5), items: { [#808080] }
 tile: Type2@(6,6), items: { [#808080] }
 tile: Type2@(6,7), items: { [#808080] }
-tile: Type0@(6,8), items: { [#808080] [1] }
+tile: Type0@(6,8), items: { [#FFFFFF] [1] }
 
 tile: Type2@(7,0), items: { [#808080] }
 tile: Type0@(7,1), items: { [#808080] [S2] }
@@ -76,14 +76,14 @@ tile: Type2@(7,4), items: { [#808080] }
 tile: Type0@(7,5), items: { [#808080] [S2] }
 tile: Type2@(7,6), items: { [#808080] }
 tile: Type2@(7,7), items: { [#808080] }
-tile: Type0@(7,8), items: { [#808080] [2] }
+tile: Type0@(7,8), items: { [#FFFFFF] [2] }
 
-tile: Type2@(8,0), items: { [#808080] [1] }
-tile: Type2@(8,1), items: { [#808080] [2] }
-tile: Type2@(8,2), items: { [#808080] [0] }
-tile: Type2@(8,3), items: { [#808080] [4] }
-tile: Type2@(8,4), items: { [#808080] [0] }
-tile: Type2@(8,5), items: { [#808080] [1] }
-tile: Type2@(8,6), items: { [#808080] [3] }
-tile: Type2@(8,7), items: { [#808080] [1] }
-tile: Type0@(8,8), items: { [#808080] }
+tile: Type0@(8,0), items: { [#FFFFFF] [1] }
+tile: Type0@(8,1), items: { [#FFFFFF] [2] }
+tile: Type0@(8,2), items: { [#FFFFFF] [0] }
+tile: Type0@(8,3), items: { [#FFFFFF] [4] }
+tile: Type0@(8,4), items: { [#FFFFFF] [0] }
+tile: Type0@(8,5), items: { [#FFFFFF] [1] }
+tile: Type0@(8,6), items: { [#FFFFFF] [3] }
+tile: Type0@(8,7), items: { [#FFFFFF] [1] }
+tile: Type0@(8,8), items: { [#FFFFFF] }

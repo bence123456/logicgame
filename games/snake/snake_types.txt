@@ -1,6 +1,6 @@
 Type0:
 
 Type2:
-items(0) == #FFFFFF -> items(0) = #808080
+items(0) == #000000 -> items(0) = #808080
 items(0) == #808080, items(1) == empty -> items(1) = S1
-items(1) == S1 -> items(1) = empty, items(0) = #FFFFFF
+items(1) == S1 -> items(1) = empty, items(0) = #000000

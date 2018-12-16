@@ -1,41 +1,41 @@
-tile: Type2@(0,0), items: { [#FFFFFF] }
+tile: Type2@(0,0), items: { [#000000] }
 tile: Type2@(0,1), items: { [#808080] }
 tile: Type2@(0,2), items: { [#808080] }
 tile: Type2@(0,3), items: { [#808080] }
 tile: Type2@(0,4), items: { [#808080] }
-tile: Type0@(0,5), items: { [#808080] [4] }
+tile: Type0@(0,5), items: { [#FFFFFF] [4] }
 
 tile: Type2@(1,0), items: { [#808080] }
 tile: Type2@(1,1), items: { [#808080] }
 tile: Type2@(1,2), items: { [#808080] }
 tile: Type2@(1,3), items: { [#808080] }
 tile: Type2@(1,4), items: { [#808080] }
-tile: Type0@(1,5), items: { [#808080] [1] }
+tile: Type0@(1,5), items: { [#FFFFFF] [1] }
 
 tile: Type2@(2,0), items: { [#808080] }
 tile: Type2@(2,1), items: { [#808080] }
 tile: Type2@(2,2), items: { [#808080] }
 tile: Type2@(2,3), items: { [#808080] }
 tile: Type2@(2,4), items: { [#808080] }
-tile: Type0@(2,5), items: { [#808080] [2] }
+tile: Type0@(2,5), items: { [#FFFFFF] [2] }
 
 tile: Type2@(3,0), items: { [#808080] }
 tile: Type2@(3,1), items: { [#808080] }
 tile: Type2@(3,2), items: { [#808080] }
 tile: Type2@(3,3), items: { [#808080] }
 tile: Type2@(3,4), items: { [#808080] }
-tile: Type0@(3,5), items: { [#808080] [1] }
+tile: Type0@(3,5), items: { [#FFFFFF] [1] }
 
 tile: Type2@(4,0), items: { [#808080] }
 tile: Type2@(4,1), items: { [#808080] }
 tile: Type2@(4,2), items: { [#808080] }
 tile: Type2@(4,3), items: { [#808080] }
-tile: Type2@(4,4), items: { [#FFFFFF] }
-tile: Type0@(4,5), items: { [#808080] [3] }
+tile: Type2@(4,4), items: { [#000000] }
+tile: Type0@(4,5), items: { [#FFFFFF] [3] }
 
-tile: Type0@(5,0), items: { [#808080] [1]}
-tile: Type0@(5,1), items: { [#808080] [1] }
-tile: Type0@(5,2), items: { [#808080] [4] }
-tile: Type0@(5,3), items: { [#808080] [4] }
-tile: Type0@(5,4), items: { [#808080] [1] }
-tile: Type0@(5,5), items: { [#808080] }
+tile: Type0@(5,0), items: { [#FFFFFF] [1]}
+tile: Type0@(5,1), items: { [#FFFFFF] [1] }
+tile: Type0@(5,2), items: { [#FFFFFF] [4] }
+tile: Type0@(5,3), items: { [#FFFFFF] [4] }
+tile: Type0@(5,4), items: { [#FFFFFF] [1] }
+tile: Type0@(5,5), items: { [#FFFFFF] }
