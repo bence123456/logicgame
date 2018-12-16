@@ -163,12 +163,11 @@ public class LogicGame {
         directory.mkdirs();
 
         File file = new File(directoryName + "/" + fileName);
-        FileWriter fw = null;
         try{
-            fw = new FileWriter(file.getAbsoluteFile());
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(value);
-            fw.close();
+            bw.close();
         }
         catch (IOException e){
             e.printStackTrace();
