@@ -7,8 +7,8 @@ TileBase lastSnakeTile = map.getTile(lastSnakePartPos, lastSnakePartPos);
 Item firstSnakeItem = firstSnakeTile.getItem(0);
 Item lastSnakeItem = lastSnakeTile.getItem(0);
 
-if (!firstSnakeItem.equals([#FFFFFF]) || !lastSnakeItem.equals([#FFFFFF])) {
+if (!firstSnakeItem.equals([#000000]) || !lastSnakeItem.equals([#000000])) {
     return false;
 }
 
-return map.rightAndBottomHelperTilesAreValid([#FFFFFF]);
+return map.rightAndBottomHelperTilesAreValid([#000000]);
